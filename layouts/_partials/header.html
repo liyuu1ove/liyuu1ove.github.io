@@ -1,0 +1,82 @@
+<header class="header">
+  <nav class="header-nav">
+    <div class="logo">
+      {{- $labelText := site.Title -}}
+      <a href="{{ "" | absLangURL }}" accesskey="h" title="{{ $labelText }} (Alt + H)">{{ $labelText }}</a>
+      {{- $lsenabled := (or (not site.Params.disableThemeToggle) (and (not site.Params.disableLangToggle) (hugo.IsMultilingual))) }}
+      {{- if $lsenabled }}
+      <div class="logo-switches">
+        {{- if (not site.Params.disableThemeToggle) }}
+        <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+          <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+          <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+        </button>
+        {{- end }}
+        {{- if (not site.Params.disableLangToggle) }}
+        {{- $lang := .Lang }}
+        {{- with site.Home.Translations }}
+        <span class="nav-sep">|</span>
+        <ul class="lang-menu">
+          {{- range . }}
+          {{- if ne $lang .Lang }}
+          <li>
+            <a href="{{ .Permalink }}" title="{{ .Language.LanguageName | default (.Lang | title) }}" aria-label="{{ .Language.LanguageName | default (.Lang | title) }}">
+              {{- if (and site.Params.displayFullLangName (.Language.LanguageName)) }}
+              {{- .Language.LanguageName -}}
+              {{- else }}
+              {{- .Lang | title -}}
+              {{- end -}}
+            </a>
+          </li>
+          {{- end }}
+          {{- end }}
+        </ul>
+        {{- end }}
+        {{- end }}
+      </div>
+      {{- end }}
+    </div>
+
+    {{- $currentPage := . -}}
+    <ul id="menu" class="menu">
+      {{- range site.Menus.main }}
+      {{- $menuItemURL := (cond (strings.HasSuffix .URL "/") .URL (printf "%s/" .URL)) | absLangURL }}
+      {{- $pageURL := $currentPage.Permalink | absLangURL }}
+      <li>
+        <a href="{{ .URL | absLangURL }}" title="{{ .Title | default .Name }}">
+          <span {{- if eq $menuItemURL $pageURL }} class="active"{{- end }}>{{ .Name }}</span>
+        </a>
+      </li>
+      {{- end }}
+    </ul>
+
+    <form class="nav-search" action="{{ "search/" | relLangURL }}" method="get" role="search">
+      <label class="nav-search-label" for="nav-search-input">{{ if eq .Site.Language.Lang "zh" }}搜索{{ else }}Search{{ end }}</label>
+      <input
+        id="nav-search-input"
+        name="q"
+        type="search"
+        autocomplete="off"
+        placeholder="{{ if eq .Site.Language.Lang "zh" }}搜索文章{{ else }}Search posts{{ end }}"
+      >
+      <button class="nav-search-button" type="submit" aria-label="{{ if eq .Site.Language.Lang "zh" }}打开搜索{{ else }}Open search{{ end }}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="11" cy="11" r="7"></circle>
+          <line x1="20" y1="20" x2="16.65" y2="16.65"></line>
+        </svg>
+      </button>
+    </form>
+  </nav>
+</header>

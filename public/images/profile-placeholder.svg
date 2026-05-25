@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" role="img" aria-labelledby="title desc">
+  <title id="title">Profile placeholder</title>
+  <desc id="desc">A clean circular avatar placeholder for the homepage.</desc>
+  <rect width="640" height="640" fill="#f5f7f8"/>
+  <circle cx="320" cy="320" r="248" fill="#ffffff" stroke="#d7dee3" stroke-width="10"/>
+  <circle cx="320" cy="254" r="88" fill="#dfe8ed"/>
+  <path d="M186 472c28-92 87-140 134-140s106 48 134 140" fill="#dfe8ed"/>
+  <path d="M178 142h284v52H178z" fill="#1f5f8a"/>
+  <text x="206" y="177" fill="#ffffff" font-family="Arial, sans-serif" font-size="28" font-weight="700">PHOTO</text>
+</svg>

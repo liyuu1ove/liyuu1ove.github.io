@@ -1,0 +1,110 @@
+{{- define "main" }}
+{{- $lang := .Site.Language.Lang -}}
+{{- $p := .Site.Params.homepage -}}
+{{- $t := $p.text -}}
+<div class="academic-home">
+  <aside class="academic-sidebar" aria-label="{{ if eq $lang "zh" }}个人信息{{ else }}Profile{{ end }}">
+    <img class="academic-avatar" src="{{ $p.photo | default "/images/profile-placeholder.svg" | relURL }}" alt="{{ $p.photoAlt | default .Site.Params.author }}">
+    <h1>{{ $p.name }}</h1>
+    <p class="academic-affiliation">{{ $p.affiliation }}</p>
+    <p class="academic-bio">{{ $p.shortBio }}</p>
+
+    <nav class="profile-links" aria-label="{{ if eq $lang "zh" }}联系方式{{ else }}Contact links{{ end }}">
+      {{- range $p.contacts }}
+      {{- $url := .url | default "" -}}
+      {{- $isExternal := strings.HasPrefix $url "http" -}}
+      {{- $isMail := or (strings.HasPrefix $url "mailto:") (and $url (not $isExternal) (in $url "@")) -}}
+      {{- $href := $url -}}
+      {{- if and $isMail (not (strings.HasPrefix $url "mailto:")) -}}
+        {{- $href = printf "mailto:%s" $url -}}
+      {{- end -}}
+      {{- $icon := .icon | default "" -}}
+      {{- $iconSvg := .iconSvg | default "" -}}
+      {{- if $href }}
+      <a href="{{ $href }}"{{ if $isExternal }} target="_blank" rel="noopener noreferrer"{{ end }}>
+        <span class="profile-icon" aria-hidden="true">
+          {{- if $iconSvg }}{{ $iconSvg | safeHTML }}{{ else }}{{ $icon }}{{ end -}}
+        </span>
+        <span>{{ .label }}</span>
+      </a>
+      {{- else }}
+      <span class="profile-static">
+        <span class="profile-icon" aria-hidden="true">
+          {{- if $iconSvg }}{{ $iconSvg | safeHTML }}{{ else }}{{ $icon }}{{ end -}}
+        </span>
+        <span>{{ .label }}</span>
+      </span>
+      {{- end }}
+      {{- end }}
+    </nav>
+  </aside>
+
+  <section class="academic-main">
+    <section id="about" class="about-block">
+      {{- range $p.introParagraphs }}
+      <p>{{ . | markdownify }}</p>
+      {{- end }}
+    </section>
+
+    <section id="news" class="academic-section">
+      <h2><span aria-hidden="true">[!]</span>{{ $t.news }}</h2>
+      <ul class="news-list">
+        {{- range $p.news }}
+        <li><time>{{ .date }}</time><span>{{ .text | markdownify }}</span></li>
+        {{- end }}
+      </ul>
+    </section>
+
+    <section id="publications" class="academic-section">
+      <h2><span aria-hidden="true">[#]</span>{{ $t.selectedPublications }}</h2>
+      <div class="publication-list">
+        {{- range $p.publications }}
+        <article class="publication-item">
+          <div class="publication-thumb">
+            <img src="{{ .image | default "/images/publication-placeholder.svg" | relURL }}" alt="{{ .imageAlt | default .title }}">
+          </div>
+          <div class="publication-body">
+            <h3><a href="{{ .url | default ("publications/" | relLangURL) }}">{{ .title }}</a></h3>
+            <p class="publication-authors">{{ .authors }}</p>
+            <p class="publication-venue">{{ .venue }}</p>
+            <p>{{ .summary }}</p>
+            <div class="publication-links">
+              {{- range .links }}
+              <a href="{{ .url }}">{{ .label }}</a>
+              {{- end }}
+            </div>
+          </div>
+        </article>
+        {{- end }}
+      </div>
+    </section>
+
+    <section id="honors" class="academic-section compact-section">
+      <h2><span aria-hidden="true">[*]</span>{{ $t.honors }}</h2>
+      <ul>
+        {{- range $p.honors }}
+        <li><time>{{ .date }}</time>{{ .text }}</li>
+        {{- end }}
+      </ul>
+    </section>
+
+    <section id="education" class="academic-section compact-section">
+      <h2><span aria-hidden="true">[+]</span>{{ $t.education }}</h2>
+      <ul>
+        {{- range $p.education }}
+        <li><time>{{ .period }}</time><strong>{{ .title }}</strong>{{ with .detail }}<span>{{ . }}</span>{{ end }}</li>
+        {{- end }}
+      </ul>
+    </section>
+
+    <section id="internships" class="academic-section compact-section">
+      <h2><span aria-hidden="true">[~]</span>{{ $t.internships }}</h2>
+      <ul>
+        {{- range $p.internships }}
+        <li><time>{{ .period }}</time><strong>{{ .title }}</strong>{{ with .detail }}<span>{{ . }}</span>{{ end }}</li>
+        {{- end }}
+      </ul>
+    </section>
+  </section>
+</div>
+{{- end }}

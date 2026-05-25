@@ -1,0 +1,38 @@
+{{- $lang := .Site.Language.Lang -}}
+{{- $pages := sort .RegularPagesRecursive "Date" "desc" -}}
+<section class="catalog-page">
+  <header class="catalog-header">
+    <h1>{{ .Title }}</h1>
+    {{- with .Description }}
+    <p>{{ . }}</p>
+    {{- end }}
+  </header>
+
+  {{- with .Content }}
+  <div class="catalog-intro">
+    {{ . }}
+  </div>
+  {{- end }}
+
+  <div class="catalog-list" aria-label="{{ if eq $lang "zh" }}文章目录{{ else }}Post catalog{{ end }}">
+    {{- if $pages }}
+    {{- range $pages }}
+    <article class="catalog-item">
+      <a href="{{ .RelPermalink }}">
+        <span class="catalog-date">{{ .Date.Format "2006.01.02" }}</span>
+        <span class="catalog-title">{{ .Title }}</span>
+        {{- with .Description }}
+        <span class="catalog-desc">{{ . }}</span>
+        {{- else }}
+        {{- with .Summary }}
+        <span class="catalog-desc">{{ . | plainify | htmlUnescape }}</span>
+        {{- end }}
+        {{- end }}
+      </a>
+    </article>
+    {{- end }}
+    {{- else }}
+    <p class="catalog-empty">{{ if eq $lang "zh" }}这里还没有文章。{{ else }}No posts yet.{{ end }}</p>
+    {{- end }}
+  </div>
+</section>

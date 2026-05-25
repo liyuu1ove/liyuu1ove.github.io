@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Publication placeholder</title>
+  <desc id="desc">A clean academic publication thumbnail placeholder.</desc>
+  <rect width="960" height="540" fill="#f4f6f7"/>
+  <rect x="36" y="36" width="888" height="468" rx="8" fill="#ffffff" stroke="#d7dee3"/>
+  <rect x="72" y="76" width="260" height="56" rx="4" fill="#1f5f8a"/>
+  <text x="96" y="113" fill="#ffffff" font-family="Arial, sans-serif" font-size="30" font-weight="700">CVPR 2026</text>
+  <g stroke="#c5d0d8" fill="none" stroke-width="4">
+    <path d="M92 172h280M92 206h280M92 240h280M92 274h280"/>
+    <path d="M392 172h480M392 206h480M392 240h480M392 274h480"/>
+    <path d="M92 332h340M92 366h340M92 400h340"/>
+    <rect x="520" y="150" width="320" height="240" rx="6"/>
+    <path d="M548 198h264M548 240h264M548 282h264M548 324h264"/>
+  </g>
+  <text x="548" y="455" fill="#49606f" font-family="Arial, sans-serif" font-size="26">Paper figure placeholder</text>
+</svg>
