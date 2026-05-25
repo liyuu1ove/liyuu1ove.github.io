@@ -2,7 +2,7 @@
   <nav class="header-nav">
     <div class="logo">
       {{- $labelText := site.Title -}}
-      <a href="{{ "" | absLangURL }}" accesskey="h" title="{{ $labelText }} (Alt + H)">{{ $labelText }}</a>
+      <a href="{{ "" | relLangURL }}" accesskey="h" title="{{ $labelText }} (Alt + H)">{{ $labelText }}</a>
       {{- $lsenabled := (or (not site.Params.disableThemeToggle) (and (not site.Params.disableLangToggle) (hugo.IsMultilingual))) }}
       {{- if $lsenabled }}
       <div class="logo-switches">
@@ -32,7 +32,7 @@
           {{- range . }}
           {{- if ne $lang .Lang }}
           <li>
-            <a href="{{ .Permalink }}" title="{{ .Language.LanguageName | default (.Lang | title) }}" aria-label="{{ .Language.LanguageName | default (.Lang | title) }}">
+            <a href="{{ .RelPermalink }}" title="{{ .Language.LanguageName | default (.Lang | title) }}" aria-label="{{ .Language.LanguageName | default (.Lang | title) }}">
               {{- if (and site.Params.displayFullLangName (.Language.LanguageName)) }}
               {{- .Language.LanguageName -}}
               {{- else }}
@@ -52,10 +52,10 @@
     {{- $currentPage := . -}}
     <ul id="menu" class="menu">
       {{- range site.Menus.main }}
-      {{- $menuItemURL := (cond (strings.HasSuffix .URL "/") .URL (printf "%s/" .URL)) | absLangURL }}
-      {{- $pageURL := $currentPage.Permalink | absLangURL }}
+      {{- $menuItemURL := (cond (strings.HasSuffix .URL "/") .URL (printf "%s/" .URL)) | relLangURL }}
+      {{- $pageURL := $currentPage.RelPermalink }}
       <li>
-        <a href="{{ .URL | absLangURL }}" title="{{ .Title | default .Name }}">
+        <a href="{{ .URL | relLangURL }}" title="{{ .Title | default .Name }}">
           <span {{- if eq $menuItemURL $pageURL }} class="active"{{- end }}>{{ .Name }}</span>
         </a>
       </li>

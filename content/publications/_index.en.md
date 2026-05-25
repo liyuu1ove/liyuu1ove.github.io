@@ -1,5 +1,5 @@
 +++
-title = 'Pub'
+title = 'Publications'
 description = 'Papers, preprints, and research notes'
 +++
 

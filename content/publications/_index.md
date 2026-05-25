@@ -1,6 +1,5 @@
 +++
-title = 'Pub'
-description = '论文、预印本与研究记录'
+title = '发表'
+description = '期刊，会议，arxiv'
 +++
 
-这里可以放正式论文、预印本、课程研究项目和阅读笔记索引。

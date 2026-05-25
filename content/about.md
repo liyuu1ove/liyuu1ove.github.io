@@ -1,24 +1,23 @@
 +++
-title = '关于我'
-description = '个人简介、研究兴趣、教育与实习经历'
+title = 'About me'
+description = '我是谁'
+
+[[education]]
+period = '2022 - 2026'
+title = '本科 微电子科学与工程 华中科技大学'
+detail = '计算机学院名誉毕业生'
+
+[[education]]
+period = '2025 - 2026'
+title = '交换生 EECS 加州大学伯克利分校'
+detail = ''
+
+
+[[internships]]
+period = '2026.03 - now'
+title = '行云集成电路 算子开发'
+detail = '负责DSA、MLA等attention算子开发'
 +++
 
-你好！我是鲤鱼，一名计算机方向本科生。我的兴趣包括 Efficient AI、Multimodal Models、World Model、系统与软件工程。
+你好！我是赵昉曜。
 
-这个页面之后可以继续补充更完整的个人简介、教育经历、实习经历、项目经历、获奖情况和联系方式。
-
-## 研究兴趣
-
-- Efficient AI
-- Multimodal Models
-- World Model
-- Systems and Software Engineering
-
-## 教育经历
-
-- 2022 - 2026, B.S. in Computer Science, Xidian University
-
-## 实习经历
-
-- 2026 - now, Research Intern
-- 2025 summer, Software Engineering Intern

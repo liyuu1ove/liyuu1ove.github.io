@@ -2,6 +2,22 @@
 {{- $lang := .Site.Language.Lang -}}
 {{- $p := .Site.Params.homepage -}}
 {{- $t := $p.text -}}
+{{- $publicationsSection := site.GetPage "section" "publications" -}}
+{{- $aboutPage := site.GetPage (cond (eq $lang "zh") "about.md" "about.en.md") -}}
+{{- $publications := slice -}}
+{{- $education := slice -}}
+{{- $internships := slice -}}
+{{- with $publicationsSection }}
+  {{- $publications = sort .RegularPages "Date" "desc" -}}
+{{- end }}
+{{- with $aboutPage }}
+  {{- with .Params.education }}
+    {{- $education = . -}}
+  {{- end }}
+  {{- with .Params.internships }}
+    {{- $internships = . -}}
+  {{- end }}
+{{- end }}
 <div class="academic-home">
   <aside class="academic-sidebar" aria-label="{{ if eq $lang "zh" }}个人信息{{ else }}Profile{{ end }}">
     <img class="academic-avatar" src="{{ $p.photo | default "/images/profile-placeholder.svg" | relURL }}" alt="{{ $p.photoAlt | default .Site.Params.author }}">
@@ -56,42 +72,56 @@
     </section>
 
     <section id="publications" class="academic-section">
-      <h2><span aria-hidden="true">[#]</span>{{ $t.selectedPublications }}</h2>
+      <h2><span aria-hidden="true">[#]</span>{{ $t.publications }}</h2>
       <div class="publication-list">
-        {{- range $p.publications }}
+        {{- if $publications }}
+        {{- range $publications }}
         <article class="publication-item">
           <div class="publication-thumb">
-            <img src="{{ .image | default "/images/publication-placeholder.svg" | relURL }}" alt="{{ .imageAlt | default .title }}">
+            <img src="{{ .Params.image | default "/images/publication-placeholder.svg" | relURL }}" alt="{{ .Params.imageAlt | default .Title }}">
           </div>
           <div class="publication-body">
-            <h3><a href="{{ .url | default ("publications/" | relLangURL) }}">{{ .title }}</a></h3>
-            <p class="publication-authors">{{ .authors }}</p>
-            <p class="publication-venue">{{ .venue }}</p>
-            <p>{{ .summary }}</p>
+            <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+            {{- with .Params.authors }}
+            <p class="publication-authors">{{ . }}</p>
+            {{- end }}
+            {{- with .Params.venue }}
+            <p class="publication-venue">{{ . }}</p>
+            {{- end }}
+            <p>
+              {{- with .Description }}
+                {{ . }}
+              {{- else }}
+                {{ .Summary | plainify | htmlUnescape }}
+              {{- end }}
+            </p>
             <div class="publication-links">
-              {{- range .links }}
+              {{- with .Params.paperUrl }}
+              <a href="{{ . }}">Paper</a>
+              {{- end }}
+              {{- with .Params.codeUrl }}
+              <a href="{{ . }}">Code</a>
+              {{- end }}
+              {{- with .Params.projectUrl }}
+              <a href="{{ . }}">Project</a>
+              {{- end }}
+              {{- range .Params.links }}
               <a href="{{ .url }}">{{ .label }}</a>
               {{- end }}
             </div>
           </div>
         </article>
         {{- end }}
-      </div>
-    </section>
-
-    <section id="honors" class="academic-section compact-section">
-      <h2><span aria-hidden="true">[*]</span>{{ $t.honors }}</h2>
-      <ul>
-        {{- range $p.honors }}
-        <li><time>{{ .date }}</time>{{ .text }}</li>
+        {{- else }}
+        <p class="catalog-empty">{{ if eq $lang "zh" }}这里还没有发表内容。{{ else }}No publications yet.{{ end }}</p>
         {{- end }}
-      </ul>
+      </div>
     </section>
 
     <section id="education" class="academic-section compact-section">
       <h2><span aria-hidden="true">[+]</span>{{ $t.education }}</h2>
       <ul>
-        {{- range $p.education }}
+        {{- range $education }}
         <li><time>{{ .period }}</time><strong>{{ .title }}</strong>{{ with .detail }}<span>{{ . }}</span>{{ end }}</li>
         {{- end }}
       </ul>
@@ -100,8 +130,17 @@
     <section id="internships" class="academic-section compact-section">
       <h2><span aria-hidden="true">[~]</span>{{ $t.internships }}</h2>
       <ul>
-        {{- range $p.internships }}
+        {{- range $internships }}
         <li><time>{{ .period }}</time><strong>{{ .title }}</strong>{{ with .detail }}<span>{{ . }}</span>{{ end }}</li>
+        {{- end }}
+      </ul>
+    </section>
+
+    <section id="honors" class="academic-section compact-section">
+      <h2><span aria-hidden="true">[*]</span>{{ $t.honors }}</h2>
+      <ul>
+        {{- range $p.honors }}
+        <li><time>{{ .date }}</time>{{ .text }}</li>
         {{- end }}
       </ul>
     </section>

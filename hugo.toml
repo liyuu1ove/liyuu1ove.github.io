@@ -26,7 +26,7 @@ defaultContentLanguageInSubdir = false
   [languages.zh.params]
     env = 'production'
     description = '个人主页、论文、技术博客与随笔'
-    author = '鲤鱼'
+    author = '鲤鱼爱'
 
     [languages.zh.params.homepage]
       name = '赵昉曜'
@@ -39,18 +39,11 @@ defaultContentLanguageInSubdir = false
         about = '关于我'
         news = '动态'
         publications = '发表'
-        selectedPublications = '代表成果'
-        honors = '荣誉奖项'
         education = '教育经历'
         internships = '实习经历'
+        honors = '荣誉奖项'
         technicalBlog = '技术博客'
         essays = '随笔'
-
-      introParagraphs = [
-        '你好！我是计算机方向本科生，关注可靠系统构建与新兴 AI 研究方向。',
-        '我的兴趣包括 **Efficient AI**、**Multimodal Models**、**World Model** 以及其他计算机科学主题。我喜欢把模糊想法做成可运行的原型，并把学习过程写下来。',
-        '我目前关注科研实习机会和后续升学方向。如果你对合作或潜在机会感兴趣，欢迎联系我。'
-      ]
 
       [[languages.zh.params.homepage.contacts]]
         iconSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M12 21s6-5.33 6-11a6 6 0 1 0-12 0c0 5.67 6 11 6 11Z"/><circle cx="12" cy="10" r="2.3"/></svg>'
@@ -72,37 +65,12 @@ defaultContentLanguageInSubdir = false
         date = '2026.03'
         text = '实习 北京行云集成电路 算子开发'
 
-      [[languages.zh.params.homepage.publications]]
-        title = 'Efficient Video Object Segmentation and Tracking with Recurrent Dynamic Submodel'
-        authors = 'Liyu, Collaborator A, Collaborator B, Collaborator C'
-        venue = 'CVPR 2026'
-        summary = '高效视频目标分割与跟踪项目占位介绍。之后可以替换为真实摘要、贡献点和实验结果亮点。'
-        image = '/images/publication-placeholder.svg'
-        url = '/publications/'
-        [[languages.zh.params.homepage.publications.links]]
-          label = 'Code'
-          url = 'https://github.com/'
-        [[languages.zh.params.homepage.publications.links]]
-          label = 'Paper'
-          url = '/publications/'
-
       [[languages.zh.params.homepage.honors]]
         date = '2026'
         text = '学术奖项或奖学金占位。'
       [[languages.zh.params.homepage.honors]]
         date = '2025'
         text = '竞赛奖项占位。'
-
-      [[languages.zh.params.homepage.education]]
-        period = '2022 - 2026'
-        title = '本科 微电子科学与工程 华中科技大学'
-        detail = '相关课程：系统、算法、数据库、机器学习。'
-
-
-      [[languages.zh.params.homepage.internships]]
-        period = '2026.03 - now'
-        title = '算子开发'
-        detail = '负责DSA、MLA等attention算子开发'
 
   [[languages.zh.menus.main]]
     name = '主页'
@@ -112,6 +80,10 @@ defaultContentLanguageInSubdir = false
     name = '关于我'
     url = 'about/'
     weight = 20
+  [[languages.zh.menus.main]]
+    name = '发表'
+    url = 'publications/'
+    weight = 25
   [[languages.zh.menus.main]]
     name = '技术博客'
     url = 'technical-blog/'
@@ -144,7 +116,6 @@ defaultContentLanguageInSubdir = false
         about = 'About Me'
         news = 'News'
         publications = 'Publications'
-        selectedPublications = 'Selected Publications'
         honors = 'Honors and Awards'
         education = 'Educations'
         talks = 'Invited Talks'
@@ -202,31 +173,6 @@ defaultContentLanguageInSubdir = false
         date = '2024.10'
         text = 'I joined a university AI lab as a Research Intern.'
 
-      [[languages.en.params.homepage.publications]]
-        title = 'Efficient Video Object Segmentation and Tracking with Recurrent Dynamic Submodel'
-        authors = 'Liyu, Collaborator A, Collaborator B, Collaborator C'
-        venue = 'CVPR 2026'
-        summary = 'A project placeholder for efficient video object segmentation and tracking. Replace this with your real abstract, contribution, and result highlights.'
-        image = '/images/publication-placeholder.svg'
-        url = '/en/publications/'
-        [[languages.en.params.homepage.publications.links]]
-          label = 'Code'
-          url = 'https://github.com/'
-        [[languages.en.params.homepage.publications.links]]
-          label = 'Paper'
-          url = '/en/publications/'
-
-      [[languages.en.params.homepage.publications]]
-        title = 'A Practical System for Multimodal Model Evaluation'
-        authors = 'Liyu, Collaborator D'
-        venue = 'Preprint'
-        summary = 'A second placeholder publication item for showing the selected-publication list layout.'
-        image = '/images/publication-placeholder.svg'
-        url = '/en/publications/'
-        [[languages.en.params.homepage.publications.links]]
-          label = 'Project'
-          url = '/en/publications/'
-
       [[languages.en.params.homepage.honors]]
         date = '2026'
         text = 'Academic award or scholarship placeholder.'
@@ -234,23 +180,9 @@ defaultContentLanguageInSubdir = false
         date = '2025'
         text = 'Competition award placeholder.'
 
-      [[languages.en.params.homepage.education]]
-        period = '2022 - 2026'
-        title = 'B.S. in Computer Science, Xidian University'
-        detail = 'Relevant courses: systems, algorithms, databases, machine learning.'
-
       [[languages.en.params.homepage.talks]]
         date = '2026'
         text = 'Invited talk placeholder, topic to be updated.'
-
-      [[languages.en.params.homepage.internships]]
-        period = '2026 - now'
-        title = 'Research Intern'
-        detail = 'Efficient AI / multimodal learning projects.'
-      [[languages.en.params.homepage.internships]]
-        period = '2025 summer'
-        title = 'Software Engineering Intern'
-        detail = 'Backend service and data workflow projects.'
 
   [[languages.en.menus.main]]
     name = 'Homepage'
@@ -260,6 +192,10 @@ defaultContentLanguageInSubdir = false
     name = 'About Me'
     url = 'about/'
     weight = 20
+  [[languages.en.menus.main]]
+    name = 'Publications'
+    url = 'publications/'
+    weight = 25
   [[languages.en.menus.main]]
     name = 'Technical Blog'
     url = 'technical-blog/'

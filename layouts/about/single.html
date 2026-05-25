@@ -1,0 +1,46 @@
+{{- define "main" }}
+<article class="post-single about-single">
+  <header class="post-header">
+    <h1 class="post-title entry-hint-parent">{{ .Title }}</h1>
+    {{- if .Description }}
+    <div class="post-description">{{ .Description }}</div>
+    {{- end }}
+    {{- if not (.Param "hideMeta") }}
+    <div class="post-meta">
+      {{- partial "post_meta.html" . -}}
+      {{- partial "translation_list.html" . -}}
+    </div>
+    {{- end }}
+  </header>
+
+  {{- if .Content }}
+  <div class="post-content md-content">
+    {{- if not (.Param "disableAnchoredHeadings") }}
+    {{- partial "anchored_headings.html" .Content -}}
+    {{- else }}{{ .Content }}{{ end }}
+  </div>
+  {{- end }}
+
+  {{- with .Params.education }}
+  <section class="academic-section compact-section">
+    <h2><span aria-hidden="true">[+]</span>{{ if eq $.Site.Language.Lang "zh" }}教育经历{{ else }}Education{{ end }}</h2>
+    <ul>
+      {{- range . }}
+      <li><time>{{ .period }}</time><strong>{{ .title }}</strong>{{ with .detail }}<span>{{ . }}</span>{{ end }}</li>
+      {{- end }}
+    </ul>
+  </section>
+  {{- end }}
+
+  {{- with .Params.internships }}
+  <section class="academic-section compact-section">
+    <h2><span aria-hidden="true">[~]</span>{{ if eq $.Site.Language.Lang "zh" }}实习经历{{ else }}Internships{{ end }}</h2>
+    <ul>
+      {{- range . }}
+      <li><time>{{ .period }}</time><strong>{{ .title }}</strong>{{ with .detail }}<span>{{ . }}</span>{{ end }}</li>
+      {{- end }}
+    </ul>
+  </section>
+  {{- end }}
+</article>
+{{- end }}
