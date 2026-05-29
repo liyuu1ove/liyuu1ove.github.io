@@ -6,11 +6,14 @@ defaultContentLanguageInSubdir = false
 
 [markup.highlight]
   noClasses = false
+  lineNos = true
+  lineNumbersInTable = false
 
 [params]
   defaultTheme = 'light'
   disableThemeToggle = false
   displayFullLangName = true
+  ShowReadingTime = true
   mainSections = ['technical-blog', 'essays']
 
 [outputs]

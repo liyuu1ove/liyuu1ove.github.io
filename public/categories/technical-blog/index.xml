@@ -6,14 +6,21 @@
     <description>Recent content in Technical Blog on 鲤鱼爱的神秘小屋</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 25 May 2026 12:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 28 May 2026 16:29:15 +0800</lastBuildDate>
     <atom:link href="http://localhost:1313/categories/technical-blog/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>CuTe学习0-模板元编程</title>
+      <title>CuTe学习0-CuTe简介</title>
       <link>http://localhost:1313/technical-blog/cute-starter-0/</link>
-      <pubDate>Mon, 25 May 2026 12:00:00 +0800</pubDate>
+      <pubDate>Thu, 28 May 2026 16:29:15 +0800</pubDate>
       <guid>http://localhost:1313/technical-blog/cute-starter-0/</guid>
-      <description>简单介绍CuTe和C&#43;&#43;模板元编程</description>
+      <description>简单介绍CuTe抽象</description>
+    </item>
+    <item>
+      <title>CuTe学习00-模板元编程</title>
+      <link>http://localhost:1313/technical-blog/cute-starter-00/</link>
+      <pubDate>Mon, 25 May 2026 12:00:00 +0800</pubDate>
+      <guid>http://localhost:1313/technical-blog/cute-starter-00/</guid>
+      <description>简单介绍C&#43;&#43;模板元编程</description>
     </item>
     <item>
       <title>CuTe学习1-layout</title>

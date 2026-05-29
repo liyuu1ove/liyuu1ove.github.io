@@ -5,9 +5,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>CuTe学习0-模板元编程 | 鲤鱼爱的神秘小屋</title>
-<meta name="keywords" content="Hugo, 技术博客">
-<meta name="description" content="简单介绍CuTe和C&#43;&#43;模板元编程">
+<title>CuTe学习0-CuTe简介 | 鲤鱼爱的神秘小屋</title>
+<meta name="keywords" content="CuTe">
+<meta name="description" content="简单介绍CuTe抽象">
 <meta name="author" content="鲤鱼爱">
 <link rel="canonical" href="http://localhost:1313/technical-blog/cute-starter-0/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.26e9583fb0cf555b3a58a7936237486984fe70640f533bf97fa925e2c19cd09d.css" integrity="sha256-JulYP7DPVVs6WKeTYjdIaYT&#43;cGQPUzv5f6kl4sGc0J0=" rel="preload stylesheet" as="style">
@@ -35,19 +35,18 @@
 
 </script><meta property="og:url" content="http://localhost:1313/technical-blog/cute-starter-0/">
   <meta property="og:site_name" content="鲤鱼爱的神秘小屋">
-  <meta property="og:title" content="CuTe学习0-模板元编程">
-  <meta property="og:description" content="简单介绍CuTe和C&#43;&#43;模板元编程">
+  <meta property="og:title" content="CuTe学习0-CuTe简介">
+  <meta property="og:description" content="简单介绍CuTe抽象">
   <meta property="og:locale" content="zh_cn">
   <meta property="og:type" content="article">
     <meta property="article:section" content="technical-blog">
-    <meta property="article:published_time" content="2026-05-25T12:00:00+08:00">
-    <meta property="article:modified_time" content="2026-05-25T12:00:00+08:00">
-    <meta property="article:tag" content="Hugo">
-    <meta property="article:tag" content="技术博客">
+    <meta property="article:published_time" content="2026-05-28T16:29:15+08:00">
+    <meta property="article:modified_time" content="2026-05-28T16:29:15+08:00">
+    <meta property="article:tag" content="CuTe">
 
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="CuTe学习0-模板元编程">
-  <meta name="twitter:description" content="简单介绍CuTe和C&#43;&#43;模板元编程">
+  <meta name="twitter:title" content="CuTe学习0-CuTe简介">
+  <meta name="twitter:description" content="简单介绍CuTe抽象">
 
 
 <script type="application/ld+json">
@@ -64,7 +63,7 @@
     {
       "@type": "ListItem",
       "position":  2 ,
-      "name": "CuTe学习0-模板元编程",
+      "name": "CuTe学习0-CuTe简介",
       "item": "http://localhost:1313/technical-blog/cute-starter-0/"
     }
   ]
@@ -74,17 +73,17 @@
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "CuTe学习0-模板元编程",
-  "name": "CuTe学习0-模板元编程",
-  "description": "简单介绍CuTe和C++模板元编程",
+  "headline": "CuTe学习0-CuTe简介",
+  "name": "CuTe学习0-CuTe简介",
+  "description": "简单介绍CuTe抽象",
   "keywords": [
-    "Hugo", "技术博客"
+    "CuTe"
   ],
-  "articleBody": "",
-  "wordCount" : "0",
+  "articleBody": "CuTe CuTe（全称 CUDA Templates）是NVIDIA从CUTLASS 3.0 版本开始推出的一个C++模版库。博主认为，CuTe主要作用在如下三个方面，本文将按此顺序介绍CuTe的抽象。\n提供数据从内存排布到逻辑索引的映射原语 提供数据在各内存层级之间的搬运原语 提供数据做矩阵乘法的计算原语 Layout \u0026 Tensor ",
+  "wordCount" : "12",
   "inLanguage": "zh",
-  "datePublished": "2026-05-25T12:00:00+08:00",
-  "dateModified": "2026-05-25T12:00:00+08:00",
+  "datePublished": "2026-05-28T16:29:15+08:00",
+  "dateModified": "2026-05-28T16:29:15+08:00",
   "author":{
     "@type": "Person",
     "name": "鲤鱼爱"
@@ -184,22 +183,30 @@
   <header class="post-header">
     
     <h1 class="post-title entry-hint-parent">
-      CuTe学习0-模板元编程
+      CuTe学习0-CuTe简介
     </h1>
     <div class="post-description">
-      简单介绍CuTe和C&#43;&#43;模板元编程
+      简单介绍CuTe抽象
     </div>
-    <div class="post-meta">
-
-<span title='2026-05-25 12:00:00 +0800 CST'>2026年5月25日</span>&nbsp;·&nbsp;<span>鲤鱼爱</span>
+    <div class="post-meta"><span title='2026-05-28 16:29:15 +0800 CST'>2026年5月28日</span>&nbsp;·&nbsp;<span>1 分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span>
 
 </div>
   </header> 
+  <div class="post-content md-content"><h1 id="cute">CuTe<a hidden class="anchor" aria-hidden="true" href="#cute">#</a></h1>
+<p>CuTe（全称 CUDA Templates）是NVIDIA从CUTLASS 3.0 版本开始推出的一个C++模版库。博主认为，CuTe主要作用在如下三个方面，本文将按此顺序介绍CuTe的抽象。</p>
+<ul>
+<li>提供数据从内存排布到逻辑索引的映射原语</li>
+<li>提供数据在各内存层级之间的搬运原语</li>
+<li>提供数据做矩阵乘法的计算原语</li>
+</ul>
+<h1 id="layout--tensor">Layout &amp; Tensor<a hidden class="anchor" aria-hidden="true" href="#layout--tensor">#</a></h1>
+
+
+  </div>
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="http://localhost:1313/tags/hugo/">Hugo</a></li>
-      <li><a href="http://localhost:1313/tags/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">技术博客</a></li>
+      <li><a href="http://localhost:1313/tags/cute/">CuTe</a></li>
     </ul>
   </footer>
 </article>

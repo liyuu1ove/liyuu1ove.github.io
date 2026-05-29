@@ -6,12 +6,12 @@
     <description>Recent content in Tags on 鲤鱼爱的神秘小屋</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 25 May 2026 12:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 28 May 2026 16:29:15 +0800</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>CuTe</title>
       <link>http://localhost:1313/tags/cute/</link>
-      <pubDate>Mon, 25 May 2026 12:00:00 +0800</pubDate>
+      <pubDate>Thu, 28 May 2026 16:29:15 +0800</pubDate>
       <guid>http://localhost:1313/tags/cute/</guid>
       <description></description>
     </item>
@@ -23,24 +23,17 @@
       <description></description>
     </item>
     <item>
-      <title>HPC</title>
-      <link>http://localhost:1313/tags/hpc/</link>
+      <title>Modern C&#43;&#43;</title>
+      <link>http://localhost:1313/tags/modern-c&#43;&#43;/</link>
       <pubDate>Mon, 25 May 2026 12:00:00 +0800</pubDate>
-      <guid>http://localhost:1313/tags/hpc/</guid>
+      <guid>http://localhost:1313/tags/modern-c&#43;&#43;/</guid>
       <description></description>
     </item>
     <item>
-      <title>Hugo</title>
-      <link>http://localhost:1313/tags/hugo/</link>
+      <title>TMP</title>
+      <link>http://localhost:1313/tags/tmp/</link>
       <pubDate>Mon, 25 May 2026 12:00:00 +0800</pubDate>
-      <guid>http://localhost:1313/tags/hugo/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>技术博客</title>
-      <link>http://localhost:1313/tags/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/</link>
-      <pubDate>Mon, 25 May 2026 12:00:00 +0800</pubDate>
-      <guid>http://localhost:1313/tags/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/</guid>
+      <guid>http://localhost:1313/tags/tmp/</guid>
       <description></description>
     </item>
   </channel>

@@ -129,16 +129,33 @@
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">CuTe学习0-模板元编程
+    <h2 class="entry-hint-parent">CuTe学习0-CuTe简介
     </h2>
   </header>
   <div class="entry-content">
-    <p></p>
+    <p>CuTe CuTe（全称 CUDA Templates）是NVIDIA从CUTLASS 3.0 版本开始推出的一个C&#43;&#43;模版库。博主认为，CuTe主要作用在如下三个方面，本文将按此顺序介绍CuTe的抽象。
+提供数据从内存排布到逻辑索引的映射原语 提供数据在各内存层级之间的搬运原语 提供数据做矩阵乘法的计算原语 Layout &amp; Tensor</p>
   </div>
-  <footer class="entry-footer">
+  <footer class="entry-footer"><span title='2026-05-28 16:29:15 +0800 CST'>2026年5月28日</span>&nbsp;·&nbsp;<span>1 分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
+  <a class="entry-link" aria-label="post link to CuTe学习0-CuTe简介" href="http://localhost:1313/technical-blog/cute-starter-0/"></a>
+</article>
 
-<span title='2026-05-25 12:00:00 +0800 CST'>2026年5月25日</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
-  <a class="entry-link" aria-label="post link to CuTe学习0-模板元编程" href="http://localhost:1313/technical-blog/cute-starter-0/"></a>
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">CuTe学习00-模板元编程
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>1未成年C请在成年C&#43;&#43;陪同下观看! 模板元编程 C&#43;&#43;模板元编程（Template Meta Programming）是C&#43;&#43;中最强大、也最硬核的特性之一。简单来说，普通的C&#43;&#43;代码是在运行期（Runtime）由CPU执行；而模板元编程则是让编译器在编译期（Compile-time）执行代码。它的本质是利用C&#43;&#43;的模板系统，在编译阶段生成定制化的源代码或计算出具体的值。
+现代C&#43;&#43;模板元编程主要依赖在C&#43;&#43;17中引入的特性，本文接下来将简单介绍模板元编程与这些特性，作为理解CuTe的基础。本实验代码全部使用x86-64 gcc 16.1编译，flag为-O3 -maxv2。汇编代码使用intel asm syntax，仅用于解释TMP优化，并且只对本文负责。...表示省略不重要的内存搬运等汇编。
+WHY TMP? 在开始今天的正题之前，我希望和读者达成几个共识，作为我们接下来讨论性能的基础。
+逻辑分支比计算昂贵得多。在CPU上是如此，GPU上更甚。 函数递归或者是多次调用的开销是不可接受的。 编译器优化很聪明，但是也没那么聪明。优化的效果要看实际性能，实现优化的原理要看汇编。 Ex.1-编译期求值 在高性能计算中我们会面临很多常数计算，比如固定大小的Tile Size，雷打不动的WarpSize等。我们以计算阶乘为切入点，描述TMP在常数优化方面的优势。
+递归 1int factorial(int n) { 2 return (n &lt;= 1) ? 1 : n * factorial(n - 1); 3} 4 5int main(){ 6 int a = factorial(5); 7} 1&#34;factorial(int)&#34;: 2 ... 3 cmp DWORD PTR [rbp-4], 1 4 jle .L2 5 ... 6 call &#34;factorial(int)&#34; 7 imul eax, DWORD PTR [rbp-4] 8 jmp .L4 9.L2: 10 mov eax, 1 11.L4: 12 leave 13 ret 14&#34;main&#34;: 15 ... 16 call &#34;factorial(int)&#34; 17 mov DWORD PTR [rbp-4], eax 18 ... 这段代码执行时会进行递归，直到计算出5!为止。从数值计算来讲，这当然没有问题。但是在性能方面，观察汇编，我们发现每次递归都要执行函数调用和条件判断终止，这两个操作的硬件代价很高，并且这个函数有着线性复杂度。言而总之，递归的方式性能并不好。
+模板计算 1template&lt;int N&gt; 2struct Factorial { 3 static constexpr int value = N * Factorial&lt;N - 1&gt;::value; 4}; 5 6template&lt;&gt; 7struct Factorial&lt;1&gt; { 8 static constexpr int value = 1; 9}; 10 11int main(){ 12 int result = Factorial&lt;5&gt;::value; 13} 1&#34;main&#34;: 2 ... 3 mov DWORD PTR [rbp-4], 120 4 ... 5 ret 观察汇编，我们发现一个神奇的事情，阶乘的结果是一个立即数！这代表运行时完全没有开销。当然，这也不是没有代价的，实际的计算过程是在编译期。我们把这个过程称作模板实例化，以 factorial&lt;3&gt; 为例，实例化的过程如下。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-05-25 12:00:00 +0800 CST'>2026年5月25日</span>&nbsp;·&nbsp;<span>2 分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
+  <a class="entry-link" aria-label="post link to CuTe学习00-模板元编程" href="http://localhost:1313/technical-blog/cute-starter-00/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
@@ -147,12 +164,9 @@
     </h2>
   </header>
   <div class="entry-content">
-    <p>这里开始写正文，支持 Markdown。
-</p>
+    <p></p>
   </div>
-  <footer class="entry-footer">
-
-<span title='2026-05-25 12:00:00 +0800 CST'>2026年5月25日</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
+  <footer class="entry-footer"><span title='2026-05-25 12:00:00 +0800 CST'>2026年5月25日</span>&nbsp;·&nbsp;<span>0 分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
   <a class="entry-link" aria-label="post link to CuTe学习1-layout" href="http://localhost:1313/technical-blog/cute-starter-1/"></a>
 </article>
     </main>
