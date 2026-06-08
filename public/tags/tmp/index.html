@@ -141,7 +141,7 @@ WHY TMP? 在开始今天的正题之前，我希望和读者达成几个共识�
 模板计算 1template&lt;int N&gt; 2struct Factorial { 3 static constexpr int value = N * Factorial&lt;N - 1&gt;::value; 4}; 5 6template&lt;&gt; 7struct Factorial&lt;1&gt; { 8 static constexpr int value = 1; 9}; 10 11int main(){ 12 int result = Factorial&lt;5&gt;::value; 13} 1&#34;main&#34;: 2 ... 3 mov DWORD PTR [rbp-4], 120 4 ... 5 ret 观察汇编，我们发现一个神奇的事情，阶乘的结果是一个立即数！这代表运行时完全没有开销。当然，这也不是没有代价的，实际的计算过程是在编译期。我们把这个过程称作模板实例化，以 factorial&lt;3&gt; 为例，实例化的过程如下。
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2026-05-25 12:00:00 +0800 CST'>2026年5月25日</span>&nbsp;·&nbsp;<span>2 分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
+  <footer class="entry-footer"><span title='2026-05-25 12:00:00 +0800 CST'>2026年5月25日</span>&nbsp;·&nbsp;<span>3 分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
   <a class="entry-link" aria-label="post link to CuTe学习00-模板元编程" href="http://localhost:1313/technical-blog/cute-starter-00/"></a>
 </article>
     </main>
