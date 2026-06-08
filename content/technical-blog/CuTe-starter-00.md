@@ -128,7 +128,7 @@ void add_vectors(const float* a, const float* b, float* result, int dimensions) 
         jl      .L7
         add     DWORD PTR [rbp-4], 1
 ```
-在这个例子中，我们把维度作为运行时参数作为循环变量，每次进行条件判断决定结束循环或者计算下一个元素。当然，从数值的角度来讲，这完全没有问题。但从性能角度来说，处理极少量元素的小循环，循环控制的开销甚至超过了加法本身。同时，这种方式很难让编译器自动进行向量化，因为编译器无法确定到底要循环几次，处理向量化余数和条件判断的开销远远大于少做几次加法的收益。那我们自然可以想到，如果我们能为每个维度定制代码，是不是就可以消灭循环控制和判断开销，并可以自动向量化了，这就是MTP的优势。
+在这个例子中，我们把维度作为运行时参数作为循环变量，每次进行条件判断决定结束循环或者计算下一个元素。当然，从数值的角度来讲，这完全没有问题。但从性能角度来说，处理极少量元素的小循环，循环控制的开销甚至超过了加法本身。同时，这种方式很难让编译器自动进行向量化，因为编译器无法确定到底要循环几次，处理向量化余数和条件判断的开销远远大于少做几次加法的收益。那我们自然可以想到，如果我们能为每个维度定制代码，是不是就可以消灭循环控制和判断开销，并可以自动向量化了，这就是TMP的优势。
 
 ### 编译期模板展开
 ``` C++ {hl_lines=["9"]}
@@ -158,8 +158,8 @@ vzeroupper
 
 我们很惊喜的发现，生成的汇编当中, 只保留了两条ymm寄存器上的`vaddps`，这是256位寄存器上的的向量加法，十六个float正好使用两条，完全没有跳转和分支判断，并且应用了向量化，这是十分高性能的代码。
 
-## C++17与MTP原语
-严格来说，C++从诞生之日起（C++98）就支持模板，而且当时就被发现具备图灵完备性。但早期的TMP完全不可用，开发者不得不借用类模板的偏特化来假装写 if-else，用递归来假装写 for 循环，编程工作量完全没有减少。直到C++17，C++才引入了一系列高级语法，让MTP变得可用且优雅，下面介绍几个MTP重要的语法和特性，以便于理解、使用和编写MTP。同时举出CuTe中使用此种特性的例子，帮助理解和学习CuTe。
+## C++17与TMP原语
+严格来说，C++从诞生之日起（C++98）就支持模板，而且当时就被发现具备图灵完备性。但早期的TMP完全不可用，开发者不得不借用类模板的偏特化来假装写 if-else，用递归来假装写 for 循环，编程工作量完全没有减少。直到C++17，C++才引入了一系列高级语法，让TMP变得可用且优雅，下面介绍几个TMP重要的语法和特性，以便于理解、使用和编写TMP。同时举出CuTe中使用此种特性的例子，帮助理解和学习CuTe。
 
 ### 编译期常量：constexpr
 `constexpr` 的价值在于“零开销抽象”（Zero-overhead abstraction），这是C++模板元编程的基石。下面我们讲一下constexpr在C++17中的功能
@@ -202,19 +202,363 @@ using _0      = Int<0>;
 #### 编译期分支 if constexpr
 `if constexpr` 是 C++17 引入的一项非常强大的特性。它允许在编译期根据条件测试的结果，决定是否编译某一段代码。与传统的 if 相比，if constexpr 的核心优势在于不满足条件的分支代码根本不会被编译，从而消灭了条件判断和跳转开销。
 
-#### _v变量模板（is_same_v）
+我们先看一个非常常见的例子，根据类型决定函数行为。
 
+``` C++
+template <class T>
+auto abs_value(T x) {
+    if constexpr (std::is_unsigned_v<T>) {
+        return x;
+    } else {
+        return x < 0 ? -x : x;
+    }
+}
 
+int main() {
+    auto a = abs_value(3u);
+    auto b = abs_value(-3);
+}
+```
+
+这里最重要的不是`if`，而是`constexpr`。对于`abs_value<unsigned>`来说，`else`分支根本不会被编译，函数体会直接变成：
+
+``` C++
+auto abs_value(unsigned x) {
+    return x;
+}
+```
+
+这和运行时的`if`完全不同。运行时`if`的两个分支都必须是语法合法的C++代码，只是运行时选择其中一个执行；`if constexpr`则会在编译期丢掉不满足条件的分支。因此它不仅能优化性能，还能写出普通`if`根本写不出来的泛型代码。
+
+``` C++ {hl_lines=[5]}
+template <class T>
+void print_or_size(T const& x) {
+    if constexpr (std::is_integral_v<T>) {
+        std::cout << x << "\n";
+    } else {
+        std::cout << x.size() << "\n";
+    }
+}
+```
+
+如果`T=int`，`x.size()`这个分支不会被编译，所以不会报错。如果这里使用普通`if`，即使运行时永远不走`x.size()`这一支，编译器也会因为`int`没有`size()`成员函数而拒绝编译。
+
+在CuTe中，`if constexpr`几乎无处不在。原因也很自然：CuTe要处理大量“形状不同、rank不同、类型不同、是否静态不同”的对象。很多判断不是运行时判断，而是类型层面的判断。
+
+``` C++
+template <class T>
+CUTE_HOST_DEVICE constexpr
+auto get_static_value(T const& x) {
+    if constexpr (is_static<T>::value) {
+        return T::value;
+    } else {
+        return x;
+    }
+}
+```
+
+这段代码是示意，不对应CuTe中的某个原函数，但它表达了CuTe中非常典型的写法：如果一个值是编译期常量，就在编译期取出；如果它是运行时变量，就保留运行时读取。对用户来说，它们可能都叫`size`、`stride`、`shape`，但对编译器来说，一个是类型信息，一个是普通变量。`if constexpr`就是连接这两个世界的桥。
+
+再举一个和Layout相关的例子。我们可能希望对一维Layout和二维Layout做不同处理。
+
+``` C++
+template <class Layout>
+CUTE_HOST_DEVICE constexpr
+void print_layout_kind(Layout const& layout) {
+    if constexpr (rank(layout) == 1) {
+        printf("1D layout\n");
+    } else if constexpr (rank(layout) == 2) {
+        printf("2D layout\n");
+    } else {
+        printf("ND layout\n");
+    }
+}
+```
+
+如果`rank(layout)`是编译期常量，那么最终生成的代码只会保留一个分支。我们写的是泛型代码，编译器看到的却是定制代码。这就是现代TMP最有魅力的地方。
+
+#### _v变量模板
+
+C++17中另一个非常重要的小语法是变量模板，最典型的例子就是`std::is_same_v`。
+
+在C++17之前，判断两个类型是否相同一般要这样写：
+
+``` C++
+std::is_same<T, U>::value
+```
+
+C++17之后可以写成：
+
+``` C++
+std::is_same_v<T, U>
+```
+
+这看起来只是少写了几个字符，但在模板元编程中，少写几个字符往往意味着少掉一层噪音。因为TMP代码本身已经非常抽象，如果每个类型判断都带着`::value`，代码会很快变成尖括号和作用域解析符的海洋。
+
+``` C++
+template <class T>
+constexpr bool is_float32_v = std::is_same_v<T, float>;
+
+template <class T>
+void foo(T x) {
+    if constexpr (is_float32_v<T>) {
+        // float专用路径
+    } else {
+        // 其他类型路径
+    }
+}
+```
+
+变量模板的本质是“以模板形式定义一个变量”。它可以接收类型参数，也可以接收非类型参数。
+
+``` C++
+template <class T>
+constexpr bool is_small_type_v = sizeof(T) <= 4;
+
+template <int N>
+constexpr bool is_power_of_two_v = (N > 0) && ((N & (N - 1)) == 0);
+
+static_assert(is_small_type_v<float>);
+static_assert(is_power_of_two_v<128>);
+```
+
+这在高性能计算中很常见。例如我们常常需要根据数据类型选择不同的计算路径。
+
+``` C++
+template <class Element>
+void load(Element* ptr) {
+    if constexpr (std::is_same_v<Element, half>) {
+        // half向量化读取
+    } else if constexpr (std::is_same_v<Element, float>) {
+        // float向量化读取
+    } else {
+        // 通用读取
+    }
+}
+```
+
+在CuTe里，类似的类型判断用于区分静态整数、动态整数、不同内存指针、不同MMA atom、不同Layout结构。它们的共同点是：判断发生在编译期，结果决定生成哪一种代码。
+
+CuTe中有很多看起来像普通变量的对象，比如`_0`、`_1`、`_2`，但它们本质上携带的是类型信息。我们在上一篇代码中已经看到过：
+
+``` C++
+template <int v>
+using Int = C<v>;
+
+using _0 = Int<0>;
+```
+
+因此，CuTe代码中经常会出现“值和类型纠缠在一起”的情况。变量模板和`if constexpr`配合起来，可以让这些类型判断保持相对可读。
+
+``` C++
+template <class T>
+constexpr bool is_static_int_v = is_static<T>::value;
+
+template <class T>
+CUTE_HOST_DEVICE constexpr
+auto unwrap(T x) {
+    if constexpr (is_static_int_v<T>) {
+        return T::value;
+    } else {
+        return x;
+    }
+}
+```
+
+这里依然是示意代码。真正需要记住的是：`_v`变量模板不是语法糖玩具，而是现代C++把类型计算写得像普通布尔表达式的关键工具。
 
 ### 折叠表达式
 
+模板元编程中另一个经典问题是变长参数。比如我们想写一个函数，接收任意数量的参数并求和。
+
+在C++17之前，通常需要递归。
+
+``` C++
+template <class T>
+auto sum(T x) {
+    return x;
+}
+
+template <class T, class... Ts>
+auto sum(T x, Ts... xs) {
+    return x + sum(xs...);
+}
+
+int main() {
+    auto x = sum(1, 2, 3, 4);
+}
+```
+
+这个写法非常TMP：用函数递归假装循环。它能工作，但不优雅，而且递归终止条件、重载匹配、错误信息都很不友好。C++17引入折叠表达式后，这件事可以一行写完。
+
+``` C++ {hl_lines=[3]}
+template <class... Ts>
+auto sum(Ts... xs) {
+    return (xs + ...);
+}
+```
+
+`(xs + ...)`会被编译器展开为：
+
+``` C++
+(((x1 + x2) + x3) + x4)
+```
+
+如果我们想指定初始值，也可以写：
+
+``` C++
+template <class... Ts>
+auto sum_with_zero(Ts... xs) {
+    return (0 + ... + xs);
+}
+```
+
+这会被展开为：
+
+``` C++
+(((0 + x1) + x2) + x3)
+```
+
+折叠表达式支持很多运算符，比如`+`、`*`、`&&`、`||`、`,`等。对于模板元编程来说，最常用的是把一组类型或一组值“压扁”成一个结果。
+
+``` C++
+template <class... Ts>
+constexpr bool all_trivial_v = (std::is_trivial_v<Ts> && ...);
+
+static_assert(all_trivial_v<int, float, char>);
+```
+
+这会被展开为：
+
+``` C++
+std::is_trivial_v<int> &&
+std::is_trivial_v<float> &&
+std::is_trivial_v<char>
+```
+
+在CuTe的语境下，折叠表达式尤其适合处理任意rank的Shape。一个Shape可能是一维、二维、三维，也可能是嵌套的。我们经常想对它的每个维度做同一件事，比如计算总元素个数。
+
+``` C++
+template <class... Dims>
+constexpr auto product(Dims... dims) {
+    return (dims * ...);
+}
+
+int main() {
+    constexpr int size = product(4, 8, 16);  // 512
+}
+```
+
+如果这些`dims`都是编译期常量，那么`product(4, 8, 16)`在运行时不会产生任何乘法。编译器会直接把它折叠成立即数512。对于TileSize、ThreadCount、VectorWidth这类常量来说，这正是我们想要的结果。
+
+折叠表达式还常被用来做批量调用。比如对一组对象依次打印：
+
+``` C++
+template <class... Ts>
+void print_all(Ts const&... xs) {
+    ((std::cout << xs << "\n"), ...);
+}
+```
+
+这里使用的是逗号折叠。它会按顺序执行每个输出表达式。虽然看起来有点像黑魔法，但比递归模板清爽很多。现代TMP的一个重要趋势就是：同样是编译期计算，但尽量写得像正常C++。
+
 ### 类模板参数推导
 
+类模板参数推导（Class Template Argument Deduction, CTAD）也是C++17引入的重要特性。它解决的问题很简单：构造类模板对象时，很多模板参数明明可以从构造函数参数推导出来，为什么还要用户手写？
 
+我们先看一个普通例子。
+
+``` C++
+std::pair<int, double> p1(1, 2.0);
+```
+
+C++17之后可以写成：
+
+``` C++
+std::pair p2(1, 2.0);
+```
+
+编译器会根据`1`和`2.0`自动推导出`std::pair<int, double>`。这就是CTAD。
+
+这个特性对普通业务代码只是少写一点类型，但对TMP代码非常重要。因为模板元编程里的类型经常长得不像给人看的。
+
+``` C++
+Layout<Shape<Int<2>, Int<3>>, Stride<Int<3>, Int<1>>> layout{
+    Shape<Int<2>, Int<3>>{},
+    Stride<Int<3>, Int<1>>{}
+};
+```
+
+如果每次都要这样写，基本没人愿意使用CuTe。我们真正希望写的是：
+
+``` C++
+auto layout = make_layout(make_shape(Int<2>{}, Int<3>{}),
+                          make_stride(Int<3>{}, Int<1>{}));
+```
+
+这里主要依赖的是工厂函数`make_layout`、`make_shape`、`make_stride`的类型推导，而CTAD解决的是同一类问题：让编译器从构造参数中推导类型，用户只表达逻辑含义。
+
+我们自己写一个简化版Layout就能看出CTAD的价值。
+
+``` C++
+template <class Shape, class Stride>
+struct Layout {
+    Shape shape;
+    Stride stride;
+};
+
+template <class Shape, class Stride>
+Layout(Shape, Stride) -> Layout<Shape, Stride>;
+
+int main() {
+    auto shape  = std::tuple{Int<2>{}, Int<3>{}};
+    auto stride = std::tuple{Int<3>{}, Int<1>{}};
+
+    Layout layout{shape, stride};
+}
+```
+
+这一句：
+
+``` C++
+Layout layout{shape, stride};
+```
+
+会被推导为：
+
+``` C++
+Layout<decltype(shape), decltype(stride)> layout{shape, stride};
+```
+
+这对CuTe这类库非常关键。因为CuTe的对象往往不是运行时值复杂，而是类型复杂。一个小小的Layout，其类型可能包含Shape、Stride、静态整数、嵌套tuple等信息。用户如果必须手写这些类型，代码会立刻不可维护。
+
+CTAD和`auto`、工厂函数一起，构成了现代C++模板库的三件套。
+
+``` C++
+auto shape  = make_shape(Int<128>{}, Int<64>{});
+auto stride = make_stride(Int<64>{}, Int<1>{});
+auto layout = make_layout(shape, stride);
+```
+
+这段代码里，真正的信息仍然完整存在于类型系统中。只是我们不再把这些类型全部写在源码表面。换句话说，CTAD不是让类型消失了，而是让人类不用亲手写出那坨类型。编译器很擅长处理这种东西，人类不是。
+
+## 小结
+
+到这里，我们已经介绍了几个现代TMP最重要的原语：
+
+1. `constexpr`：把值和函数放到编译期。
+2. `if constexpr`：在编译期选择代码路径。
+3. `_v`变量模板：把类型判断写成普通布尔变量。
+4. 折叠表达式：优雅处理变长模板参数。
+5. CTAD：让编译器从构造参数中推导复杂类型。
+
+这些特性单独看都不算特别吓人，但是组合起来就构成了CuTe这类现代高性能C++库的语法基础。CuTe之所以能把Layout、Tensor、Copy、MMA这些复杂对象全部写成可组合的编译期抽象，很大程度上就是依赖这些C++17工具。
+
+如果读者后面阅读CuTe源码时看到非常长的类型、很多`constexpr`函数、很多`if constexpr`分支，不要慌。它们不是为了炫技而存在，而是在用C++类型系统描述GPU程序的结构。理解了这一点，CuTe源码会从“奇怪的模板咒语”慢慢变成“编译期的数据流图”。
 
 # 写在最后
 
-笔者认为，现代C++模板元编程是C++中最抽象，最晦涩难懂的一部分。但是使用MTP带来的代码可复用性和极致的性能优化是任何编程技巧都做不到的事情。如果你只是想了解一下模板元编程或者是现代高性能计算中代码方面的优化，那简单读完本篇就够了。但如果你是想掌握CUTLASS，CuTe这种现代高性能模板库，则需要大量的阅读源码和实践。同时，多问AI，遇到不懂的先问再实验，亲自对比性能上的差别，而不是AI说什么就相信什么。
+笔者认为，现代C++模板元编程是C++中最抽象，最晦涩难懂的一部分。但是使用TMP带来的代码可复用性和极致的性能优化是任何编程技巧都做不到的事情。如果你只是想了解一下模板元编程或者是现代高性能计算中代码方面的优化，那简单读完本篇就够了。但如果你是想掌握CUTLASS，CuTe这种现代高性能模板库，则需要大量的阅读源码和实践。同时，多问AI，遇到不懂的先问再实验，亲自对比性能上的差别，而不是AI说什么就相信什么。
 
 # PS
 如果你直接拿本文中示例代码去编译，大概率得不到如此漂亮的汇编，这一方面和不同编译器行为有关，一方面-O3优化会折叠很多常数或者删去死代码。当然，这也不是说本文的例子都是凭空造出来的，所有示例代码和.o文件可以在github上找到。本文主要目的还是讲述编译器行为和优化，所以尽可能只保留了代码的骨干，高亮了优化的部分，删去了随机初始化或者print之类仅为了不让编译器优化常量的代码。
