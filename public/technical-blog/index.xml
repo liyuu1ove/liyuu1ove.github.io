@@ -6,8 +6,22 @@
     <description>Recent content in 技术博客 on 鲤鱼爱的神秘小屋</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 28 May 2026 16:29:15 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 11 Jun 2026 16:26:55 +0800</lastBuildDate>
     <atom:link href="http://localhost:1313/technical-blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>集合通讯学习0-分布式计算与硬件网络</title>
+      <link>http://localhost:1313/technical-blog/collective-communication-starter-0/</link>
+      <pubDate>Thu, 11 Jun 2026 16:26:55 +0800</pubDate>
+      <guid>http://localhost:1313/technical-blog/collective-communication-starter-0/</guid>
+      <description>简单介绍现代数据中心网络拓扑和分布式计算</description>
+    </item>
+    <item>
+      <title>CuTe学习1-layout</title>
+      <link>http://localhost:1313/technical-blog/cute-starter-1/</link>
+      <pubDate>Fri, 29 May 2026 12:00:00 +0800</pubDate>
+      <guid>http://localhost:1313/technical-blog/cute-starter-1/</guid>
+      <description>介绍CuTe的layout类</description>
+    </item>
     <item>
       <title>CuTe学习0-CuTe简介</title>
       <link>http://localhost:1313/technical-blog/cute-starter-0/</link>
@@ -21,13 +35,6 @@
       <pubDate>Mon, 25 May 2026 12:00:00 +0800</pubDate>
       <guid>http://localhost:1313/technical-blog/cute-starter-00/</guid>
       <description>简单介绍C&#43;&#43;模板元编程</description>
-    </item>
-    <item>
-      <title>CuTe学习1-layout</title>
-      <link>http://localhost:1313/technical-blog/cute-starter-1/</link>
-      <pubDate>Mon, 25 May 2026 12:00:00 +0800</pubDate>
-      <guid>http://localhost:1313/technical-blog/cute-starter-1/</guid>
-      <description>介绍CuTe的layout类</description>
     </item>
   </channel>
 </rss>

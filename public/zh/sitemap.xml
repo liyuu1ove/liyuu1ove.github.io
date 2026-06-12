@@ -3,7 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>http://localhost:1313/categories/</loc>
-    <lastmod>2026-05-29T11:21:43+08:00</lastmod>
+    <lastmod>2026-06-11T16:26:55+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-us"
@@ -15,14 +15,49 @@
                 href="http://localhost:1313/categories/"
                 />
   </url><url>
-    <loc>http://localhost:1313/categories/essays/</loc>
-    <lastmod>2026-05-29T11:21:43+08:00</lastmod>
+    <loc>http://localhost:1313/tags/collective-communication/</loc>
+    <lastmod>2026-06-11T16:26:55+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/essays/life-in-berkeley/</loc>
-    <lastmod>2026-05-29T11:21:43+08:00</lastmod>
+    <loc>http://localhost:1313/tags/ib/</loc>
+    <lastmod>2026-06-11T16:26:55+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/roce/</loc>
+    <lastmod>2026-06-11T16:26:55+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/</loc>
+    <lastmod>2026-06-11T16:26:55+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-us"
+                href="http://localhost:1313/en/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="http://localhost:1313/tags/"
+                />
+  </url><url>
+    <loc>http://localhost:1313/categories/technical-blog/</loc>
+    <lastmod>2026-06-11T16:26:55+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/technical-blog/collective-communication-starter-0/</loc>
+    <lastmod>2026-06-11T16:26:55+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/technical-blog/</loc>
+    <lastmod>2026-06-11T16:26:55+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-us"
+                href="http://localhost:1313/en/technical-blog/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="http://localhost:1313/technical-blog/"
+                />
   </url><url>
     <loc>http://localhost:1313/</loc>
-    <lastmod>2026-05-29T11:21:43+08:00</lastmod>
+    <lastmod>2026-06-11T16:26:55+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-us"
@@ -33,6 +68,21 @@
                 hreflang="zh-cn"
                 href="http://localhost:1313/"
                 />
+  </url><url>
+    <loc>http://localhost:1313/tags/cute/</loc>
+    <lastmod>2026-05-29T12:00:00+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/technical-blog/cute-starter-1/</loc>
+    <lastmod>2026-05-29T12:00:00+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/cutlass/</loc>
+    <lastmod>2026-05-29T12:00:00+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/categories/essays/</loc>
+    <lastmod>2026-05-29T11:21:43+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/essays/life-in-berkeley/</loc>
+    <lastmod>2026-05-29T11:21:43+08:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/essays/</loc>
     <lastmod>2026-05-29T11:21:43+08:00</lastmod>
@@ -47,48 +97,10 @@
                 href="http://localhost:1313/essays/"
                 />
   </url><url>
-    <loc>http://localhost:1313/tags/cute/</loc>
-    <lastmod>2026-05-28T16:29:15+08:00</lastmod>
-  </url><url>
     <loc>http://localhost:1313/technical-blog/cute-starter-0/</loc>
     <lastmod>2026-05-28T16:29:15+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/</loc>
-    <lastmod>2026-05-28T16:29:15+08:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-us"
-                href="http://localhost:1313/en/tags/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-cn"
-                href="http://localhost:1313/tags/"
-                />
-  </url><url>
-    <loc>http://localhost:1313/categories/technical-blog/</loc>
-    <lastmod>2026-05-28T16:29:15+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/technical-blog/</loc>
-    <lastmod>2026-05-28T16:29:15+08:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-us"
-                href="http://localhost:1313/en/technical-blog/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-cn"
-                href="http://localhost:1313/technical-blog/"
-                />
-  </url><url>
     <loc>http://localhost:1313/technical-blog/cute-starter-00/</loc>
-    <lastmod>2026-05-25T12:00:00+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/technical-blog/cute-starter-1/</loc>
-    <lastmod>2026-05-25T12:00:00+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/cutlass/</loc>
     <lastmod>2026-05-25T12:00:00+08:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/modern-c&#43;&#43;/</loc>

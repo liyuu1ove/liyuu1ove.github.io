@@ -17,3 +17,5 @@ new:
 	@slug=$$(printf '%s' "$(TITLE)" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g; s/-\{2,\}/-/g; s/^-//; s/-$$//'); \
 	if [ -z "$$slug" ]; then echo 'error: TITLE produced an empty slug'; exit 1; fi; \
 	hugo new "$(SECTION)/$$slug.md"
+
+

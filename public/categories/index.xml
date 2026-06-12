@@ -6,20 +6,20 @@
     <description>Recent content in Categories on 鲤鱼爱的神秘小屋</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 29 May 2026 11:21:43 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 11 Jun 2026 16:26:55 +0800</lastBuildDate>
     <atom:link href="http://localhost:1313/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Technical Blog</title>
+      <link>http://localhost:1313/categories/technical-blog/</link>
+      <pubDate>Thu, 11 Jun 2026 16:26:55 +0800</pubDate>
+      <guid>http://localhost:1313/categories/technical-blog/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Essays</title>
       <link>http://localhost:1313/categories/essays/</link>
       <pubDate>Fri, 29 May 2026 11:21:43 +0800</pubDate>
       <guid>http://localhost:1313/categories/essays/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Technical Blog</title>
-      <link>http://localhost:1313/categories/technical-blog/</link>
-      <pubDate>Thu, 28 May 2026 16:29:15 +0800</pubDate>
-      <guid>http://localhost:1313/categories/technical-blog/</guid>
       <description></description>
     </item>
   </channel>

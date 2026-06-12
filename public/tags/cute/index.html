@@ -129,6 +129,18 @@
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">CuTe学习1-layout
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p></p>
+  </div>
+  <footer class="entry-footer"><span title='2026-05-29 12:00:00 +0800 CST'>2026年5月29日</span>&nbsp;·&nbsp;<span>0 分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
+  <a class="entry-link" aria-label="post link to CuTe学习1-layout" href="http://localhost:1313/technical-blog/cute-starter-1/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">CuTe学习0-CuTe简介
     </h2>
   </header>
@@ -139,8 +151,8 @@
 提供数据从内存排布到逻辑索引的映射原语 提供数据在各内存层级之间的搬运原语 提供数据做矩阵乘法的计算原语 WHY CuTe? 在学习CuTe之前，我们先看一下一个GEMM kernel到底在忙什么。
 1// C = A * B 2for (int m = 0; m &lt; M; &#43;&#43;m) { 3 for (int n = 0; n &lt; N; &#43;&#43;n) { 4 float acc = 0.0f; 5 for (int k = 0; k &lt; K; &#43;&#43;k) { 6 acc &#43;= A[m * K &#43; k] * B[k * N &#43; n]; 7 } 8 C[m * N &#43; n] = acc; 9 } 10} 从数学角度看，这段代码已经把矩阵乘法说清楚了。但是从GPU性能角度看，这段代码几乎什么都没说清楚。
 A[m * K &#43; k] 是行主序还是列主序？有没有padding？ 一个CTA算C矩阵的哪一块？一个warp算哪一块？一个thread算哪几个元素？ 全局内存读取是否合并访存？shared memory中是否会出现bank conflict？ 数据从global memory到shared memory，再到register，该由哪些线程搬？每个线程搬几个元素？ 最后的乘加是普通FMA，还是Tensor Core上的MMA指令？ 手写CUDA kernel时，这些问题通常会变成一大堆threadIdx.x、blockIdx.x、魔法数字、位运算和手算偏移。它们看起来很硬核，实际也确实很硬核，但是也很脆弱。改一个tile size，可能十几个地方都要跟着改；换一个数据布局，可能整个kernel的索引逻辑都得重写；想从SIMT FMA换成Tensor Core MMA，则又要重新组织线程和寄存器片段。
-CuTe要解决的核心问题，就是把这些索引和搬运从手写整数表达式中抽出来，用类型系统和模板元编程来描述。
-1// 手写CUDA中经常出现的逻辑 2int offset = (blockIdx.x * 128 &#43; threadIdx.x / 4) * lda 3 &#43; (threadIdx.x % 4) * 8; 4 5// CuTe更希望你描述这件事 6// 这是一个什么形状的tile？ 7// 它的逻辑坐标如何映射到内存？ 8// 哪些线程负责哪些坐标？ 这就是CuTe和普通工具库最大的区别。CuTe并不只是帮你少写几行代码，它希望你把GPU程序写成“形状、布局、切分、搬运、计算”的组合。然后这些组合在编译期被实例化，最终生成没有抽象开销的CUDA代码。
+CuTe要解决的核心问题，就是把这些索引和搬运从手写整数表达式中抽出来，用类型系统和模板元编程来描述。本文对CuTe中的概念均浅尝辄止，目的是提供一个总览，而不是具体的深度到某个函数的用法。具体的用法和逻辑会在后面的文章中进一步介绍。
+1// raw cuda 2int offset = (blockIdx.x * 128 &#43; threadIdx.x / 4) * lda &#43; (threadIdx.x % 4) * 8; 3 4// CuTe 5auto layout1 = make_layout(make_shape(_2{}, _4{}), make_stride(_1{}, _2{})); 6int offset = layout1(make_coord(1, 3)); 这就是CuTe和普通工具库最大的区别。CuTe并不只是帮你少写几行代码，它希望你把索引计算分解为逻辑形状和内存排布的组合。然后这些组合在编译期被实例化，最终生成没有抽象开销的CUDA代码。
 ...</p>
   </div>
   <footer class="entry-footer"><span title='2026-05-28 16:29:15 +0800 CST'>2026年5月28日</span>&nbsp;·&nbsp;<span>4 分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
@@ -156,25 +168,13 @@ CuTe要解决的核心问题，就是把这些索引和搬运从手写整数表�
     <p>1未成年C请在成年C&#43;&#43;陪同下观看! 模板元编程 C&#43;&#43;模板元编程（Template Meta Programming）是C&#43;&#43;中最强大、也最硬核的特性之一。简单来说，普通的C&#43;&#43;代码是在运行期（Runtime）由CPU执行；而模板元编程则是让编译器在编译期（Compile-time）执行代码。它的本质是利用C&#43;&#43;的模板系统，在编译阶段生成定制化的源代码或计算出具体的值。
 现代C&#43;&#43;模板元编程主要依赖在C&#43;&#43;17中引入的特性，本文接下来将简单介绍模板元编程与这些特性，作为理解CuTe的基础。本实验代码全部使用x86-64 gcc 16.1编译，flag为-O3 -maxv2。汇编代码使用intel asm syntax，仅用于解释TMP优化，并且只对本文负责。...表示省略不重要的内存搬运等汇编。
 WHY TMP? 在开始今天的正题之前，我希望和读者达成几个共识，作为我们接下来讨论性能的基础。
-逻辑分支比计算昂贵得多。在CPU上是如此，GPU上更甚。 函数递归或者是多次调用的开销是不可接受的。 编译器优化很聪明，但是也没那么聪明。优化的效果要看实际性能，实现优化的原理要看汇编。 Ex.1-编译期求值 在高性能计算中我们会面临很多常数计算，比如固定大小的TileSize，BlockSize等。我们以计算阶乘为切入点，描述TMP在常数优化方面的优势。
+逻辑分支的控制流开销远超纯计算指令。在CPU上分支预测失败会带来数十个周期的流水线惩罚，而在GPU的SIMT架构下，分支发散导致的性能惩罚则更为剧烈。 高频的函数调用或深层递归会引入频繁的栈帧构建与上下文切换，这类开销通常是不可接受的性能瓶颈。 编译器的启发式优化并非万能。评估优化策略的实际成效依赖于微基准测试，而验证其底层优化行为则需深入审查生成的汇编代码。 Ex.1-编译期求值 在高性能计算中我们会面临很多常数计算，比如固定大小的TileSize，BlockSize等。我们以计算阶乘为切入点，描述TMP在常数优化方面的优势。
 递归 1int factorial(int n) { 2 return (n &lt;= 1) ? 1 : n * factorial(n - 1); 3} 4 5int main(){ 6 int a = factorial(5); 7} 1&#34;factorial(int)&#34;: 2 ... 3 cmp DWORD PTR [rbp-4], 1 4 jle .L2 5 ... 6 call &#34;factorial(int)&#34; 7 imul eax, DWORD PTR [rbp-4] 8 jmp .L4 9.L2: 10 mov eax, 1 11.L4: 12 leave 13 ret 14&#34;main&#34;: 15 ... 16 call &#34;factorial(int)&#34; 17 mov DWORD PTR [rbp-4], eax 18 ... 这段代码执行时会进行递归，直到计算出5!为止。从数值计算来讲，这当然没有问题。但是在性能方面，观察汇编，我们发现每次递归都要执行函数调用和条件判断终止，这两个操作的硬件代价很高，并且这个函数有着线性复杂度。言而总之，递归的方式性能并不好。
 模板计算 1template&lt;int N&gt; 2struct Factorial { 3 static constexpr int value = N * Factorial&lt;N - 1&gt;::value; 4}; 5 6template&lt;&gt; 7struct Factorial&lt;1&gt; { 8 static constexpr int value = 1; 9}; 10 11int main(){ 12 int result = Factorial&lt;5&gt;::value; 13} 1&#34;main&#34;: 2 ... 3 mov DWORD PTR [rbp-4], 120 4 ... 5 ret 观察汇编，我们发现一个神奇的事情，阶乘的结果是一个立即数！这代表运行时完全没有开销。当然，这也不是没有代价的，实际的计算过程是在编译期。我们把这个过程称作模板实例化，以 factorial&lt;3&gt; 为例，实例化的过程如下。
 ...</p>
   </div>
   <footer class="entry-footer"><span title='2026-05-25 12:00:00 +0800 CST'>2026年5月25日</span>&nbsp;·&nbsp;<span>6 分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
   <a class="entry-link" aria-label="post link to CuTe学习00-模板元编程" href="http://localhost:1313/technical-blog/cute-starter-00/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">CuTe学习1-layout
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p></p>
-  </div>
-  <footer class="entry-footer"><span title='2026-05-25 12:00:00 +0800 CST'>2026年5月25日</span>&nbsp;·&nbsp;<span>0 分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
-  <a class="entry-link" aria-label="post link to CuTe学习1-layout" href="http://localhost:1313/technical-blog/cute-starter-1/"></a>
 </article>
     </main>
     
