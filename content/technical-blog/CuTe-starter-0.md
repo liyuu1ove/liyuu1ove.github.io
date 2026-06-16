@@ -18,6 +18,8 @@ CuTe（CUDA Templates）是NVIDIA从CUTLASS 3.0版本开始推出的一个C++模
 - 提供数据在各内存层级之间的搬运原语
 - 提供数据做矩阵乘法的计算原语
 
+本文对CuTe中的概念均浅尝辄止，目的是提供一个总览，而不是具体的深度到某个函数的用法。具体的用法和逻辑会在后面的文章中进一步介绍。
+
 # WHY CuTe?
 
 在学习CuTe之前，我们先看一下一个GEMM kernel到底在忙什么。
@@ -45,8 +47,6 @@ for (int m = 0; m < M; ++m) {
 
 手写CUDA kernel时，这些问题通常会变成一大堆`threadIdx.x`、`blockIdx.x`、魔法数字、位运算和手算偏移。它们看起来很硬核，实际也确实很硬核，但是也很脆弱。改一个tile size，可能十几个地方都要跟着改；换一个数据布局，可能整个kernel的索引逻辑都得重写；想从SIMT FMA换成Tensor Core MMA，则又要重新组织线程和寄存器片段。
 
-CuTe要解决的核心问题，就是把这些索引和搬运从手写整数表达式中抽出来，用类型系统和模板元编程来描述。本文对CuTe中的概念均浅尝辄止，目的是提供一个总览，而不是具体的深度到某个函数的用法。具体的用法和逻辑会在后面的文章中进一步介绍。
-
 ``` C++
 // raw cuda 
 int offset = (blockIdx.x * 128 + threadIdx.x / 4) * lda + (threadIdx.x % 4) * 8;
@@ -55,7 +55,8 @@ int offset = (blockIdx.x * 128 + threadIdx.x / 4) * lda + (threadIdx.x % 4) * 8;
 auto layout1 = make_layout(make_shape(_2{}, _4{}), make_stride(_1{}, _2{}));
 int offset = layout1(make_coord(1, 3));
 ```
-这就是CuTe和普通工具库最大的区别。CuTe并不只是帮你少写几行代码，它希望你把索引计算分解为逻辑形状和内存排布的组合。然后这些组合在编译期被实例化，最终生成没有抽象开销的CUDA代码。
+
+CuTe要解决的核心问题，就是把这些索引和搬运从手写整数表达式中抽出来，用类型系统和模板元编程来描述。这就是CuTe和普通工具库最大的区别。CuTe并不只是帮你少写几行代码，它希望你把索引计算分解为逻辑形状和内存排布的组合。然后这些组合在编译期被实例化，最终生成没有抽象开销的CUDA代码。
 
 # Layout & Tensor 
 
@@ -118,7 +119,7 @@ layout(1, 2) == 1 * 3 + 2 * 1 == 5
 
 ### Shape & Stride
 
-CuTe在layout上做的另外一件事情就是将逻辑形状与索引解耦，即Shape & Stride。这将数据在内存中的排布与代码中的逻辑形状解耦，相同的数据可以被排列分割为不同形状，而保持数据在内存中的排列不变。让我么看一个例子。
+CuTe在layout上做的另外一件事情就是将逻辑形状与索引解耦，即 Shape & Stride。相同的数据可以被排列分割为不同形状，而保持数据在内存中的排列不变。让我么看一个例子。
 
 ``` C++
 auto row_major = make_layout(make_shape(Int<2>{}, Int<3>{}),
@@ -136,20 +137,14 @@ row_major(0, 1) = 1
 col_major(0, 1) = 2
 ```
 
-这说明CuTe的Layout不是在描述“有一个二维数组”，而是在描述“一个逻辑二维坐标如何落到一段线性内存上”。这就是为什么CuTe可以非常自然地表达行主序、列主序、分块布局、嵌套布局，甚至线程布局。
+这说明CuTe的Layout不是在描述“有一个二维数组”，而是在描述“一个逻辑二维坐标如何落到一段线性内存上”。这就是为什么CuTe可以非常自然地表达行主序、列主序、分块布局甚至是嵌套布局。
 
 ## Tensor
 
-如果说Layout是坐标到偏移的函数，那么Tensor就是“指针 + Layout”。
+如果说Layout是坐标到偏移的函数，那么Tensor就是把这个坐标映射到内存上。一个Tensor自己通常不拥有内存，它只是一个view。它知道底层数据从哪里开始，也知道逻辑坐标应该如何被翻译成线性偏移。
 
 ``` C++
-Tensor = data pointer + layout
-```
-
-一个Tensor自己通常不拥有内存，它只是一个view。它知道底层数据从哪里开始，也知道逻辑坐标应该如何被翻译成线性偏移。
-
-``` C++
-float* ptr = ...;
+float* ptr = some_data[6];
 
 auto layout = make_layout(make_shape(Int<2>{}, Int<3>{}),
                           make_stride(Int<3>{}, Int<1>{}));
@@ -163,12 +158,9 @@ auto tensor = make_tensor(make_gmem_ptr(ptr), layout);
 tensor(1, 2);     // 等价于 ptr[layout(1, 2)]
 ```
 
-这比`ptr[row * lda + col]`多了一层抽象，但这层抽象在编译期大概率会被优化掉。更重要的是，它把“这块数据长什么样”和“这块数据在哪里”分开了。
+这比`ptr[row * lda + col]`多了一层抽象，但这层抽象在编译期大概率会被优化掉。更重要的是，它把“这块数据长什么样”和“这块数据在哪里”分开了。Layout提供这块数据的逻辑形状与排布信息。Pointer指定这块数据所在的内存位置(SMEM，GMEM，register,etc.)。Tensor则是Pointer + Layout，可以直接通过Tensor访问到内存。
 
-Layout提供这块数据的逻辑形状与排布信息。Pointer指定这块数据所在的内存位置(SMEM，GMEM，register,etc.)。Tensor则是Pointer + Layout，可以直接通过Tensor访问到内存。
-
-这个抽象在写复杂kernel时非常有用。比如一个CTA只处理大矩阵中的一个tile，我们不想重新创建数据，也不想复制数据，只想得到一个局部视图。
-
+Tensor可以被分割和重新组织，可以切给CTA，之后还可以继续切给warp，然后切给thread，我们都不需要手算原始矩阵的全局偏移，CuTe可以重新组织它的起点和Layout。
 ``` C++
 auto gA = make_tensor(make_gmem_ptr(A), make_shape(M, K));
 
@@ -178,7 +170,7 @@ auto tile_A = local_tile(gA,
                          make_coord(block_m, block_k));
 ```
 
-从语义上讲，`tile_A`仍然是Tensor，只是它的起点和Layout已经被CuTe重新组织好了。之后不管是继续切给warp，还是切给thread，我们都不需要手算原始矩阵的全局偏移。
+Tensor的另一层抽象是解耦了数据搬运，在手写kernel的时候，我们总是需要在使用数据之前开辟内存再搬运数据。但是Tensor通过`make_gmem_ptr()`等函数为pointer打上tag。这个抽象为cute自动寻找数据搬运的最优算法提供了可能性，并且是在使用的时候再搬运，自动管理内存的生命周期。我们将在下一节里介绍。
 
 # TiledCopy
 
@@ -209,7 +201,7 @@ smem[row * smem_stride + col] = gmem[(global_row + row) * lda + global_col + col
 
 这当然能写，而且很多经典CUDA教程都是这么写的。但问题是，当tile形状、线程数量、每线程搬运元素数量、数据类型、目标架构发生变化时，这种代码会快速膨胀。
 
-CuTe用`TiledCopy`来描述一组线程如何协作完成一次搬运。它的核心思想仍然是Layout：线程也可以有Layout，数据也可以有Layout，搬运就是把线程Layout映射到数据Layout上。
+CuTe用`TiledCopy`来描述一组线程如何协作完成一次搬运。它的核心思想仍然是Layout：线程也可以有Layout，数据也可以有Layout，搬运就是把线程Layout映射到数据Layout上。为了防止代码过于混乱，作者在这里省略了很多变量的声明。具体的用法会在后面的文章中详细讲解。
 
 ``` C++
 auto tiled_copy = make_tiled_copy(copy_atom,
@@ -251,13 +243,7 @@ copy(tiled_copy, src, dst);
 
 第三个抽象是计算，也就是`TiledMMA`。
 
-在现代NVIDIA GPU上，高性能GEMM通常不会使用普通的逐元素FMA，而是使用Tensor Core提供的MMA指令。比如在某些架构上，一个MMA指令可以完成一个小矩阵块的乘加。
-
-``` plain text
-D = A * B + C
-```
-
-但是硬件MMA指令并不是一个简单的函数调用。它有固定的数据类型、固定的矩阵形状、固定的寄存器分片方式和固定的线程协作方式。手写时我们需要关心：
+在现代NVIDIA GPU上，高性能GEMM通常不会使用普通的逐元素FMA，而是使用Tensor Core提供的MMA指令。比如在某些架构上，一个MMA指令可以完成一个小矩阵块的乘加。但是硬件MMA指令并不是一个简单的函数调用。它有固定的数据类型、固定的矩阵形状、固定的寄存器分片方式和固定的线程协作方式。手写时我们需要关心：
 
 1. 一个warp内哪些lane持有A片段？
 2. 哪些lane持有B片段？
@@ -273,7 +259,7 @@ auto tiled_mma = make_tiled_mma(MmaAtom{},
                                 Layout<Shape<_2, _2, _1>>{});
 ```
 
-这段代码大概表达的是：底层使用SM80架构上的某个`16x8x16` MMA指令，然后把这些atom平铺成更大的计算结构。
+这段代码大概表达的是：底层使用SM80架构上的某个计算 `16x8x16`tile的MMA指令，然后把这些atom平铺成更大的计算结构。
 
 实际写kernel时，我们通常会从`TiledMMA`中取出当前线程负责的寄存器片段。
 
@@ -289,7 +275,7 @@ gemm(tiled_mma, tCrA, tCrB, tCrC);
 
 这段代码和`TiledCopy`很像。我们不是手写每个lane拿哪些寄存器，而是先描述MMA的组织方式，再让CuTe根据这个组织方式切分Tensor和寄存器片段。
 
-于是CuTe中的GEMM kernel大概会变成下面这种结构。
+讲到这里，我们就拥有了CuTe中组合出GEMM的所有积木，CuTe中的GEMM kernel大概是如下这种结构。
 
 ``` C++
 // 1. 用Layout/Tensor描述global memory中的A/B/C
@@ -386,7 +372,11 @@ CuTe的本质是一套面向GPU高性能计算的编译期抽象。它把过去�
 所以学习CuTe时，不要把它当成一个普通API库。更好的方式是把它当成一种写CUDA kernel的新语言。`Layout`是它的坐标系统，`Tensor`是它的数据视图，`TiledCopy`是它的搬运语义，`TiledMMA`是它的计算语义。理解了这四个词，才算真正走进CuTe的大门。
 
 # 最后的最后
-有的读者可能会有些疑惑，使用CuTe可以彻底消灭运行时计算索引的开销吗？这其实是一个美丽的误会。我们必须直面硬件的物理现实：threadIdx.x 是一个纯粹的运行时变量（只有当 GPU 核函数在硬件核心上跑起来、具体的线程被调度时，它才知道自己是谁）。既然 threadIdx.x 是动态的，那么它衍生出来的 lane, row, col 也必然只能在运行时由 GPU 的算术逻辑单元（CUDA core）现场计算。任何黑魔法都无法在编译期未卜先知。CuTe真正消灭的是Layout的编译期解算内存几何拓扑和防止更复杂的非二的幂次映射发生优化退化。
 
-简单来说，CuTe消灭了基本上所有在编译期已知的数值计算。但是CuTe最大价值在于消灭程序员的心智开销，或者说增加代码的可读性。使用CuTe不一定能写出来性能最好的代码，但是一定能写出来可读性很好的代码。
+有的读者可能会有些疑惑，使用CuTe可以彻底消灭运行时计算索引的开销吗？这其实是一个美丽的误会。我们必须直面硬件的物理现实：threadIdx.x 是一个纯粹的运行时变量（只有当 GPU 核函数在硬件核心上跑起来、具体的线程被调度时，它才知道自己是谁）。既然 threadIdx.x 是动态的，那么它衍生出来的 lane, row, col 也必然只能在运行时由 GPU 的算术逻辑单元（CUDA core）现场计算。任何黑魔法都无法在编译期未卜先知。CuTe真正消灭的是Layout的编译期解算内存几何拓扑和防止更复杂的非二的幂次映射发生优化退化。但是CUDA core是可以与Tensor Core 并行计算的，这就是为什么cublas等高度优化的线性代数库仍然能几乎达到计算卡标称的吞吐。
+
+简单来说，CuTe消灭了基本上所有在编译期已知的数值计算。但是CuTe最大价值在于消灭程序员的心智开销，或者说增加代码的可读性。使用CuTe不一定能写出来性能最好的代码（当然，据作者经验，经常是比raw CUDA性能好很多），但是一定能写出来可读性很好的代码。
+
+# 最后的最后的最后
+有的读者还可能会疑惑，CUTLASS和CuTe到底是什么关系呢，听起来好像我用CuTe也能组装出超高性能的GEMM，为什么还需要CUTLASS呢？简单的说，CuTe像一套高性能的赛车配件，但是你要亲手设计组装。CUTLASS像一个赛车工厂，用CuTe提供的高性能配件，自动地组装出高性能的赛车。回到计算上来，CuTe 是一个专注于“张量描述与硬件映射”的底层库；而 CUTLASS 是建立在 CuTe 之上、开箱即用的高性能矩阵乘法框架。CUTLASS会处理复杂的流水线与异步控制，边缘处理与对齐等一个实际的高性能的GEMM的kernel要考虑的所有事情。如果你要写一个规整的，传统的gemm-like(batched-gemm，grouped-gemm，etc.) kernel，那么CUTLASS将是你的不二之选。但是如果是实现Flashattention这种访存模式和gemm不同的kernel，CuTe将是最强而有力的工具。
 
