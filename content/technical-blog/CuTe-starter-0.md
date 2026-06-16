@@ -3,7 +3,7 @@ date = '2026-05-28T16:29:15+08:00'
 draft = false
 title = 'CuTe学习0-CuTe简介'
 description = '简单介绍CuTe抽象'
-readingTimeText = ''
+readingTimeText = '阅读此文大概需要33分钟'
 tags = ['CuTe']
 categories = ['Technical Blog']
 +++
