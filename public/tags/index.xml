@@ -9,10 +9,10 @@
     <lastBuildDate>Thu, 11 Jun 2026 16:26:55 +0800</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Collective Communication</title>
-      <link>http://localhost:1313/tags/collective-communication/</link>
+      <title>Distributed System</title>
+      <link>http://localhost:1313/tags/distributed-system/</link>
       <pubDate>Thu, 11 Jun 2026 16:26:55 +0800</pubDate>
-      <guid>http://localhost:1313/tags/collective-communication/</guid>
+      <guid>http://localhost:1313/tags/distributed-system/</guid>
       <description></description>
     </item>
     <item>
@@ -20,6 +20,13 @@
       <link>http://localhost:1313/tags/ib/</link>
       <pubDate>Thu, 11 Jun 2026 16:26:55 +0800</pubDate>
       <guid>http://localhost:1313/tags/ib/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>NVLink</title>
+      <link>http://localhost:1313/tags/nvlink/</link>
+      <pubDate>Thu, 11 Jun 2026 16:26:55 +0800</pubDate>
+      <guid>http://localhost:1313/tags/nvlink/</guid>
       <description></description>
     </item>
     <item>

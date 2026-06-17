@@ -9,11 +9,11 @@
     <lastBuildDate>Fri, 29 May 2026 12:00:00 +0800</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/cutlass/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>CuTe学习1-layout</title>
+      <title>CuTe学习1-Layout</title>
       <link>http://localhost:1313/technical-blog/cute-starter-1/</link>
       <pubDate>Fri, 29 May 2026 12:00:00 +0800</pubDate>
       <guid>http://localhost:1313/technical-blog/cute-starter-1/</guid>
-      <description>介绍CuTe的layout类</description>
+      <description>介绍CuTe的layout模板类</description>
     </item>
   </channel>
 </rss>

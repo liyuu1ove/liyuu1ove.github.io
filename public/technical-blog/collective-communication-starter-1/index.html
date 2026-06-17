@@ -5,11 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>集合通讯学习0-分布式计算与硬件网络 | 鲤鱼爱的神秘小屋</title>
-<meta name="keywords" content="Distributed System, RoCE, IB, NVLink">
-<meta name="description" content="简单介绍分布式计算的概念和现代数据中心硬件网络">
+<title>集合通讯学习1-NCCL与集合通讯原语 | 鲤鱼爱的神秘小屋</title>
+<meta name="keywords" content="">
+<meta name="description" content="介绍NCCL API和集合通讯原语">
 <meta name="author" content="鲤鱼爱">
-<link rel="canonical" href="http://localhost:1313/technical-blog/collective-communication-starter-0/">
+<link rel="canonical" href="http://localhost:1313/technical-blog/collective-communication-starter-1/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.26e9583fb0cf555b3a58a7936237486984fe70640f533bf97fa925e2c19cd09d.css" integrity="sha256-JulYP7DPVVs6WKeTYjdIaYT&#43;cGQPUzv5f6kl4sGc0J0=" rel="preload stylesheet" as="style">
 <link rel="icon" href="http://localhost:1313/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
@@ -18,7 +18,7 @@
 <link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="zh" href="http://localhost:1313/technical-blog/collective-communication-starter-0/">
+<link rel="alternate" hreflang="zh" href="http://localhost:1313/technical-blog/collective-communication-starter-1/">
 <noscript>
     <style>
         #theme-toggle,
@@ -33,23 +33,19 @@
         document.querySelector("html").dataset.theme = 'dark';
     }
 
-</script><meta property="og:url" content="http://localhost:1313/technical-blog/collective-communication-starter-0/">
+</script><meta property="og:url" content="http://localhost:1313/technical-blog/collective-communication-starter-1/">
   <meta property="og:site_name" content="鲤鱼爱的神秘小屋">
-  <meta property="og:title" content="集合通讯学习0-分布式计算与硬件网络">
-  <meta property="og:description" content="简单介绍分布式计算的概念和现代数据中心硬件网络">
+  <meta property="og:title" content="集合通讯学习1-NCCL与集合通讯原语">
+  <meta property="og:description" content="介绍NCCL API和集合通讯原语">
   <meta property="og:locale" content="zh_cn">
   <meta property="og:type" content="article">
     <meta property="article:section" content="technical-blog">
-    <meta property="article:published_time" content="2026-06-11T16:26:55+08:00">
-    <meta property="article:modified_time" content="2026-06-11T16:26:55+08:00">
-    <meta property="article:tag" content="Distributed System">
-    <meta property="article:tag" content="RoCE">
-    <meta property="article:tag" content="IB">
-    <meta property="article:tag" content="NVLink">
+    <meta property="article:published_time" content="2026-06-15T16:39:20+08:00">
+    <meta property="article:modified_time" content="2026-06-15T16:39:20+08:00">
 
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="集合通讯学习0-分布式计算与硬件网络">
-  <meta name="twitter:description" content="简单介绍分布式计算的概念和现代数据中心硬件网络">
+  <meta name="twitter:title" content="集合通讯学习1-NCCL与集合通讯原语">
+  <meta name="twitter:description" content="介绍NCCL API和集合通讯原语">
 
 
 <script type="application/ld+json">
@@ -66,8 +62,8 @@
     {
       "@type": "ListItem",
       "position":  2 ,
-      "name": "集合通讯学习0-分布式计算与硬件网络",
-      "item": "http://localhost:1313/technical-blog/collective-communication-starter-0/"
+      "name": "集合通讯学习1-NCCL与集合通讯原语",
+      "item": "http://localhost:1313/technical-blog/collective-communication-starter-1/"
     }
   ]
 }
@@ -76,24 +72,24 @@
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "集合通讯学习0-分布式计算与硬件网络",
-  "name": "集合通讯学习0-分布式计算与硬件网络",
-  "description": "简单介绍分布式计算的概念和现代数据中心硬件网络",
+  "headline": "集合通讯学习1-NCCL与集合通讯原语",
+  "name": "集合通讯学习1-NCCL与集合通讯原语",
+  "description": "介绍NCCL API和集合通讯原语",
   "keywords": [
-    "Distributed System", "RoCE", "IB", "NVLink"
+    
   ],
-  "articleBody": "分布式计算 为什么需要分布式计算 Strong-Scaling and Weak-Scaling Scale-Up and Scale-Out Bottleneck 大规模网络 逻辑拓扑 Ring Tree 硬件连接 Intra-Node（节点内） PCIE NVLink Inter-Node（跨节点） RoCE InfiniBand ",
+  "articleBody": "NCCL NCCL Side Note: NVSHMEM Collective Communication Primitive Base Primitive Broadcast Gather Reduce Scatter Combinational Primitive AllGather AllReduce ReduceScatter AlltoAll ",
   "wordCount" : "20",
   "inLanguage": "zh",
-  "datePublished": "2026-06-11T16:26:55+08:00",
-  "dateModified": "2026-06-11T16:26:55+08:00",
+  "datePublished": "2026-06-15T16:39:20+08:00",
+  "dateModified": "2026-06-15T16:39:20+08:00",
   "author":{
     "@type": "Person",
     "name": "鲤鱼爱"
   },
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "http://localhost:1313/technical-blog/collective-communication-starter-0/"
+    "@id": "http://localhost:1313/technical-blog/collective-communication-starter-1/"
   },
   "publisher": {
     "@type": "Organization",
@@ -186,7 +182,7 @@
   <header class="post-header">
     
     <h1 class="post-title entry-hint-parent">
-      集合通讯学习0-分布式计算与硬件网络
+      集合通讯学习1-NCCL与集合通讯原语
       <span class="entry-hint" title="Draft">
         <svg xmlns="http://www.w3.org/2000/svg" height="35" viewBox="0 -960 960 960" fill="currentColor">
           <path
@@ -195,38 +191,32 @@
       </span>
     </h1>
     <div class="post-description">
-      简单介绍分布式计算的概念和现代数据中心硬件网络
+      介绍NCCL API和集合通讯原语
     </div>
-    <div class="post-meta"><span title='2026-06-11 16:26:55 +0800 CST'>2026年6月11日</span>&nbsp;·&nbsp;<span>1 分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span>
+    <div class="post-meta"><span title='2026-06-15 16:39:20 +0800 CST'>2026年6月15日</span>&nbsp;·&nbsp;<span>阅读此文大概需要 分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span>
 
 </div>
   </header> 
-  <div class="post-content md-content"><h1 id="分布式计算">分布式计算<a hidden class="anchor" aria-hidden="true" href="#分布式计算">#</a></h1>
-<h2 id="为什么需要分布式计算">为什么需要分布式计算<a hidden class="anchor" aria-hidden="true" href="#为什么需要分布式计算">#</a></h2>
-<h2 id="strong-scaling-and-weak-scaling">Strong-Scaling and Weak-Scaling<a hidden class="anchor" aria-hidden="true" href="#strong-scaling-and-weak-scaling">#</a></h2>
-<h2 id="scale-up-and-scale-out">Scale-Up and Scale-Out<a hidden class="anchor" aria-hidden="true" href="#scale-up-and-scale-out">#</a></h2>
-<h2 id="bottleneck">Bottleneck<a hidden class="anchor" aria-hidden="true" href="#bottleneck">#</a></h2>
-<h1 id="大规模网络">大规模网络<a hidden class="anchor" aria-hidden="true" href="#大规模网络">#</a></h1>
-<h2 id="逻辑拓扑">逻辑拓扑<a hidden class="anchor" aria-hidden="true" href="#逻辑拓扑">#</a></h2>
-<h3 id="ring">Ring<a hidden class="anchor" aria-hidden="true" href="#ring">#</a></h3>
-<h3 id="tree">Tree<a hidden class="anchor" aria-hidden="true" href="#tree">#</a></h3>
-<h2 id="硬件连接">硬件连接<a hidden class="anchor" aria-hidden="true" href="#硬件连接">#</a></h2>
-<h3 id="intra-node节点内">Intra-Node（节点内）<a hidden class="anchor" aria-hidden="true" href="#intra-node节点内">#</a></h3>
-<h4 id="pcie">PCIE<a hidden class="anchor" aria-hidden="true" href="#pcie">#</a></h4>
-<h4 id="nvlink">NVLink<a hidden class="anchor" aria-hidden="true" href="#nvlink">#</a></h4>
-<h3 id="inter-node跨节点">Inter-Node（跨节点）<a hidden class="anchor" aria-hidden="true" href="#inter-node跨节点">#</a></h3>
-<h4 id="roce">RoCE<a hidden class="anchor" aria-hidden="true" href="#roce">#</a></h4>
-<h4 id="infiniband">InfiniBand<a hidden class="anchor" aria-hidden="true" href="#infiniband">#</a></h4>
+  <div class="post-content md-content"><h1 id="nccl">NCCL<a hidden class="anchor" aria-hidden="true" href="#nccl">#</a></h1>
+<h2 id="nccl-1">NCCL<a hidden class="anchor" aria-hidden="true" href="#nccl-1">#</a></h2>
+<h2 id="side-note-nvshmem">Side Note: NVSHMEM<a hidden class="anchor" aria-hidden="true" href="#side-note-nvshmem">#</a></h2>
+<h1 id="collective-communication-primitive">Collective Communication Primitive<a hidden class="anchor" aria-hidden="true" href="#collective-communication-primitive">#</a></h1>
+<h2 id="base-primitive">Base Primitive<a hidden class="anchor" aria-hidden="true" href="#base-primitive">#</a></h2>
+<h3 id="broadcast">Broadcast<a hidden class="anchor" aria-hidden="true" href="#broadcast">#</a></h3>
+<h3 id="gather">Gather<a hidden class="anchor" aria-hidden="true" href="#gather">#</a></h3>
+<h3 id="reduce">Reduce<a hidden class="anchor" aria-hidden="true" href="#reduce">#</a></h3>
+<h3 id="scatter">Scatter<a hidden class="anchor" aria-hidden="true" href="#scatter">#</a></h3>
+<h2 id="combinational-primitive">Combinational Primitive<a hidden class="anchor" aria-hidden="true" href="#combinational-primitive">#</a></h2>
+<h3 id="allgather">AllGather<a hidden class="anchor" aria-hidden="true" href="#allgather">#</a></h3>
+<h3 id="allreduce">AllReduce<a hidden class="anchor" aria-hidden="true" href="#allreduce">#</a></h3>
+<h3 id="reducescatter">ReduceScatter<a hidden class="anchor" aria-hidden="true" href="#reducescatter">#</a></h3>
+<h3 id="alltoall">AlltoAll<a hidden class="anchor" aria-hidden="true" href="#alltoall">#</a></h3>
 
 
   </div>
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="http://localhost:1313/tags/distributed-system/">Distributed System</a></li>
-      <li><a href="http://localhost:1313/tags/roce/">RoCE</a></li>
-      <li><a href="http://localhost:1313/tags/ib/">IB</a></li>
-      <li><a href="http://localhost:1313/tags/nvlink/">NVLink</a></li>
     </ul>
   </footer>
 </article>
