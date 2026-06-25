@@ -15,6 +15,31 @@
                 href="http://localhost:1313/categories/"
                 />
   </url><url>
+    <loc>http://localhost:1313/tags/collective-communication/</loc>
+    <lastmod>2026-06-15T16:39:20+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/cuda/</loc>
+    <lastmod>2026-06-15T16:39:20+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/distributed-training/</loc>
+    <lastmod>2026-06-15T16:39:20+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/nccl/</loc>
+    <lastmod>2026-06-15T16:39:20+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/</loc>
+    <lastmod>2026-06-15T16:39:20+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-us"
+                href="http://localhost:1313/en/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="http://localhost:1313/tags/"
+                />
+  </url><url>
     <loc>http://localhost:1313/categories/technical-blog/</loc>
     <lastmod>2026-06-15T16:39:20+08:00</lastmod>
   </url><url>
@@ -58,19 +83,6 @@
   </url><url>
     <loc>http://localhost:1313/tags/roce/</loc>
     <lastmod>2026-06-11T16:26:55+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/</loc>
-    <lastmod>2026-06-11T16:26:55+08:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-us"
-                href="http://localhost:1313/en/tags/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-cn"
-                href="http://localhost:1313/tags/"
-                />
   </url><url>
     <loc>http://localhost:1313/technical-blog/collective-communication-starter-0/</loc>
     <lastmod>2026-06-11T16:26:55+08:00</lastmod>

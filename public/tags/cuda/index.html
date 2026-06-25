@@ -5,11 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>RoCE | 鲤鱼爱的神秘小屋</title>
+<title>CUDA | 鲤鱼爱的神秘小屋</title>
 <meta name="keywords" content="">
 <meta name="description" content="个人主页、论文、技术博客与随笔">
 <meta name="author" content="鲤鱼爱">
-<link rel="canonical" href="http://localhost:1313/tags/roce/">
+<link rel="canonical" href="http://localhost:1313/tags/cuda/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.26e9583fb0cf555b3a58a7936237486984fe70640f533bf97fa925e2c19cd09d.css" integrity="sha256-JulYP7DPVVs6WKeTYjdIaYT&#43;cGQPUzv5f6kl4sGc0J0=" rel="preload stylesheet" as="style">
 <link rel="icon" href="http://localhost:1313/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
@@ -18,8 +18,8 @@
 <link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/tags/roce/index.xml" title="rss">
-<link rel="alternate" hreflang="zh" href="http://localhost:1313/tags/roce/">
+<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/tags/cuda/index.xml" title="rss">
+<link rel="alternate" hreflang="zh" href="http://localhost:1313/tags/cuda/">
 <noscript>
     <style>
         #theme-toggle,
@@ -34,15 +34,15 @@
         document.querySelector("html").dataset.theme = 'dark';
     }
 
-</script><meta property="og:url" content="http://localhost:1313/tags/roce/">
+</script><meta property="og:url" content="http://localhost:1313/tags/cuda/">
   <meta property="og:site_name" content="鲤鱼爱的神秘小屋">
-  <meta property="og:title" content="RoCE">
+  <meta property="og:title" content="CUDA">
   <meta property="og:description" content="个人主页、论文、技术博客与随笔">
   <meta property="og:locale" content="zh_cn">
   <meta property="og:type" content="website">
 
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="RoCE">
+  <meta name="twitter:title" content="CUDA">
   <meta name="twitter:description" content="个人主页、论文、技术博客与随笔">
 
 </head>
@@ -123,13 +123,13 @@
 <main class="main"> 
 <header class="page-header">
   <h1>
-    RoCE
+    CUDA
   </h1>
 </header>
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">集合通讯学习0-分布式计算与硬件网络
+    <h2 class="entry-hint-parent">集合通讯学习1-NCCL与集合通讯原语
       <span class="entry-hint" title="Draft">
         <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
           <path
@@ -139,24 +139,25 @@
     </h2>
   </header>
   <div class="entry-content">
-    <p>写在前面 在讨论集合通讯之前，我们先把视角从单张GPU拉远一点。
-分布式计算并不是机器学习时代才出现的概念。在更早的互联网服务和传统分布式系统中，机器之间的通信更多是围绕“请求-响应”展开的。比如一个Web服务调用用户服务，一个订单服务调用库存服务，或者一个计算节点向存储节点请求一段数据。这类通信通常可以抽象成RPC（Remote Procedure Call）。
-1Client -&gt; RPC Request -&gt; Server 2Client &lt;- RPC Response &lt;- Server RPC的核心目标是把远端调用包装得像本地函数调用一样。开发者关心的是接口、序列化、超时、重试、负载均衡和服务治理。它的通信模式通常是点对点的：一个客户端请求一个服务端，或者少量服务之间互相调用。即使底层系统很复杂，单次通信的语义仍然比较像“我问你答”。
-而机器学习训练中的通信有些不同。一个训练任务不是几台服务之间偶尔传几条业务消息，而是大量计算设备在每一个step里反复交换张量。尤其是进入大模型时代之后，Scaling Law让大家逐渐形成了一个朴素但昂贵的共识：在数据、模型和计算量合理匹配的前提下，更大的模型、更大的数据集和更多的训练算力通常能带来更强的模型能力。
-这件事直接改变了训练系统的形态。早期很多模型可以在单张GPU上训练，后来变成单机多卡，再后来变成多机多卡，最后演变成上千甚至上万张GPU协同训练。模型参数量从几千万、几亿增长到数百亿、数千亿甚至更大时，单张GPU不再只是“训练慢一点”，而是根本放不下完整模型、优化器状态和中间激活。
-但是当模型参数、训练数据、batch size或者吞吐需求超过单张GPU能够承载的范围时，这个过程就会被拆到多张GPU、多个节点甚至整个机群上执行。此时问题就从“如何让一个kernel跑得快”，变成了“如何让一群计算设备像一个整体一样工作”。训练系统里的通信也从传统RPC式的请求响应，变成了高频、规则、带宽敏感的张量搬运。
-集合通讯（Collective Communication）就是这个问题中最核心的一块。它关心的不是某一个rank向另一个rank发送一条消息，而是一组rank如何协同完成广播、归约、聚合、切分等通信模式。比如数据并行训练中最常见的梯度同步，本质上就是一次AllReduce。
-这也是为什么近几年大模型公司越来越重视训练infra。DeepSeek被称为宇宙最强infra厂，并不是因为它发布了一个强模型，而是把模型结构、低精度训练和通信系统放在一起做了很强的协同优化。以DeepSeek-V3为例，它在H800集群上训练大规模MoE模型，同时使用FP8混合精度训练、面向MoE的通信优化、计算通信重叠以及更贴合硬件约束的网络组织方式，把硬件纳入模型结构设计。这类工作说明，大模型训练已经不是单纯堆GPU的问题，而是模型、算法、编译、通信库和数据中心网络共同参与的系统工程。
-这篇文章作为集合通讯的第一篇，先介绍集合通讯背后的分布式计算语境和硬件网络。因为集合通讯的性能很少只由“调用了哪个函数”决定，它通常同时受算法拓扑、链路带宽、网络延迟、PCIe/NVLink/IB/RoCE等硬件路径影响。
-Strong-Scaling and Weak-Scaling 讨论分布式性能时，经常会看到两个概念：Strong Scaling和Weak Scaling。
-Strong Scaling指固定问题规模，增加计算资源，观察总耗时是否下降。
-1固定训练数据量 / 固定模型 / 固定global batch size 2 31 GPU -&gt; 100 min 42 GPU -&gt; 55 min 54 GPU -&gt; 32 min 68 GPU -&gt; 25 min 理想情况下，GPU数量翻倍，训练时间减半。但现实中很难做到。因为每张GPU承担的计算量变少后，通信、同步、调度等开销占比会越来越高。当GPU数量继续增加时，新增GPU带来的计算收益可能被通信开销吃掉。
-Weak Scaling指每个计算设备处理的问题规模不变，随着设备数量增加，总问题规模也一起增加。
-11 GPU -&gt; local batch = 32, global batch = 32 22 GPU -&gt; local batch = 32, global batch = 64 34 GPU -&gt; local batch = 32, global batch = 128 48 GPU -&gt; local batch = 32, global batch = 256 Weak Scaling更关心系统是否能维持单位设备的效率。它在大规模训练里非常常见，因为我们增加GPU数量时，往往也希望增加global batch size或者训练更大的模型。
+    <p>NCCL 上一篇文章介绍了分布式计算和硬件网络，这一篇我们终于进入集合通讯本身。在这一篇里我们简单介绍NCCL和通讯原语，不做过多的拓扑感知优化算法介绍。
+在ML system里，NCCL（NVIDIA Collective Communication Library）几乎是绕不开的组件。PyTorch DDP、Megatron-LM、DeepSpeed、vLLM等系统里大量跨GPU通信最终都会落到NCCL或者类似的通信库上。
+NCCLw为我们提供了足够的抽象，但它背后真正发生的是多个rank上的GPU按照某种通信算法，把显存中的tensor通过NVLink、PCIe、InfiniBand或者RoCE交换出去，再把结果写回显存。
+在这节中我们简要介绍NCCL里面的一些概念和API，然后介绍现在NV生态中主流的通信库，具体的代码和实验将留在下几章。
+NCCL API NCCL里的几个基础概念需要先说清楚：rank、communicator、stream、buffer。
+Rank表示当前进程或当前GPU在通信组里的编号。如果一个通信组里有p个rank，那么rank编号通常是0 ~ p-1。集合通讯的语义都建立在rank集合之上。
+1rank 0 -&gt; GPU0 2rank 1 -&gt; GPU1 3rank 2 -&gt; GPU2 4rank 3 -&gt; GPU3 Communicator表示一组rank共同参与通信的上下文。它记录了这个通信组中有多少rank、当前rank是谁、对应哪张CUDA device，以及NCCL为这组rank建立的内部连接状态。可以把它粗略理解为MPI里的MPI_Comm。
+创建communicator时，一般需要先在某个进程中生成一个ncclUniqueId，然后把这个ID通过MPI、socket、文件系统或者其他CPU侧通信方式分发给所有rank。每个rank拿到同一个ID之后，再调用ncclCommInitRank加入同一个通信组。
+1ncclUniqueId id; 2ncclGetUniqueId(&amp;id); 3 4// broadcast id to all ranks by MPI/socket/etc. 5 6ncclComm_t comm; 7ncclCommInitRank(&amp;comm, nranks, id, rank); 这里有一个很容易忽略的点：NCCL本身负责GPU之间的高速通信，但communicator初始化时的ncclUniqueId分发通常仍然需要依赖CPU侧的进程管理系统。也就是说，NCCL不是一个完整的分布式任务启动框架，它通常和MPI、torchrun、Kubernetes、Slurm等系统一起使用。
+CUDA Stream表示通信操作在哪个CUDA stream上提交。NCCL的collective API一般都会接收一个cudaStream_t stream参数。这意味着NCCL通信和普通CUDA kernel一样，进入CUDA stream的执行序列中。
+1ncclAllReduce(sendbuff, recvbuff, count, 2 ncclFloat, ncclSum, comm, stream); 如果这个stream上前面有计算kernel，那么通信会等待前面的kernel完成；如果后面还有计算kernel，那么后面的kernel会等待通信完成。这个设计让NCCL天然可以参与计算通信重叠，但是否真的能重叠，还取决于stream组织、数据依赖、kernel资源占用和硬件通信能力。
+Buffer就是参与通信的显存地址。NCCL API通常接收sendbuff和recvbuff。有些操作支持in-place，也就是输入输出使用同一块buffer；有些操作不支持，或者对in-place位置有特殊要求。
+把这些概念合起来，一个NCCL调用大概可以读成：
+1在comm描述的rank集合里， 2用stream提交一个通信操作， 3从sendbuff读取count个datatype元素， 4按照op/root等参数定义的语义， 5把结果写入recvbuff。 以AllReduce为例：
+1ncclAllReduce(sendbuff, 2 recvbuff, 3 count, 4 ncclFloat, 5 ncclSum, 6 comm, 7 stream); 它的意思是：所有rank都提供一段长度为count的float数组，对每个位置做sum，然后每个rank都得到一份完全相同的结果。
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2026-06-11 16:26:55 +0800 CST'>2026年6月11日</span>&nbsp;·&nbsp;<span>阅读此文大概需要27分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
-  <a class="entry-link" aria-label="post link to 集合通讯学习0-分布式计算与硬件网络" href="http://localhost:1313/technical-blog/collective-communication-starter-0/"></a>
+  <footer class="entry-footer"><span title='2026-06-15 16:39:20 +0800 CST'>2026年6月15日</span>&nbsp;·&nbsp;<span>阅读此文大概需要31分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
+  <a class="entry-link" aria-label="post link to 集合通讯学习1-NCCL与集合通讯原语" href="http://localhost:1313/technical-blog/collective-communication-starter-1/"></a>
 </article>
     </main>
     

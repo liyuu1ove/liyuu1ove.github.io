@@ -129,14 +129,35 @@
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">集合通讯学习0-分布式计算与硬件网络
+    <h2 class="entry-hint-parent">集合通讯学习1-NCCL与集合通讯原语
+      <span class="entry-hint" title="Draft">
+        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
+          <path
+            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+        </svg>
+      </span>
     </h2>
   </header>
   <div class="entry-content">
-    <p></p>
+    <p>NCCL 上一篇文章介绍了分布式计算和硬件网络，这一篇我们终于进入集合通讯本身。在这一篇里我们简单介绍NCCL和通讯原语，不做过多的拓扑感知优化算法介绍。
+在ML system里，NCCL（NVIDIA Collective Communication Library）几乎是绕不开的组件。PyTorch DDP、Megatron-LM、DeepSpeed、vLLM等系统里大量跨GPU通信最终都会落到NCCL或者类似的通信库上。
+NCCLw为我们提供了足够的抽象，但它背后真正发生的是多个rank上的GPU按照某种通信算法，把显存中的tensor通过NVLink、PCIe、InfiniBand或者RoCE交换出去，再把结果写回显存。
+在这节中我们简要介绍NCCL里面的一些概念和API，然后介绍现在NV生态中主流的通信库，具体的代码和实验将留在下几章。
+NCCL API NCCL里的几个基础概念需要先说清楚：rank、communicator、stream、buffer。
+Rank表示当前进程或当前GPU在通信组里的编号。如果一个通信组里有p个rank，那么rank编号通常是0 ~ p-1。集合通讯的语义都建立在rank集合之上。
+1rank 0 -&gt; GPU0 2rank 1 -&gt; GPU1 3rank 2 -&gt; GPU2 4rank 3 -&gt; GPU3 Communicator表示一组rank共同参与通信的上下文。它记录了这个通信组中有多少rank、当前rank是谁、对应哪张CUDA device，以及NCCL为这组rank建立的内部连接状态。可以把它粗略理解为MPI里的MPI_Comm。
+创建communicator时，一般需要先在某个进程中生成一个ncclUniqueId，然后把这个ID通过MPI、socket、文件系统或者其他CPU侧通信方式分发给所有rank。每个rank拿到同一个ID之后，再调用ncclCommInitRank加入同一个通信组。
+1ncclUniqueId id; 2ncclGetUniqueId(&amp;id); 3 4// broadcast id to all ranks by MPI/socket/etc. 5 6ncclComm_t comm; 7ncclCommInitRank(&amp;comm, nranks, id, rank); 这里有一个很容易忽略的点：NCCL本身负责GPU之间的高速通信，但communicator初始化时的ncclUniqueId分发通常仍然需要依赖CPU侧的进程管理系统。也就是说，NCCL不是一个完整的分布式任务启动框架，它通常和MPI、torchrun、Kubernetes、Slurm等系统一起使用。
+CUDA Stream表示通信操作在哪个CUDA stream上提交。NCCL的collective API一般都会接收一个cudaStream_t stream参数。这意味着NCCL通信和普通CUDA kernel一样，进入CUDA stream的执行序列中。
+1ncclAllReduce(sendbuff, recvbuff, count, 2 ncclFloat, ncclSum, comm, stream); 如果这个stream上前面有计算kernel，那么通信会等待前面的kernel完成；如果后面还有计算kernel，那么后面的kernel会等待通信完成。这个设计让NCCL天然可以参与计算通信重叠，但是否真的能重叠，还取决于stream组织、数据依赖、kernel资源占用和硬件通信能力。
+Buffer就是参与通信的显存地址。NCCL API通常接收sendbuff和recvbuff。有些操作支持in-place，也就是输入输出使用同一块buffer；有些操作不支持，或者对in-place位置有特殊要求。
+把这些概念合起来，一个NCCL调用大概可以读成：
+1在comm描述的rank集合里， 2用stream提交一个通信操作， 3从sendbuff读取count个datatype元素， 4按照op/root等参数定义的语义， 5把结果写入recvbuff。 以AllReduce为例：
+1ncclAllReduce(sendbuff, 2 recvbuff, 3 count, 4 ncclFloat, 5 ncclSum, 6 comm, 7 stream); 它的意思是：所有rank都提供一段长度为count的float数组，对每个位置做sum，然后每个rank都得到一份完全相同的结果。
+...</p>
   </div>
-  <footer class="entry-footer"><span title='2026-06-11 16:26:55 +0800 CST'>2026年6月11日</span>&nbsp;·&nbsp;<span>0 分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
-  <a class="entry-link" aria-label="post link to 集合通讯学习0-分布式计算与硬件网络" href="http://localhost:1313/technical-blog/collective-communication-starter-0/"></a>
+  <footer class="entry-footer"><span title='2026-06-15 16:39:20 +0800 CST'>2026年6月15日</span>&nbsp;·&nbsp;<span>阅读此文大概需要31分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
+  <a class="entry-link" aria-label="post link to 集合通讯学习1-NCCL与集合通讯原语" href="http://localhost:1313/technical-blog/collective-communication-starter-1/"></a>
 </article>
     </main>
     

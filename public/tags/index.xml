@@ -6,8 +6,36 @@
     <description>Recent content in Tags on 鲤鱼爱的神秘小屋</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 11 Jun 2026 16:26:55 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 15 Jun 2026 16:39:20 +0800</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Collective Communication</title>
+      <link>http://localhost:1313/tags/collective-communication/</link>
+      <pubDate>Mon, 15 Jun 2026 16:39:20 +0800</pubDate>
+      <guid>http://localhost:1313/tags/collective-communication/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>CUDA</title>
+      <link>http://localhost:1313/tags/cuda/</link>
+      <pubDate>Mon, 15 Jun 2026 16:39:20 +0800</pubDate>
+      <guid>http://localhost:1313/tags/cuda/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Distributed Training</title>
+      <link>http://localhost:1313/tags/distributed-training/</link>
+      <pubDate>Mon, 15 Jun 2026 16:39:20 +0800</pubDate>
+      <guid>http://localhost:1313/tags/distributed-training/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>NCCL</title>
+      <link>http://localhost:1313/tags/nccl/</link>
+      <pubDate>Mon, 15 Jun 2026 16:39:20 +0800</pubDate>
+      <guid>http://localhost:1313/tags/nccl/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Distributed System</title>
       <link>http://localhost:1313/tags/distributed-system/</link>
