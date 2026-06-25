@@ -218,7 +218,7 @@ rank3: in3
 
 Broadcast表示从一个root rank出发，把同一份数据发送给通信组里的所有rank。
 
-![Broadcast](collective-communication-starter-1/broadcast.png)
+![Broadcast](broadcast.png)
 
 Broadcast的核心语义是“一份数据，多处复制”。它常见于参数初始化、配置同步、随机种子同步、某些控制信息同步等场景。
 
@@ -229,7 +229,7 @@ Broadcast的核心语义是“一份数据，多处复制”。它常见于参�
 Gather表示所有rank把各自的数据发送到一个root rank，root按照rank顺序把它们拼接起来。
 
 
-![Gather](collective-communication-starter-1/gather.png)
+![Gather](gather.png)
 
 Gather的核心语义是“多份数据，集中到root”。它适合做日志聚合、评估结果收集、少量metadata汇总等场景。
 
@@ -242,7 +242,7 @@ Gather的核心语义是“多份数据，集中到root”。它适合做日志�
 
 Reduce表示所有rank提供一份同样形状的数据，然后按照某个归约操作合并，最终结果只放在root rank上。
 
-![Reduce](collective-communication-starter-1/reduce.png)
+![Reduce](reduce.png)
 
 Reduce中的`op`可以是sum、prod、min、max等。机器学习里最常见的是sum，因为梯度同步通常需要把不同rank上的梯度加起来，再除以world size得到平均梯度。
 
@@ -255,7 +255,7 @@ Reduce中的`op`可以是sum、prod、min、max等。机器学习里最常见的
 Scatter和Gather方向相反。root rank持有一整块数据，然后把不同片段发送给不同rank。
 
 
-![Scatter](collective-communication-starter-1/scatter.png)
+![Scatter](scatter.png)
 
 Scatter的核心语义是“一份大数据，切分到多个rank”。它可以用于数据分发、参数分片、任务分配等场景。
 
@@ -270,7 +270,7 @@ Scatter的核心语义是“一份大数据，切分到多个rank”。它可以
 AllGather可以理解为Gather之后再把Gather结果Broadcast给所有rank。每个rank贡献一份数据，最后每个rank都得到所有rank数据的拼接。
 
 
-![AllGather](collective-communication-starter-1/allgather.png)
+![AllGather](allgather.png)
 
 AllGather的特点是输出比输入大。每个rank输入`N`个元素，输出通常是`p * N`个元素，其中`p`是rank数量。这一点在显存估算中很重要。
 
@@ -281,7 +281,7 @@ AllGather在模型并行和参数分片训练里非常常见。例如ZeRO/FSDP�
 AllReduce可以理解为Reduce之后再Broadcast。所有rank提供同样形状的数据，先做归约，然后每个rank都得到完整归约结果。
 
 
-![AllReduce](collective-communication-starter-1/allreduce.png)
+![AllReduce](allreduce.png)
 
 AllReduce是数据并行训练中最经典的集合通讯原语。每个rank处理不同mini-batch，backward之后得到本地梯度。为了让每个rank的模型参数保持一致，需要把所有rank的梯度求和或求平均。之后每个rank用相同梯度执行optimizer step，模型参数就能保持一致。很多框架会在AllReduce之后除以world size，也有些框架会在loss或梯度计算阶段提前处理平均系数。这里的细节要看具体框架实现。
 
@@ -291,7 +291,7 @@ AllReduce是数据并行训练中最经典的集合通讯原语。每个rank处�
 
 ReduceScatter可以理解为Reduce和Scatter的组合。所有rank提供一整块数据，先按元素做归约，然后把归约后的结果切成`p`块，每个rank只拿其中一块。
 
-![ReduceScatter](collective-communication-starter-1/reducescatter.png)
+![ReduceScatter](reducescatter.png)
 
 其中：out0 = in0[0] + in1[0] + in2[0] + in3[0]，以此类推
 
@@ -311,7 +311,7 @@ ReduceScatter在ZeRO、FSDP、Tensor Parallel等系统中也很重要。比如�
 
 AlltoAll是最“全连接”的集合通讯原语。每个rank都有一块数据要发给每个其他rank，同时也会从每个其他rank接收一块数据。
 
-![AlltoAll](collective-communication-starter-1/alltoall.png)
+![AlltoAll](alltoall.png)
 
 可以把AlltoAll理解成一个分布式矩阵转置。原来每一行属于一个发送rank，转置之后每一行属于一个接收rank。
 

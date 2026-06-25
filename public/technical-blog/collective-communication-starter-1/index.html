@@ -187,12 +187,6 @@
     
     <h1 class="post-title entry-hint-parent">
       集合通讯学习1-NCCL与集合通讯原语
-      <span class="entry-hint" title="Draft">
-        <svg xmlns="http://www.w3.org/2000/svg" height="35" viewBox="0 -960 960 960" fill="currentColor">
-          <path
-            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
-        </svg>
-      </span>
     </h1>
     <div class="post-description">
       介绍NCCL API和集合通讯原语
@@ -329,41 +323,41 @@
 <h2 id="base-primitive">Base Primitive<a hidden class="anchor" aria-hidden="true" href="#base-primitive">#</a></h2>
 <h3 id="broadcast">Broadcast<a hidden class="anchor" aria-hidden="true" href="#broadcast">#</a></h3>
 <p>Broadcast表示从一个root rank出发，把同一份数据发送给通信组里的所有rank。</p>
-<p><img alt="Broadcast" loading="lazy" src="collective-communication-starter-1/broadcast.png"></p>
+<p><img alt="Broadcast" loading="lazy" src="/technical-blog/collective-communication-starter-1/broadcast.png"></p>
 <p>Broadcast的核心语义是“一份数据，多处复制”。它常见于参数初始化、配置同步、随机种子同步、某些控制信息同步等场景。</p>
 <p>在训练系统中，Broadcast有时也用于把root上的参数同步到其他rank。不过在标准数据并行训练里，参数同步更多是通过梯度AllReduce之后每个rank本地执行相同optimizer step来保持一致，而不是每一步都Broadcast完整参数。</p>
 <h3 id="gather">Gather<a hidden class="anchor" aria-hidden="true" href="#gather">#</a></h3>
 <p>Gather表示所有rank把各自的数据发送到一个root rank，root按照rank顺序把它们拼接起来。</p>
-<p><img alt="Gather" loading="lazy" src="collective-communication-starter-1/gather.png"></p>
+<p><img alt="Gather" loading="lazy" src="/technical-blog/collective-communication-starter-1/gather.png"></p>
 <p>Gather的核心语义是“多份数据，集中到root”。它适合做日志聚合、评估结果收集、少量metadata汇总等场景。</p>
 <p>不过在大规模训练的主路径中，Gather不如AllGather常见。原因很简单：如果只有root拿到完整结果，那么后续计算也只能由root继续做，其他rank会闲着。对于追求并行效率的训练系统，我们通常希望所有rank都能继续工作，所以更常用AllGather。</p>
 <p>如果实现Gather，root的<code>recvbuff</code>需要足够大，可以容纳所有rank的数据。rank <code>i</code>的数据通常会被放到root接收buffer的第<code>i</code>段。</p>
 <h3 id="reduce">Reduce<a hidden class="anchor" aria-hidden="true" href="#reduce">#</a></h3>
 <p>Reduce表示所有rank提供一份同样形状的数据，然后按照某个归约操作合并，最终结果只放在root rank上。</p>
-<p><img alt="Reduce" loading="lazy" src="collective-communication-starter-1/reduce.png"></p>
+<p><img alt="Reduce" loading="lazy" src="/technical-blog/collective-communication-starter-1/reduce.png"></p>
 <p>Reduce中的<code>op</code>可以是sum、prod、min、max等。机器学习里最常见的是sum，因为梯度同步通常需要把不同rank上的梯度加起来，再除以world size得到平均梯度。</p>
 <p>如果我们只关心root上的结果，Reduce就够了。比如分布式评估时，把每个rank统计到的loss总和、样本数量归约到rank0，最后只在rank0打印指标。</p>
 <p>但在数据并行训练里，每个rank下一步都需要同样的梯度结果。单纯Reduce只把结果放到root，其他rank还没有结果。因此训练主路径里更常见的是AllReduce，也就是Reduce之后再Broadcast。</p>
 <h3 id="scatter">Scatter<a hidden class="anchor" aria-hidden="true" href="#scatter">#</a></h3>
 <p>Scatter和Gather方向相反。root rank持有一整块数据，然后把不同片段发送给不同rank。</p>
-<p><img alt="Scatter" loading="lazy" src="collective-communication-starter-1/scatter.png"></p>
+<p><img alt="Scatter" loading="lazy" src="/technical-blog/collective-communication-starter-1/scatter.png"></p>
 <p>Scatter的核心语义是“一份大数据，切分到多个rank”。它可以用于数据分发、参数分片、任务分配等场景。</p>
 <p>和Gather类似，Scatter在训练主路径中也没有AllGather、ReduceScatter那么常见。因为现代训练系统通常从一开始就让每个rank读取自己的数据分片，或者让参数/优化器状态长期保持分片状态，而不是每一步都由root切一遍再发出去。</p>
 <h2 id="combinational-primitive">Combinational Primitive<a hidden class="anchor" aria-hidden="true" href="#combinational-primitive">#</a></h2>
 <p>组合原语通常可以由基础原语拼出来，但实际通信库不会真的机械地先做一个基础原语再做另一个基础原语。NCCL会根据消息大小、rank数量和拓扑选择更合适的算法。这里说“组合”，主要是为了理解它们的语义。</p>
 <h3 id="allgather">AllGather<a hidden class="anchor" aria-hidden="true" href="#allgather">#</a></h3>
 <p>AllGather可以理解为Gather之后再把Gather结果Broadcast给所有rank。每个rank贡献一份数据，最后每个rank都得到所有rank数据的拼接。</p>
-<p><img alt="AllGather" loading="lazy" src="collective-communication-starter-1/allgather.png"></p>
+<p><img alt="AllGather" loading="lazy" src="/technical-blog/collective-communication-starter-1/allgather.png"></p>
 <p>AllGather的特点是输出比输入大。每个rank输入<code>N</code>个元素，输出通常是<code>p * N</code>个元素，其中<code>p</code>是rank数量。这一点在显存估算中很重要。</p>
 <p>AllGather在模型并行和参数分片训练里非常常见。例如ZeRO/FSDP一类方法会把参数分片存储在不同rank上。在某一层真正计算前，需要把这一层的参数分片AllGather回来，让每个rank临时拿到完整参数，然后执行forward/backward。这也是为什么大模型训练里AllGather经常出现在timeline上。它不一定像AllReduce那样被初学者第一时间注意到，但对分片训练的性能非常关键。</p>
 <h3 id="allreduce">AllReduce<a hidden class="anchor" aria-hidden="true" href="#allreduce">#</a></h3>
 <p>AllReduce可以理解为Reduce之后再Broadcast。所有rank提供同样形状的数据，先做归约，然后每个rank都得到完整归约结果。</p>
-<p><img alt="AllReduce" loading="lazy" src="collective-communication-starter-1/allreduce.png"></p>
+<p><img alt="AllReduce" loading="lazy" src="/technical-blog/collective-communication-starter-1/allreduce.png"></p>
 <p>AllReduce是数据并行训练中最经典的集合通讯原语。每个rank处理不同mini-batch，backward之后得到本地梯度。为了让每个rank的模型参数保持一致，需要把所有rank的梯度求和或求平均。之后每个rank用相同梯度执行optimizer step，模型参数就能保持一致。很多框架会在AllReduce之后除以world size，也有些框架会在loss或梯度计算阶段提前处理平均系数。这里的细节要看具体框架实现。</p>
 <p>从通信量角度看，AllReduce非常重要，因为梯度大小通常和模型参数量同阶。模型越大，每一步需要同步的数据就越多。所以数据并行扩展到大规模时，AllReduce往往是第一个被拿出来分析的通信瓶颈。</p>
 <h3 id="reducescatter">ReduceScatter<a hidden class="anchor" aria-hidden="true" href="#reducescatter">#</a></h3>
 <p>ReduceScatter可以理解为Reduce和Scatter的组合。所有rank提供一整块数据，先按元素做归约，然后把归约后的结果切成<code>p</code>块，每个rank只拿其中一块。</p>
-<p><img alt="ReduceScatter" loading="lazy" src="collective-communication-starter-1/reducescatter.png"></p>
+<p><img alt="ReduceScatter" loading="lazy" src="/technical-blog/collective-communication-starter-1/reducescatter.png"></p>
 <p>其中：out0 = in0[0] + in1[0] + in2[0] + in3[0]，以此类推</p>
 <p>ReduceScatter的输出比输入小。每个rank输入<code>p * N</code>个元素，输出<code>N</code>个元素。它经常和AllGather成对出现。</p>
 <p>在Ring AllReduce的语义分解中，一个AllReduce可以拆成：</p>
@@ -372,7 +366,7 @@
 <p>ReduceScatter在ZeRO、FSDP、Tensor Parallel等系统中也很重要。比如梯度归约后，每个rank只需要保留自己负责更新的梯度分片，那么就不必把完整梯度留在每个rank上。相比AllReduce，ReduceScatter可以减少每个rank最终持有的数据量。</p>
 <h3 id="alltoall">AlltoAll<a hidden class="anchor" aria-hidden="true" href="#alltoall">#</a></h3>
 <p>AlltoAll是最“全连接”的集合通讯原语。每个rank都有一块数据要发给每个其他rank，同时也会从每个其他rank接收一块数据。</p>
-<p><img alt="AlltoAll" loading="lazy" src="collective-communication-starter-1/alltoall.png"></p>
+<p><img alt="AlltoAll" loading="lazy" src="/technical-blog/collective-communication-starter-1/alltoall.png"></p>
 <p>可以把AlltoAll理解成一个分布式矩阵转置。原来每一行属于一个发送rank，转置之后每一行属于一个接收rank。</p>
 <p>AlltoAll在MoE中非常关键。MoE layer里，每个token会被router分配给某个expert，而expert通常分布在不同GPU上。于是每个rank上的token需要按照目标expert重新分发到其他rank；expert计算完成后，结果又需要按照原token位置发回来。这种“每个rank都给每个rank发不同内容”的模式，就是AlltoAll非常典型的用武之地。</p>
 <p>AlltoAll的挑战也最明显：它的通信模式非常密集，容易打满网络，也更容易暴露负载不均衡。如果router把太多token分给某些expert，对应rank就会收到更多数据并执行更多计算。此时瓶颈不只是通信库，还包括模型路由、expert placement、网络拓扑和负载均衡策略。</p>

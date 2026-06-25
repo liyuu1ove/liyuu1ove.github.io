@@ -25,7 +25,9 @@ RPC的核心目标是把远端调用包装得像本地函数调用一样。开�
 
 这件事直接改变了训练系统的形态。早期很多模型可以在单张GPU上训练，后来变成单机多卡，再后来变成多机多卡，最后演变成上千甚至上万张GPU协同训练。模型参数量从几千万、几亿增长到数百亿、数千亿甚至更大时，单张GPU不再只是“训练慢一点”，而是根本放不下完整模型、优化器状态和中间激活。
 
-![Parameters of LLMs](collective-communication-starter-0/estimated-capability-density-for-open-source-base-LLMs.png)
+![Parameters of LLMs](estimated-capability-density-for-open-source-base-LLMs.png)
+
+这张图片上的参数量还停留在几B级别，deepseek-v4-pro已经有1.6T参数了。
 
 但是当模型参数、训练数据、batch size或者吞吐需求超过单张GPU能够承载的范围时，这个过程就会被拆到多张GPU、多个节点甚至整个机群上执行。此时问题就从“如何让一个kernel跑得快”，变成了“如何让一群计算设备像一个整体一样工作”。训练系统里的通信也从传统RPC式的请求响应，变成了高频、规则、带宽敏感的张量搬运。
 
@@ -74,7 +76,7 @@ Weak Scaling更关心系统是否能维持单位设备的效率。它在大规�
 
 **Scale-Out**则是把多个节点通过网络连接起来，形成更大的集群。节点之间通常依赖InfiniBand或RoCE网卡通信。它的特点是容量扩展能力强，但是通信路径更长，网络层级更多，也更容易遇到拥塞、路由、交换机带宽收敛等问题。
 
-![scaling](collective-communication-starter-0/scale-up-vs-scale-out-011675.png)
+![scaling](scale-up-vs-scale-out-011675.png)
 
 在真实训练系统里，Scale-Up和Scale-Out通常同时存在。比如一个节点内有8张GPU，节点内走NVLink/NVSwitch；多个节点之间通过IB或RoCE连接。集合通讯库要做的事情，就是在这种分层硬件上选择合适的通信算法，让数据尽可能沿着高带宽、低延迟的路径流动。
 
@@ -120,7 +122,7 @@ T = steps * alpha + bytes / bandwidth
 
 逻辑拓扑并不一定等于物理拓扑。即使机器之间实际是全连接（Full Mesh），集合通讯算法也可以在rank之间构造一个Ring或者Tree。
 
-![Topology](collective-communication-starter-0/An-overview-of-basic-types-of-network-topologies-including-the-A-chain-or-line-B.webp)
+![Topology](An-overview-of-basic-types-of-network-topologies-including-the-A-chain-or-line-B.webp)
 
 ### Ring
 
