@@ -4,7 +4,7 @@ date = 2026-05-29T12:00:00+08:00
 draft = false
 description = '介绍CuTe的layout模板类'
 readingTimeText = '阅读此文大概需要21分钟'
-tags = ['CuTe', 'CUTLASS']
+tags = ['CuTe', 'CUTLASS','Layout']
 categories = ['Technical Blog']
 +++
 # 写在前面-张量的形式化表达

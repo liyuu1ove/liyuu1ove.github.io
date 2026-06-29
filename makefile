@@ -52,4 +52,5 @@ new:
 	@if [ ! -d "content/$(SECTION)" ]; then echo 'error: invalid SECTION "$(SECTION)"'; echo 'allowed sections: technical-blog, essays, publications'; exit 1; fi
 	@slug=$$(printf '%s' "$(TITLE)" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g; s/-\{2,\}/-/g; s/^-//; s/-$$//'); \
 	if [ -z "$$slug" ]; then echo 'error: TITLE produced an empty slug'; exit 1; fi; \
+	if [ -e "content/$(SECTION)/$$slug.md" ]; then echo 'error: content/$(SECTION)/'$$slug'.md already exists'; echo 'tip: choose a different TITLE or rename/remove the existing file first'; exit 1; fi; \
 	hugo new "$(SECTION)/$$slug.md"
