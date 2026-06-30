@@ -6,8 +6,15 @@
     <description>Recent content in Essays on 鲤鱼爱的神秘小屋</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 29 May 2026 11:21:43 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 29 Jun 2026 15:06:22 +0800</lastBuildDate>
     <atom:link href="http://localhost:1313/categories/essays/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>At the End of June</title>
+      <link>http://localhost:1313/essays/at-the-end-of-june/</link>
+      <pubDate>Mon, 29 Jun 2026 15:06:22 +0800</pubDate>
+      <guid>http://localhost:1313/essays/at-the-end-of-june/</guid>
+      <description>写在六月末</description>
+    </item>
     <item>
       <title>Life in Berkeley</title>
       <link>http://localhost:1313/essays/life-in-berkeley/</link>

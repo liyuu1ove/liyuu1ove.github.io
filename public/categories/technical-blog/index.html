@@ -129,6 +129,32 @@
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">CuTe学习2-Layout Algebra
+      <span class="entry-hint" title="Draft">
+        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
+          <path
+            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+        </svg>
+      </span>
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Layout Algebra 既然聊到了代数这个词，我们在介绍CuTe的代数运算之前，先简单讲一下CuTe代数的抽象代数本质。作者也仅仅对抽象代数略有了解，在此介绍有关概念仅为建立有关CuTe的直觉，和使用方法基本无关。
+我们日常使用的初等代数是建立在加法阿贝尔群和除0的乘法阿贝尔群和交换律之上的，这个数学结构被称作实数域。但是CuTe所定义的数学结构并不满足群的定义（更不满足阿贝尔群的定义），CuTe更像是幺半群，只具有封闭性，结合律和单位元的特征。更直观的描述是，CuTe的运算不符合交换律和不具有可逆性。所以我们在进行操作layout的时候，需要严格按照逻辑顺序进行操作。
+好了，题外话就说到这里。让我们进入正题。值得一提的是，本章讲到的api基本上是比较底层的运算规则，在编程中CuTe代数是对程序员透明的，编程中使用的是更高阶的，具有特定语义的api。单开一章是希望建立CuTe编程的直觉，同时这些内容也比较难，不理解大可不必深究。
+Coalesce 在上一章的介绍里面，我们讲了Layout实际上是逻辑坐标到offset的映射。coalesce的作用是简化这个映射。我们来举一个例子。这个操作基本上是对程序员透明的，在编程中基本不会调用这个api，这个api的意义是简化坐标计算，这个简化发生在编译期模板计算时，属于CuTe的自动优化。
+1auto layout = Layout&lt;Shape &lt;_2,_6&gt;, 2 Stride&lt;_1,_2&gt;&gt;{}; 3auto result = coalesce(layout); // _12:_1 从一维的内存排布上看，(_2,_6):(_1,_2)对应的映射，和_12:_1这个1D张量对应的映射完全一样，更不如说后者更简单的描述了Layout的映射。所以coalesce简单来讲就是把复杂的高维张量，在维持原映射关系不变的前提下，展平到低维的向量上。注意，这里的展平和pytorch api：torch.flatten()完全不同，后者会改变这个张量的形状，但是CuTe coalesce是完全透明的，在我们看来Layout完全不会改变。当然，CuTe也不是无脑展开所有张量，CuTe内部有一套static assert的规则，只有步长连续的高维张量才会被展平。
+Coalesce的好处有两个。首先是可以应用向量化（LDG.128）。在展平之前CuTe和编译器可能还会担心跨维度在内存内是否连续，在使用自动展平后，CuTe 就能一眼看出最内层维度的连续长度是多少，从而自动应用最高效的向量化指令。其次是尺寸为_1的维度在编译期会被自动忽略，这就为内存偏移计算提供了方便。
+Composition Composition是CuTe层次化结构(CTA-&gt;Warp-&gt;Thread)的基础，基本所有的高阶tiling api(local_tile(),local_parition(),maketiled_mma())都基于Composition。在 CuTe 中，Composition 的本质是用一个 Layout 的逻辑空间去重新解释（或者说约束）另一个 Layout 的逻辑空间。如果用数学公式来表达，它其实就是函数的复合（Function Composition）。文字描述可能有些晦涩难懂。我们在这里使用一个CuTe官方例子来说明Composition。
+F R E A B R R R R R R R R R R R R u ( x ( ( ( ( ( ( ( ( ( ( ( ( n c a = = 1 1 c ) m 0 1 2 3 4 5 6 7 8 9 0 1 t p ( ( ) ) ) ) ) ) ) ) ) ) ) ) i : l 6 4 o = e , , = = = = = = = = = = = = n 2 3 a ( ) ) A A A A A A A A A A A A l A : : ( ( ( ( ( ( ( ( ( ( ( ( ( ( B B B B B B B B B B B B c 8 3 ( ( ( ( ( ( ( ( ( ( ( ( o , , 1 1 m B 2 1 0 1 2 3 4 5 6 7 8 9 0 1 p ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) o ( ) ) ) ) ) ) ) ) ) ) ) ) s c i ) = = = = = = = = = = = = t i : A A A A A A A A A A A A o = ( ( ( ( ( ( ( ( ( ( ( ( n B B B B B B B B B B B B , A ( ( ( ( ( ( ( ( ( ( ( ( ( 0 1 2 3 0 1 2 3 0 1 2 3 R B , , , , , , , , , , , , ( 0 0 0 0 1 1 1 1 2 2 2 2 : c ) ) ) ) ) ) ) ) ) ) ) ) = ) ) ) ) ) ) ) ) ) ) ) ) ) ) A = = = = = = = = = = = = A A A A A A A A A A A A ( ( ( ( ( ( ( ( ( ( ( ( B 1 1 0 3 6 9 1 4 7 0 2 5 8 1 ) ) ) ) ) ) ) ) ) ) ) ) = = = = = = = = = = = = A A A A A A A A A A A A ( ( ( ( ( ( ( ( ( ( ( ( 0 3 0 3 1 4 1 4 2 5 2 5 , , , , , , , , , , , , 0 0 1 1 0 0 1 1 0 0 1 1 ) ) ) ) ) ) ) ) ) ) ) ) = = = = = = = = = = = = 2 2 3 1 3 1 4 1 4 0 4 2 6 8 2 0 4 6 0 8 2 从R(C)到k的映射完全符合Layout的定义，我们可以用 R = ((2,2),3):((24,2),8) 这个Layout来描述R。同时B和R是compatible的，每一个在B上的坐标可以通过R映射到某个offset上。这是composition的数学解释，下面用一个比较具体的例子说明composition的作用，并加深对composition的认识。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-06-25 16:35:03 +0800 CST'>2026年6月25日</span>&nbsp;·&nbsp;<span>阅读此文大概需要 分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
+  <a class="entry-link" aria-label="post link to CuTe学习2-Layout Algebra" href="http://localhost:1313/technical-blog/cute-starter-2/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">集合通讯学习1-NCCL与集合通讯原语
     </h2>
   </header>
@@ -165,6 +191,7 @@ Buffer就是参与通信的显存地址。NCCL API通常接收sendbuff和recvbuf
 1Client -&gt; RPC Request -&gt; Server 2Client &lt;- RPC Response &lt;- Server RPC的核心目标是把远端调用包装得像本地函数调用一样。开发者关心的是接口、序列化、超时、重试、负载均衡和服务治理。它的通信模式通常是点对点的：一个客户端请求一个服务端，或者少量服务之间互相调用。即使底层系统很复杂，单次通信的语义仍然比较像“我问你答”。
 而机器学习训练中的通信有些不同。一个训练任务不是几台服务之间偶尔传几条业务消息，而是大量计算设备在每一个step里反复交换张量。尤其是进入大模型时代之后，Scaling Law让大家逐渐形成了一个朴素但昂贵的共识：在数据、模型和计算量合理匹配的前提下，更大的模型、更大的数据集和更多的训练算力通常能带来更强的模型能力。
 这件事直接改变了训练系统的形态。早期很多模型可以在单张GPU上训练，后来变成单机多卡，再后来变成多机多卡，最后演变成上千甚至上万张GPU协同训练。模型参数量从几千万、几亿增长到数百亿、数千亿甚至更大时，单张GPU不再只是“训练慢一点”，而是根本放不下完整模型、优化器状态和中间激活。
+这张图片上的参数量还停留在几B级别，deepseek-v4-pro已经有1.6T参数了。
 但是当模型参数、训练数据、batch size或者吞吐需求超过单张GPU能够承载的范围时，这个过程就会被拆到多张GPU、多个节点甚至整个机群上执行。此时问题就从“如何让一个kernel跑得快”，变成了“如何让一群计算设备像一个整体一样工作”。训练系统里的通信也从传统RPC式的请求响应，变成了高频、规则、带宽敏感的张量搬运。
 集合通讯（Collective Communication）就是这个问题中最核心的一块。它关心的不是某一个rank向另一个rank发送一条消息，而是一组rank如何协同完成广播、归约、聚合、切分等通信模式。比如数据并行训练中最常见的梯度同步，本质上就是一次AllReduce。
 这也是为什么近几年大模型公司越来越重视训练infra。DeepSeek被称为宇宙最强infra厂，并不是因为它发布了一个强模型，而是把模型结构、低精度训练和通信系统放在一起做了很强的协同优化。以DeepSeek-V3为例，它在H800集群上训练大规模MoE模型，同时使用FP8混合精度训练、面向MoE的通信优化、计算通信重叠以及更贴合硬件约束的网络组织方式，把硬件纳入模型结构设计。这类工作说明，大模型训练已经不是单纯堆GPU的问题，而是模型、算法、编译、通信库和数据中心网络共同参与的系统工程。
@@ -173,7 +200,6 @@ Strong-Scaling and Weak-Scaling 讨论分布式性能时，经常会看到两个
 Strong Scaling指固定问题规模，增加计算资源，观察总耗时是否下降。
 1固定训练数据量 / 固定模型 / 固定global batch size 2 31 GPU -&gt; 100 min 42 GPU -&gt; 55 min 54 GPU -&gt; 32 min 68 GPU -&gt; 25 min 理想情况下，GPU数量翻倍，训练时间减半。但现实中很难做到。因为每张GPU承担的计算量变少后，通信、同步、调度等开销占比会越来越高。当GPU数量继续增加时，新增GPU带来的计算收益可能被通信开销吃掉。
 Weak Scaling指每个计算设备处理的问题规模不变，随着设备数量增加，总问题规模也一起增加。
-11 GPU -&gt; local batch = 32, global batch = 32 22 GPU -&gt; local batch = 32, global batch = 64 34 GPU -&gt; local batch = 32, global batch = 128 48 GPU -&gt; local batch = 32, global batch = 256 Weak Scaling更关心系统是否能维持单位设备的效率。它在大规模训练里非常常见，因为我们增加GPU数量时，往往也希望增加global batch size或者训练更大的模型。
 ...</p>
   </div>
   <footer class="entry-footer"><span title='2026-06-11 16:26:55 +0800 CST'>2026年6月11日</span>&nbsp;·&nbsp;<span>阅读此文大概需要27分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>

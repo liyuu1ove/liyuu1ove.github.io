@@ -6,8 +6,29 @@
     <description>Recent content in Tags on 鲤鱼爱的神秘小屋</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 15 Jun 2026 16:39:20 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 25 Jun 2026 16:35:03 +0800</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CuTe</title>
+      <link>http://localhost:1313/tags/cute/</link>
+      <pubDate>Thu, 25 Jun 2026 16:35:03 +0800</pubDate>
+      <guid>http://localhost:1313/tags/cute/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>CUTLASS</title>
+      <link>http://localhost:1313/tags/cutlass/</link>
+      <pubDate>Thu, 25 Jun 2026 16:35:03 +0800</pubDate>
+      <guid>http://localhost:1313/tags/cutlass/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Layout</title>
+      <link>http://localhost:1313/tags/layout/</link>
+      <pubDate>Thu, 25 Jun 2026 16:35:03 +0800</pubDate>
+      <guid>http://localhost:1313/tags/layout/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Collective Communication</title>
       <link>http://localhost:1313/tags/collective-communication/</link>
@@ -62,20 +83,6 @@
       <link>http://localhost:1313/tags/roce/</link>
       <pubDate>Thu, 11 Jun 2026 16:26:55 +0800</pubDate>
       <guid>http://localhost:1313/tags/roce/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>CuTe</title>
-      <link>http://localhost:1313/tags/cute/</link>
-      <pubDate>Fri, 29 May 2026 12:00:00 +0800</pubDate>
-      <guid>http://localhost:1313/tags/cute/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>CUTLASS</title>
-      <link>http://localhost:1313/tags/cutlass/</link>
-      <pubDate>Fri, 29 May 2026 12:00:00 +0800</pubDate>
-      <guid>http://localhost:1313/tags/cutlass/</guid>
       <description></description>
     </item>
     <item>

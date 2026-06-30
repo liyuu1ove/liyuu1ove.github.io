@@ -129,6 +129,32 @@
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">CuTe学习2-Layout Algebra
+      <span class="entry-hint" title="Draft">
+        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
+          <path
+            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+        </svg>
+      </span>
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Layout Algebra 既然聊到了代数这个词，我们在介绍CuTe的代数运算之前，先简单讲一下CuTe代数的抽象代数本质。作者也仅仅对抽象代数略有了解，在此介绍有关概念仅为建立有关CuTe的直觉，和使用方法基本无关。
+我们日常使用的初等代数是建立在加法阿贝尔群和除0的乘法阿贝尔群和交换律之上的，这个数学结构被称作实数域。但是CuTe所定义的数学结构并不满足群的定义（更不满足阿贝尔群的定义），CuTe更像是幺半群，只具有封闭性，结合律和单位元的特征。更直观的描述是，CuTe的运算不符合交换律和不具有可逆性。所以我们在进行操作layout的时候，需要严格按照逻辑顺序进行操作。
+好了，题外话就说到这里。让我们进入正题。值得一提的是，本章讲到的api基本上是比较底层的运算规则，在编程中CuTe代数是对程序员透明的，编程中使用的是更高阶的，具有特定语义的api。单开一章是希望建立CuTe编程的直觉，同时这些内容也比较难，不理解大可不必深究。
+Coalesce 在上一章的介绍里面，我们讲了Layout实际上是逻辑坐标到offset的映射。coalesce的作用是简化这个映射。我们来举一个例子。这个操作基本上是对程序员透明的，在编程中基本不会调用这个api，这个api的意义是简化坐标计算，这个简化发生在编译期模板计算时，属于CuTe的自动优化。
+1auto layout = Layout&lt;Shape &lt;_2,_6&gt;, 2 Stride&lt;_1,_2&gt;&gt;{}; 3auto result = coalesce(layout); // _12:_1 从一维的内存排布上看，(_2,_6):(_1,_2)对应的映射，和_12:_1这个1D张量对应的映射完全一样，更不如说后者更简单的描述了Layout的映射。所以coalesce简单来讲就是把复杂的高维张量，在维持原映射关系不变的前提下，展平到低维的向量上。注意，这里的展平和pytorch api：torch.flatten()完全不同，后者会改变这个张量的形状，但是CuTe coalesce是完全透明的，在我们看来Layout完全不会改变。当然，CuTe也不是无脑展开所有张量，CuTe内部有一套static assert的规则，只有步长连续的高维张量才会被展平。
+Coalesce的好处有两个。首先是可以应用向量化（LDG.128）。在展平之前CuTe和编译器可能还会担心跨维度在内存内是否连续，在使用自动展平后，CuTe 就能一眼看出最内层维度的连续长度是多少，从而自动应用最高效的向量化指令。其次是尺寸为_1的维度在编译期会被自动忽略，这就为内存偏移计算提供了方便。
+Composition Composition是CuTe层次化结构(CTA-&gt;Warp-&gt;Thread)的基础，基本所有的高阶tiling api(local_tile(),local_parition(),maketiled_mma())都基于Composition。在 CuTe 中，Composition 的本质是用一个 Layout 的逻辑空间去重新解释（或者说约束）另一个 Layout 的逻辑空间。如果用数学公式来表达，它其实就是函数的复合（Function Composition）。文字描述可能有些晦涩难懂。我们在这里使用一个CuTe官方例子来说明Composition。
+F R E A B R R R R R R R R R R R R u ( x ( ( ( ( ( ( ( ( ( ( ( ( n c a = = 1 1 c ) m 0 1 2 3 4 5 6 7 8 9 0 1 t p ( ( ) ) ) ) ) ) ) ) ) ) ) ) i : l 6 4 o = e , , = = = = = = = = = = = = n 2 3 a ( ) ) A A A A A A A A A A A A l A : : ( ( ( ( ( ( ( ( ( ( ( ( ( ( B B B B B B B B B B B B c 8 3 ( ( ( ( ( ( ( ( ( ( ( ( o , , 1 1 m B 2 1 0 1 2 3 4 5 6 7 8 9 0 1 p ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) o ( ) ) ) ) ) ) ) ) ) ) ) ) s c i ) = = = = = = = = = = = = t i : A A A A A A A A A A A A o = ( ( ( ( ( ( ( ( ( ( ( ( n B B B B B B B B B B B B , A ( ( ( ( ( ( ( ( ( ( ( ( ( 0 1 2 3 0 1 2 3 0 1 2 3 R B , , , , , , , , , , , , ( 0 0 0 0 1 1 1 1 2 2 2 2 : c ) ) ) ) ) ) ) ) ) ) ) ) = ) ) ) ) ) ) ) ) ) ) ) ) ) ) A = = = = = = = = = = = = A A A A A A A A A A A A ( ( ( ( ( ( ( ( ( ( ( ( B 1 1 0 3 6 9 1 4 7 0 2 5 8 1 ) ) ) ) ) ) ) ) ) ) ) ) = = = = = = = = = = = = A A A A A A A A A A A A ( ( ( ( ( ( ( ( ( ( ( ( 0 3 0 3 1 4 1 4 2 5 2 5 , , , , , , , , , , , , 0 0 1 1 0 0 1 1 0 0 1 1 ) ) ) ) ) ) ) ) ) ) ) ) = = = = = = = = = = = = 2 2 3 1 3 1 4 1 4 0 4 2 6 8 2 0 4 6 0 8 2 从R(C)到k的映射完全符合Layout的定义，我们可以用 R = ((2,2),3):((24,2),8) 这个Layout来描述R。同时B和R是compatible的，每一个在B上的坐标可以通过R映射到某个offset上。这是composition的数学解释，下面用一个比较具体的例子说明composition的作用，并加深对composition的认识。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-06-25 16:35:03 +0800 CST'>2026年6月25日</span>&nbsp;·&nbsp;<span>阅读此文大概需要 分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
+  <a class="entry-link" aria-label="post link to CuTe学习2-Layout Algebra" href="http://localhost:1313/technical-blog/cute-starter-2/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">CuTe学习1-Layout
     </h2>
   </header>
