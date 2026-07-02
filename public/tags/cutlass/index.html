@@ -34,7 +34,50 @@
         document.querySelector("html").dataset.theme = 'dark';
     }
 
-</script><meta property="og:url" content="http://localhost:1313/tags/cutlass/">
+</script><script>
+  (function () {
+    var params = new URLSearchParams(window.location.search);
+    var forcedTheme = params.get("theme");
+    var exportMode = params.get("export");
+    if (forcedTheme === "dark" || forcedTheme === "light") {
+      document.documentElement.dataset.theme = forcedTheme;
+      localStorage.setItem("pref-theme", forcedTheme);
+    }
+    if (exportMode) {
+      document.documentElement.dataset.export = exportMode;
+      document.body && document.body.classList.add("export-" + exportMode);
+    }
+  })();
+</script>
+
+<style>
+  body,
+  .post-content,
+  .catalog-page,
+  .academic-home,
+  .about-block,
+  .news-list,
+  .compact-section,
+  .publication-body,
+  .search-page,
+  .searchbox-page input,
+  .nav-search input {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+      Cantarell, "Open Sans", "Helvetica Neue", "PingFang SC", "Hiragino Sans GB",
+      "Microsoft YaHei", "Noto Sans CJK SC", "Noto Sans SC", "WenQuanYi Micro Hei",
+      sans-serif;
+  }
+
+  code,
+  pre,
+  .catalog-date,
+  .academic-section h2 span {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+      "Liberation Mono", "DejaVu Sans Mono", "Sarasa Mono SC",
+      "Noto Sans Mono CJK SC", monospace;
+  }
+</style>
+<meta property="og:url" content="http://localhost:1313/tags/cutlass/">
   <meta property="og:site_name" content="鲤鱼爱的神秘小屋">
   <meta property="og:title" content="CUTLASS">
   <meta property="og:description" content="个人主页、论文、技术博客与随笔">
@@ -143,13 +186,16 @@
 我们日常使用的初等代数是建立在加法阿贝尔群和除0的乘法阿贝尔群和交换律之上的，这个数学结构被称作实数域。但是CuTe所定义的数学结构并不满足群的定义（更不满足阿贝尔群的定义），CuTe更像是幺半群，只具有封闭性，结合律和单位元的特征。更直观的描述是，CuTe的运算不符合交换律和不具有可逆性。所以我们在进行操作layout的时候，需要严格按照逻辑顺序进行操作。
 好了，题外话就说到这里。让我们进入正题。值得一提的是，本章讲到的api基本上是比较底层的运算规则，在编程中CuTe代数是对程序员透明的，编程中使用的是更高阶的，具有特定语义的api。单开一章是希望建立CuTe编程的直觉，同时这些内容也比较难，不理解大可不必深究。
 Coalesce 在上一章的介绍里面，我们讲了Layout实际上是逻辑坐标到offset的映射。coalesce的作用是简化这个映射。我们来举一个例子。这个操作基本上是对程序员透明的，在编程中基本不会调用这个api，这个api的意义是简化坐标计算，这个简化发生在编译期模板计算时，属于CuTe的自动优化。
-1auto layout = Layout&lt;Shape &lt;_2,_6&gt;, 2 Stride&lt;_1,_2&gt;&gt;{}; 3auto result = coalesce(layout); // _12:_1 从一维的内存排布上看，(_2,_6):(_1,_2)对应的映射，和_12:_1这个1D张量对应的映射完全一样，更不如说后者更简单的描述了Layout的映射。所以coalesce简单来讲就是把复杂的高维张量，在维持原映射关系不变的前提下，展平到低维的向量上。注意，这里的展平和pytorch api：torch.flatten()完全不同，后者会改变这个张量的形状，但是CuTe coalesce是完全透明的，在我们看来Layout完全不会改变。当然，CuTe也不是无脑展开所有张量，CuTe内部有一套static assert的规则，只有步长连续的高维张量才会被展平。
+1auto layout = Layout&lt;Shape &lt;_2,_6&gt;, 2 Stride&lt;_1,_2&gt;&gt;{}; 3auto result = coalesce(layout); // _12:_1 从一维的内存排布上看，(_2,_6):(_1,_2)对应的映射，和_12:_1这个1D张量对应的映射完全一样，后者更简单的描述了Layout的映射。所以coalesce简单来讲就是把复杂的高维张量，在维持原映射关系不变的前提下，展平到低维的向量上。注意，这里的展平和pytorch api：torch.flatten()完全不同，后者会改变这个张量的形状，但是CuTe coalesce是完全透明的，在我们看来Layout完全不会改变。当然，CuTe也不是无脑展开所有张量，CuTe内部有一套static assert的规则，只有步长连续的高维张量才会被展平。
 Coalesce的好处有两个。首先是可以应用向量化（LDG.128）。在展平之前CuTe和编译器可能还会担心跨维度在内存内是否连续，在使用自动展平后，CuTe 就能一眼看出最内层维度的连续长度是多少，从而自动应用最高效的向量化指令。其次是尺寸为_1的维度在编译期会被自动忽略，这就为内存偏移计算提供了方便。
-Composition Composition是CuTe层次化结构(CTA-&gt;Warp-&gt;Thread)的基础，基本所有的高阶tiling api(local_tile(),local_parition(),maketiled_mma())都基于Composition。在 CuTe 中，Composition 的本质是用一个 Layout 的逻辑空间去重新解释（或者说约束）另一个 Layout 的逻辑空间。如果用数学公式来表达，它其实就是函数的复合（Function Composition）。文字描述可能有些晦涩难懂。我们在这里使用一个CuTe官方例子来说明Composition。
-F R E A B R R R R R R R R R R R R u ( x ( ( ( ( ( ( ( ( ( ( ( ( n c a = = 1 1 c ) m 0 1 2 3 4 5 6 7 8 9 0 1 t p ( ( ) ) ) ) ) ) ) ) ) ) ) ) i : l 6 4 o = e , , = = = = = = = = = = = = n 2 3 a ( ) ) A A A A A A A A A A A A l A : : ( ( ( ( ( ( ( ( ( ( ( ( ( ( B B B B B B B B B B B B c 8 3 ( ( ( ( ( ( ( ( ( ( ( ( o , , 1 1 m B 2 1 0 1 2 3 4 5 6 7 8 9 0 1 p ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) o ( ) ) ) ) ) ) ) ) ) ) ) ) s c i ) = = = = = = = = = = = = t i : A A A A A A A A A A A A o = ( ( ( ( ( ( ( ( ( ( ( ( n B B B B B B B B B B B B , A ( ( ( ( ( ( ( ( ( ( ( ( ( 0 1 2 3 0 1 2 3 0 1 2 3 R B , , , , , , , , , , , , ( 0 0 0 0 1 1 1 1 2 2 2 2 : c ) ) ) ) ) ) ) ) ) ) ) ) = ) ) ) ) ) ) ) ) ) ) ) ) ) ) A = = = = = = = = = = = = A A A A A A A A A A A A ( ( ( ( ( ( ( ( ( ( ( ( B 1 1 0 3 6 9 1 4 7 0 2 5 8 1 ) ) ) ) ) ) ) ) ) ) ) ) = = = = = = = = = = = = A A A A A A A A A A A A ( ( ( ( ( ( ( ( ( ( ( ( 0 3 0 3 1 4 1 4 2 5 2 5 , , , , , , , , , , , , 0 0 1 1 0 0 1 1 0 0 1 1 ) ) ) ) ) ) ) ) ) ) ) ) = = = = = = = = = = = = 2 2 3 1 3 1 4 1 4 0 4 2 6 8 2 0 4 6 0 8 2 从R(C)到k的映射完全符合Layout的定义，我们可以用 R = ((2,2),3):((24,2),8) 这个Layout来描述R。同时B和R是compatible的，每一个在B上的坐标可以通过R映射到某个offset上。这是composition的数学解释，下面用一个比较具体的例子说明composition的作用，并加深对composition的认识。
+Composition Composition是CuTe层次化结构(CTA-&gt;Warp-&gt;Thread)的基础。在 CuTe 中，Composition 的本质是用一个 Layout 的逻辑空间去重新解释（或者说约束）另一个 Layout 的逻辑空间。如果用数学公式来表达，它其实就是函数的复合（Function Composition）。文字描述可能有些晦涩难懂。我们在这里使用一个CuTe官方例子来说明Composition。
+1R(c) := A(B(c)) 2 3Example 4A = (6,2):(8,2) 5B = (4,3):(3,1) 6 7R( 0) = A(B( 0)) = A(B(0,0)) = A( 0) = A(0,0) = 0 8R( 1) = A(B( 1)) = A(B(1,0)) = A( 3) = A(3,0) = 24 9R( 2) = A(B( 2)) = A(B(2,0)) = A( 6) = A(0,1) = 2 10R( 3) = A(B( 3)) = A(B(3,0)) = A( 9) = A(3,1) = 26 11R( 4) = A(B( 4)) = A(B(0,1)) = A( 1) = A(1,0) = 8 12R( 5) = A(B( 5)) = A(B(1,1)) = A( 4) = A(4,0) = 32 13R( 6) = A(B( 6)) = A(B(2,1)) = A( 7) = A(1,1) = 10 14R( 7) = A(B( 7)) = A(B(3,1)) = A(10) = A(4,1) = 34 15R( 8) = A(B( 8)) = A(B(0,2)) = A( 2) = A(2,0) = 16 16R( 9) = A(B( 9)) = A(B(1,2)) = A( 5) = A(5,0) = 40 17R(10) = A(B(10)) = A(B(2,2)) = A( 8) = A(2,1) = 18 18R(11) = A(B(11)) = A(B(3,2)) = A(11) = A(5,1) = 42 复合后的R仍然是一个从逻辑坐标到内存offset的映射，因此它本身也可以被描述成一个Layout：R = ((2,2),3):((24,2),8)。这里R的逻辑坐标空间来自B，也就是说，原本可以传给B的坐标，现在都可以传给R，所以自然B和R是compatible的；区别在于R(c)会先用B(c)得到中间坐标，再用A把这个中间坐标映射到最终offset。这就是composition的数学解释。下面我们用一个更具体的例子说明composition的作用，并加深对composition的认识。
+Ex.1 Mapping 2D matrix to a Thread Array 现在我们有8个线程组成的 Thread Array，希望用它来处理一个4*4的matrix。为了让例子简单，我们先假设每个线程处理2个元素，这样8个线程正好覆盖16个元素。
+我们可以先定义矩阵本身的Layout。
+1auto matrix = make_layout(make_shape(_4{}, _4{}), 2 make_stride(_4{}, _1{})); 然后定义一个线程侧的Layout。这个Layout的逻辑坐标是(tid, vid)，其中tid表示线程编号，vid表示该线程内部处理的第几个元素。我们希望线程0处理第0和第8个逻辑元素，线程1处理第1和第9个逻辑元素，以此类推。
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2026-06-25 16:35:03 +0800 CST'>2026年6月25日</span>&nbsp;·&nbsp;<span>阅读此文大概需要 分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
+  <footer class="entry-footer"><span title='2026-06-25 16:35:03 +0800 CST'>2026年6月25日</span>&nbsp;·&nbsp;<span>阅读此文大概需要31分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
   <a class="entry-link" aria-label="post link to CuTe学习2-Layout Algebra" href="http://localhost:1313/technical-blog/cute-starter-2/"></a>
 </article>
 

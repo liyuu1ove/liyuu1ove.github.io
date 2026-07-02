@@ -2,11 +2,8 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/essays/at-the-end-of-june/</loc>
-    <lastmod>2026-06-29T15:06:22+08:00</lastmod>
-  </url><url>
     <loc>http://localhost:1313/categories/</loc>
-    <lastmod>2026-06-29T15:06:22+08:00</lastmod>
+    <lastmod>2026-07-02T15:02:51+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-us"
@@ -18,11 +15,27 @@
                 href="http://localhost:1313/categories/"
                 />
   </url><url>
-    <loc>http://localhost:1313/categories/essays/</loc>
-    <lastmod>2026-06-29T15:06:22+08:00</lastmod>
+    <loc>http://localhost:1313/technical-blog/cute-starter-2-aside/</loc>
+    <lastmod>2026-07-02T15:02:51+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/categories/technical-blog/</loc>
+    <lastmod>2026-07-02T15:02:51+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/technical-blog/</loc>
+    <lastmod>2026-07-02T15:02:51+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-us"
+                href="http://localhost:1313/en/technical-blog/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="http://localhost:1313/technical-blog/"
+                />
   </url><url>
     <loc>http://localhost:1313/</loc>
-    <lastmod>2026-06-29T15:06:22+08:00</lastmod>
+    <lastmod>2026-07-02T15:02:51+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-us"
@@ -33,6 +46,12 @@
                 hreflang="zh-cn"
                 href="http://localhost:1313/"
                 />
+  </url><url>
+    <loc>http://localhost:1313/essays/at-the-end-of-june/</loc>
+    <lastmod>2026-06-29T15:06:22+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/categories/essays/</loc>
+    <lastmod>2026-06-29T15:06:22+08:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/essays/</loc>
     <lastmod>2026-06-29T15:06:22+08:00</lastmod>
@@ -70,22 +89,6 @@
                 rel="alternate"
                 hreflang="zh-cn"
                 href="http://localhost:1313/tags/"
-                />
-  </url><url>
-    <loc>http://localhost:1313/categories/technical-blog/</loc>
-    <lastmod>2026-06-25T16:35:03+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/technical-blog/</loc>
-    <lastmod>2026-06-25T16:35:03+08:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-us"
-                href="http://localhost:1313/en/technical-blog/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-cn"
-                href="http://localhost:1313/technical-blog/"
                 />
   </url><url>
     <loc>http://localhost:1313/tags/collective-communication/</loc>

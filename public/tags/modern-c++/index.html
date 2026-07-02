@@ -34,7 +34,50 @@
         document.querySelector("html").dataset.theme = 'dark';
     }
 
-</script><meta property="og:url" content="http://localhost:1313/tags/modern-c&#43;&#43;/">
+</script><script>
+  (function () {
+    var params = new URLSearchParams(window.location.search);
+    var forcedTheme = params.get("theme");
+    var exportMode = params.get("export");
+    if (forcedTheme === "dark" || forcedTheme === "light") {
+      document.documentElement.dataset.theme = forcedTheme;
+      localStorage.setItem("pref-theme", forcedTheme);
+    }
+    if (exportMode) {
+      document.documentElement.dataset.export = exportMode;
+      document.body && document.body.classList.add("export-" + exportMode);
+    }
+  })();
+</script>
+
+<style>
+  body,
+  .post-content,
+  .catalog-page,
+  .academic-home,
+  .about-block,
+  .news-list,
+  .compact-section,
+  .publication-body,
+  .search-page,
+  .searchbox-page input,
+  .nav-search input {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+      Cantarell, "Open Sans", "Helvetica Neue", "PingFang SC", "Hiragino Sans GB",
+      "Microsoft YaHei", "Noto Sans CJK SC", "Noto Sans SC", "WenQuanYi Micro Hei",
+      sans-serif;
+  }
+
+  code,
+  pre,
+  .catalog-date,
+  .academic-section h2 span {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+      "Liberation Mono", "DejaVu Sans Mono", "Sarasa Mono SC",
+      "Noto Sans Mono CJK SC", monospace;
+  }
+</style>
+<meta property="og:url" content="http://localhost:1313/tags/modern-c&#43;&#43;/">
   <meta property="og:site_name" content="鲤鱼爱的神秘小屋">
   <meta property="og:title" content="Modern C&#43;&#43;">
   <meta property="og:description" content="个人主页、论文、技术博客与随笔">

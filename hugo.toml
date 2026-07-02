@@ -33,7 +33,7 @@ defaultContentLanguageInSubdir = false
 
     [languages.zh.params.homepage]
       name = '赵昉曜'
-      affiliation = '华中科技大学'
+      affiliation = 'Science Tokyo'
       shortBio = '算子特战队十年老兵'
       photo = '/images/profile-placeholder.svg'
       photoAlt = '鲤鱼的照片'

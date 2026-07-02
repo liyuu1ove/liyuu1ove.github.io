@@ -1,0 +1,179 @@
+:root {
+  --theme: rgb(29, 30, 32) !important;
+  --entry: rgb(46, 46, 51) !important;
+  --primary: rgb(218, 218, 219) !important;
+  --secondary: rgb(155, 156, 157) !important;
+  --tertiary: rgb(65, 66, 68) !important;
+  --content: rgb(196, 196, 197) !important;
+  --code-block-bg: rgb(46, 46, 51) !important;
+  --code-bg: rgb(55, 56, 62) !important;
+  --border: rgb(51, 51, 51) !important;
+  color-scheme: dark !important;
+}
+
+html,
+body,
+.list {
+  margin: 0 !important;
+  padding: 0 !important;
+  background: var(--theme) !important;
+  color: var(--primary) !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+    Cantarell, "Open Sans", "Helvetica Neue", "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", "Noto Sans CJK SC", "Noto Sans SC", "WenQuanYi Micro Hei",
+    sans-serif !important;
+}
+
+html,
+body {
+  width: 100% !important;
+  min-height: 100% !important;
+}
+
+.header,
+.header-nav,
+#menu,
+.menu,
+.nav-search,
+.logo,
+.logo-switches,
+.top-link,
+.breadcrumbs,
+.share-buttons,
+.post-footer,
+.page-footer {
+  display: none !important;
+}
+
+.main,
+.post-single,
+.catalog-page,
+.search-page,
+.academic-home,
+.main > .page-header,
+.main > .post-content {
+  max-width: 100% !important;
+  width: 100% !important;
+  margin: 0 !important;
+}
+
+.post-single,
+.catalog-page,
+.search-page,
+.main > .page-header,
+.main > .post-content {
+  padding-left: 18px !important;
+  padding-right: 18px !important;
+}
+
+.post-single,
+.catalog-page,
+.search-page {
+  padding-top: 20px !important;
+  padding-bottom: 28px !important;
+}
+
+.post-title,
+.page-header h1,
+.catalog-header h1 {
+  font-size: 36px !important;
+  line-height: 1.22 !important;
+}
+
+.post-content,
+.post-content p,
+.post-content li,
+.post-content blockquote {
+  font-size: 22px !important;
+  line-height: 1.92 !important;
+  color: var(--content) !important;
+}
+
+.post-content h1 {
+  font-size: 32px !important;
+  line-height: 1.26 !important;
+  margin-top: 28px !important;
+  margin-bottom: 14px !important;
+}
+
+.post-content h2 {
+  margin-top: 28px !important;
+  margin-bottom: 12px !important;
+  font-size: 23px !important;
+  line-height: 1.3 !important;
+}
+
+.post-content h3 {
+  font-size: 26px !important;
+  line-height: 1.34 !important;
+}
+.post-content h4 {
+  font-size: 24px !important;
+  line-height: 1.4 !important;
+}
+
+.post-content pre {
+  padding: 14px !important;
+  overflow: visible !important;
+  white-space: pre-wrap !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+  font-size: 20px !important;
+  line-height: 1.8 !important;
+}
+
+.post-content pre code {
+  white-space: pre-wrap !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+}
+
+.post-content code {
+  font-size: 0.92em !important;
+}
+
+code,
+pre,
+.catalog-date {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "DejaVu Sans Mono", "Sarasa Mono SC",
+    "Noto Sans Mono CJK SC", monospace !important;
+}
+
+.post-content img,
+.publication-thumb img {
+  border-radius: 0 !important;
+}
+
+.academic-home {
+  display: block !important;
+  padding: 18px 18px 28px !important;
+}
+
+.academic-sidebar {
+  position: static !important;
+  padding-top: 0 !important;
+  margin-bottom: 24px !important;
+}
+
+.publication-item,
+.catalog-item a {
+  display: block !important;
+}
+
+.publication-thumb {
+  margin-bottom: 12px !important;
+}
+
+a,
+.publication-body h3 a,
+.publication-links a,
+.catalog-item a,
+.catalog-title {
+  color: rgb(150, 200, 255) !important;
+}
+
+@page {
+  size: 430px 932px;
+  margin: 0;
+}

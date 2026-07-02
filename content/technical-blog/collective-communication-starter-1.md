@@ -57,16 +57,6 @@ ncclAllReduce(sendbuff, recvbuff, count,
 
 **Buffer**就是参与通信的显存地址。NCCL API通常接收`sendbuff`和`recvbuff`。有些操作支持in-place，也就是输入输出使用同一块buffer；有些操作不支持，或者对in-place位置有特殊要求。
 
-把这些概念合起来，一个NCCL调用大概可以读成：
-
-``` plain text
-在comm描述的rank集合里，
-用stream提交一个通信操作，
-从sendbuff读取count个datatype元素，
-按照op/root等参数定义的语义，
-把结果写入recvbuff。
-```
-
 以AllReduce为例：
 
 ``` C++
@@ -80,32 +70,6 @@ ncclAllReduce(sendbuff,
 ```
 
 它的意思是：所有rank都提供一段长度为`count`的float数组，对每个位置做sum，然后每个rank都得到一份完全相同的结果。
-
-``` plain text
-rank0: [1, 2, 3]
-rank1: [4, 5, 6]
-rank2: [7, 8, 9]
-
-AllReduce(sum)
-
-rank0: [12, 15, 18]
-rank1: [12, 15, 18]
-rank2: [12, 15, 18]
-```
-
-NCCL还有一个很重要的机制：Group Call。多个NCCL操作可以被包在`ncclGroupStart()`和`ncclGroupEnd()`之间。
-
-``` C++
-ncclGroupStart();
-for (int i = 0; i < ndev; ++i) {
-    cudaSetDevice(devs[i]);
-    ncclAllReduce(send[i], recv[i], count,
-                  ncclFloat, ncclSum, comms[i], streams[i]);
-}
-ncclGroupEnd();
-```
-
-Group Call最常见的用途是单进程管理多张GPU时，把多张GPU上的通信操作一起提交。否则某一个NCCL调用可能会等待其他rank进入同一个collective，从而导致单线程逐个提交时出现阻塞。Group Call也可以让NCCL更好地看到一组操作的整体结构。
 
 当然，NCCL不是魔法棒。它通常能替我们选择一个不错的算法和路径，但它无法改变问题本身的数据规模，也无法消除糟糕拓扑、错误rank映射、跨NUMA绕路、网络拥塞等系统问题。真正调训练性能时，我们往往既要看NCCL日志，也要看GPU利用率、网络流量、kernel timeline和框架层面的并行策略。
 
@@ -158,38 +122,17 @@ GIN要解决的问题是：让CUDA kernel能够发起跨节点RDMA操作，而�
 
 第一层是host侧初始化。程序仍然需要创建NCCL communicator，注册可被远端访问的memory window，建立device communicator或者相关网络资源。也就是说，连接建立、内存注册、权限和拓扑发现这些事情仍然由host侧完成。
 
-``` plain text
-host side:
-create NCCL comm
-register communication buffers / memory windows
-prepare device-side communication handles
-launch CUDA kernel
-```
-
-第二层是device侧通信。CUDA kernel拿到host预先准备好的device handle之后，可以在kernel内部执行远端put/get、signal/wait等操作。这里的名字在不同论文或版本中可能会略有变化，但语义大概如下：
-
-``` plain text
-device side:
-put   local data -> remote GPU memory
-get   remote GPU memory -> local data
-signal remote counter / flag
-wait  until remote signal reaches expected value
-```
+第二层是device侧通信。CUDA kernel拿到host预先准备好的device handle之后，可以在kernel内部执行远端put/get、signal/wait等操作。
 
 这样一来，通信就可以被写进业务kernel的控制流里。对于MoE dispatch来说，kernel可以一边读取router结果，一边把token按目标expert写入远端GPU的接收buffer，并用signal通知对端已经写完某个chunk。combine阶段则反过来，把expert输出按原token位置送回源rank。
 
 这里说GIN“代替NVSHMEM”，更准确地讲，是在现代NVIDIA训练/推理kernel中，GIN提供了一条把GPU端RDMA能力纳入NCCL生态的路径。NVSHMEM的优势是PGAS模型成熟，GPU端put/get表达直接；但对于本来已经大量依赖NCCL的训练框架来说，GIN能减少通信栈割裂。
 
-GIN的吸引力在于它把这类能力收回到NCCL体系里：
-
-1. **统一runtime**：collective通信和GPU-initiated RDMA都可以围绕NCCL communicator和NCCL资源管理展开。
-2. **拓扑感知**：NCCL已经知道GPU、NIC、NVLink、PCIe和网络插件的信息，GIN可以复用这些拓扑能力。
-3. **更容易集成框架**：PyTorch、Megatron、vLLM等系统本来就有NCCL初始化路径，不必为了MoE kernel再维护一套完全独立的NVSHMEM环境。
-4. **更适合产品化**：部署、日志、调参、网络插件、故障定位都能尽量回到NCCL生态中。
-
 这件事在NCCL EP（Expert Parallelism）的设计里体现得很明显。NCCL EP把MoE里的dispatch和combine抽象成更高层的`ncclEpDispatch`和`ncclEpCombine`。底层kernel可以使用NCCL Device API：节点内优先走NVLink/LSA这类直接访问路径，跨节点则用GIN发起RDMA。这样它能保留DeepEP、Hybrid-EP这类现代MoE kernel“GPU端发通信、通信计算融合”的优点，同时减少对NVSHMEM或其他独立通信栈的依赖。
 
 当然，GIN并不是要让所有场景都抛弃NVSHMEM。NVSHMEM仍然是一个通用的PGAS编程模型，适合需要显式远端内存语义的HPC或不规则应用。GIN更像是NCCL给深度学习通信kernel补上的一块能力：当你的应用已经在NCCL生态里，并且主要需求是MoE dispatch/combine、细粒度RDMA、计算通信融合时，使用GIN可以让GPU-initiated communication和标准collective共享同一套通信基础设施。
+
+在更加追求极端性能的场景中，我们还可以看到手动包裹PTX的情况出现。比如来自Deepseek的MegaMoE就使用了 Symmetric Memory和维护一套自己的buffer来实现极细粒度的MoE重叠，这一部分将会在本系列学习最后一篇MegaMoE walk through中详细解释。
 
 # Collective Communication Primitive
 

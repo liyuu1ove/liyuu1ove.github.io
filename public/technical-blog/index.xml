@@ -6,8 +6,15 @@
     <description>Recent content in 技术博客 on 鲤鱼爱的神秘小屋</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 25 Jun 2026 16:35:03 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 02 Jul 2026 15:02:51 +0800</lastBuildDate>
     <atom:link href="http://localhost:1313/technical-blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CuTe学习2特别篇-Divide&amp;Product</title>
+      <link>http://localhost:1313/technical-blog/cute-starter-2-aside/</link>
+      <pubDate>Thu, 02 Jul 2026 15:02:51 +0800</pubDate>
+      <guid>http://localhost:1313/technical-blog/cute-starter-2-aside/</guid>
+      <description>介绍 Zipped, Tiled and Flat Divides和Blocked and Raked Products</description>
+    </item>
     <item>
       <title>CuTe学习2-Layout Algebra</title>
       <link>http://localhost:1313/technical-blog/cute-starter-2/</link>
