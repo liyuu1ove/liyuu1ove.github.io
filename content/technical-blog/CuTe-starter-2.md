@@ -4,7 +4,7 @@ date = '2026-06-25T16:35:03+08:00'
 draft = false
 description = '介绍定义在CuTe Layout的代数运算及其使用场景'
 readingTimeText = '阅读此文大概需要31分钟'
-tags = ['CuTe', 'CUTLASS', 'Layout']
+tags = ['CuTe','Layout']
 categories = ['Technical Blog']
 +++
 

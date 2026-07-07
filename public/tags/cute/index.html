@@ -172,13 +172,32 @@
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">CuTe学习2-Layout Algebra
+    <h2 class="entry-hint-parent">CuTe学习3-Tensor与Tensor算法
       <span class="entry-hint" title="Draft">
         <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
           <path
             d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
         </svg>
       </span>
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Tensor 是 Layout &#43; Engine。Layout 负责把逻辑坐标映射成线性 offset，Engine 负责说明这段线性数据从哪里来、如何访问。我们接下来会先介绍 Engine，再介绍 Tensor。
+Engine 一个 Engine 对象的核心职责是管理数据的存储和访问机制，也就是告诉 Tensor：底层数据在哪里、元素类型是什么、从哪里开始迭代。传统 C&#43;&#43; Iterator 往往强调 &#43;&#43;it 这样的顺序步进。但在 GPU kernel 里，我们更常见的访问模式时线程随机访问，所以CuTe 的 Engine 就服务于这种随机访问的模式。
+Engine的接口是std::array简化版，只暴露迭代器及其相关类型。
+1using iterator = // 迭代器类型 2using value_type = // 迭代器读写的值类型 3using reference = // 迭代器解引用后的引用类型 4iterator begin() // 起始迭代器 Engine 大体分为两类：
+ArrayEngine：Tensor 自己持有数据。 ViewEngine / ConstViewEngine：Tensor 不持有数据，只保存一个指向已有内存的迭代器或指针。 一般来说，我们很少手写 Engine 类型。创建 Tensor 时，CuTe 会根据 make_tensor 的参数自动选择合适的 Engine。
+ArrayEngine ArrayEngine 是持有数据的 Engine。它把数据作为 Tensor 对象自身的一部分保存下来，语义上接近 std::array&lt;T, N&gt;。根据元素类型是否按整字节存储，ArrayEngine 会选择不同的底层存储：
+array_aligned&lt;T, N&gt;：用于 sizeof_bits&lt;T&gt; 是 8 的倍数的类型，例如 float、half、int8_t 等。 array_subbyte&lt;T, N&gt;：用于 sub-byte 类型，例如 FP4、INT4 这类不足 8 bit 或非整字节的元素。 源码结构如下：
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-07-03 17:00:38 +0800 CST'>2026年7月3日</span>&nbsp;·&nbsp;<span>阅读此文大概需要 分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
+  <a class="entry-link" aria-label="post link to CuTe学习3-Tensor与Tensor算法" href="http://localhost:1313/technical-blog/cute-starter-3-tensor/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">CuTe学习2-Layout Algebra
     </h2>
   </header>
   <div class="entry-content">

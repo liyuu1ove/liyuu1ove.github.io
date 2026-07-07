@@ -3,7 +3,7 @@ title = '集合通讯学习0-分布式计算与硬件网络'
 date = '2026-06-11T16:26:55+08:00'
 draft = false
 description = '简单介绍分布式计算的概念和现代数据中心硬件网络'
-readingTimeText = '阅读此文大概需要27分钟'
+readingTimeText = '阅读此文大概需要24分钟'
 tags = ['Distributed System','RoCE','IB','NVLink']
 categories = ['Technical Blog']
 +++
