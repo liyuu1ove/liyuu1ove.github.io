@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh" dir="auto" data-theme="light">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=13131&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>CuTe学习5-Copy Atom | 鲤鱼爱的神秘小屋</title>
+<meta name="keywords" content="">
+<meta name="description" content="Copy Atom
+CuTe中的copy也基本遵循和MMA一样的层级，数据搬运和计算是一个高性能Kernel面对的最大问题。虽然Copy也很重要，但是我有点累了，不想写了，留着后面单独介绍TMA的时候写吧
+
+  
+  CuTe Copy Hierarchy
+">
+<meta name="author" content="鲤鱼爱">
+<link rel="canonical" href="http://localhost:13131/technical-blog/cute-starter-5/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.26e9583fb0cf555b3a58a7936237486984fe70640f533bf97fa925e2c19cd09d.css" integrity="sha256-JulYP7DPVVs6WKeTYjdIaYT&#43;cGQPUzv5f6kl4sGc0J0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:13131/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:13131/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:13131/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:13131/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:13131/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh" href="http://localhost:13131/technical-blog/cute-starter-5/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    }
+
+</script><script>
+  (function () {
+    var params = new URLSearchParams(window.location.search);
+    var forcedTheme = params.get("theme");
+    var exportMode = params.get("export");
+    if (forcedTheme === "dark" || forcedTheme === "light") {
+      document.documentElement.dataset.theme = forcedTheme;
+      localStorage.setItem("pref-theme", forcedTheme);
+    }
+    if (exportMode) {
+      document.documentElement.dataset.export = exportMode;
+      document.body && document.body.classList.add("export-" + exportMode);
+    }
+  })();
+</script>
+
+<style>
+  body,
+  .post-content,
+  .catalog-page,
+  .academic-home,
+  .about-block,
+  .news-list,
+  .compact-section,
+  .publication-body,
+  .search-page,
+  .searchbox-page input,
+  .nav-search input {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+      Cantarell, "Open Sans", "Helvetica Neue", "PingFang SC", "Hiragino Sans GB",
+      "Microsoft YaHei", "Noto Sans CJK SC", "Noto Sans SC", "WenQuanYi Micro Hei",
+      sans-serif;
+  }
+
+  code,
+  pre,
+  .catalog-date,
+  .academic-section h2 span {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+      "Liberation Mono", "DejaVu Sans Mono", "Sarasa Mono SC",
+      "Noto Sans Mono CJK SC", monospace;
+  }
+</style>
+<meta property="og:url" content="http://localhost:13131/technical-blog/cute-starter-5/">
+  <meta property="og:site_name" content="鲤鱼爱的神秘小屋">
+  <meta property="og:title" content="CuTe学习5-Copy Atom">
+  <meta property="og:description" content="Copy Atom CuTe中的copy也基本遵循和MMA一样的层级，数据搬运和计算是一个高性能Kernel面对的最大问题。虽然Copy也很重要，但是我有点累了，不想写了，留着后面单独介绍TMA的时候写吧
+CuTe Copy Hierarchy">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="technical-blog">
+    <meta property="article:published_time" content="2026-07-29T14:21:13+08:00">
+    <meta property="article:modified_time" content="2026-07-29T14:21:13+08:00">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="CuTe学习5-Copy Atom">
+  <meta name="twitter:description" content="Copy Atom CuTe中的copy也基本遵循和MMA一样的层级，数据搬运和计算是一个高性能Kernel面对的最大问题。虽然Copy也很重要，但是我有点累了，不想写了，留着后面单独介绍TMA的时候写吧
+CuTe Copy Hierarchy">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "技术博客",
+      "item": "http://localhost:13131/technical-blog/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "CuTe学习5-Copy Atom",
+      "item": "http://localhost:13131/technical-blog/cute-starter-5/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "CuTe学习5-Copy Atom",
+  "name": "CuTe学习5-Copy Atom",
+  "description": "Copy Atom CuTe中的copy也基本遵循和MMA一样的层级，数据搬运和计算是一个高性能Kernel面对的最大问题。虽然Copy也很重要，但是我有点累了，不想写了，留着后面单独介绍TMA的时候写吧\nCuTe Copy Hierarchy ",
+  "keywords": [
+    
+  ],
+  "articleBody": "Copy Atom CuTe中的copy也基本遵循和MMA一样的层级，数据搬运和计算是一个高性能Kernel面对的最大问题。虽然Copy也很重要，但是我有点累了，不想写了，留着后面单独介绍TMA的时候写吧\nCuTe Copy Hierarchy ",
+  "wordCount" : "6",
+  "inLanguage": "zh",
+  "datePublished": "2026-07-29T14:21:13+08:00",
+  "dateModified": "2026-07-29T14:21:13+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "鲤鱼爱"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://localhost:13131/technical-blog/cute-starter-5/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "鲤鱼爱的神秘小屋",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://localhost:13131/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+  <nav class="header-nav">
+    <div class="logo"><a href="/" accesskey="h" title="鲤鱼爱的神秘小屋 (Alt + H)">鲤鱼爱的神秘小屋</a>
+      <div class="logo-switches">
+        <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+          <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+          <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+        </button>
+        <span class="nav-sep">|</span>
+        <ul class="lang-menu">
+          <li>
+            <a href="/en/" title="English" aria-label="English">English</a>
+          </li>
+        </ul>
+      </div>
+    </div><ul id="menu" class="menu">
+      <li>
+        <a href="/" title="主页">
+          <span>主页</span>
+        </a>
+      </li>
+      <li>
+        <a href="/about/" title="关于我">
+          <span>关于我</span>
+        </a>
+      </li>
+      <li>
+        <a href="/publications/" title="发表">
+          <span>发表</span>
+        </a>
+      </li>
+      <li>
+        <a href="/technical-blog/" title="技术博客">
+          <span>技术博客</span>
+        </a>
+      </li>
+      <li>
+        <a href="/essays/" title="随笔">
+          <span>随笔</span>
+        </a>
+      </li>
+    </ul>
+
+    <form class="nav-search" action="/search/" method="get" role="search">
+      <label class="nav-search-label" for="nav-search-input">搜索</label>
+      <input
+        id="nav-search-input"
+        name="q"
+        type="search"
+        autocomplete="off"
+        placeholder="搜索文章"
+      >
+      <button class="nav-search-button" type="submit" aria-label="打开搜索">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="11" cy="11" r="7"></circle>
+          <line x1="20" y1="20" x2="16.65" y2="16.65"></line>
+        </svg>
+      </button>
+    </form>
+  </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      CuTe学习5-Copy Atom
+      <span class="entry-hint" title="Draft">
+        <svg xmlns="http://www.w3.org/2000/svg" height="35" viewBox="0 -960 960 960" fill="currentColor">
+          <path
+            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+        </svg>
+      </span>
+    </h1>
+    <div class="post-meta"><span title='2026-07-29 14:21:13 +0800 CST'>2026年7月29日</span>&nbsp;·&nbsp;<span>阅读此文大概需要 分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span>
+
+</div>
+  </header> 
+  <div class="post-content md-content"><h1 id="copy-atom">Copy Atom<a hidden class="anchor" aria-hidden="true" href="#copy-atom">#</a></h1>
+<p>CuTe中的copy也基本遵循和MMA一样的层级，数据搬运和计算是一个高性能Kernel面对的最大问题。虽然Copy也很重要，但是我有点累了，不想写了，留着后面单独介绍TMA的时候写吧</p>
+<figure class="post-image" style="width: 100%; max-width: 500px; margin-left: auto; margin-right: auto;">
+  <img src="copy.png" alt="CuTe copy hierarchy" loading="lazy" decoding="async" style="display: block; width: 100%; height: auto;">
+  <figcaption>CuTe Copy Hierarchy</figcaption>
+</figure>
+
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:13131/">鲤鱼爱的神秘小屋</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

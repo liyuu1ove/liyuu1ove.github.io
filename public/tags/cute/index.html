@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" dir="auto" data-theme="light">
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=13131&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
@@ -9,17 +9,17 @@
 <meta name="keywords" content="">
 <meta name="description" content="个人主页、论文、技术博客与随笔">
 <meta name="author" content="鲤鱼爱">
-<link rel="canonical" href="http://localhost:1313/tags/cute/">
+<link rel="canonical" href="http://localhost:13131/tags/cute/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.26e9583fb0cf555b3a58a7936237486984fe70640f533bf97fa925e2c19cd09d.css" integrity="sha256-JulYP7DPVVs6WKeTYjdIaYT&#43;cGQPUzv5f6kl4sGc0J0=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:13131/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:13131/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:13131/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:13131/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:13131/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/tags/cute/index.xml" title="rss">
-<link rel="alternate" hreflang="zh" href="http://localhost:1313/tags/cute/">
+<link rel="alternate" type="application/rss+xml" href="http://localhost:13131/tags/cute/index.xml" title="rss">
+<link rel="alternate" hreflang="zh" href="http://localhost:13131/tags/cute/">
 <noscript>
     <style>
         #theme-toggle,
@@ -77,7 +77,7 @@
       "Noto Sans Mono CJK SC", monospace;
   }
 </style>
-<meta property="og:url" content="http://localhost:1313/tags/cute/">
+<meta property="og:url" content="http://localhost:13131/tags/cute/">
   <meta property="og:site_name" content="鲤鱼爱的神秘小屋">
   <meta property="og:title" content="CuTe">
   <meta property="og:description" content="个人主页、论文、技术博客与随笔">
@@ -172,7 +172,7 @@
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">CuTe学习3-Tensor与Tensor算法
+    <h2 class="entry-hint-parent">CuTe学习6-SM80 CuTe GEMM Walk Through
       <span class="entry-hint" title="Draft">
         <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
           <path
@@ -182,17 +182,60 @@
     </h2>
   </header>
   <div class="entry-content">
+    <p>Overview 本文分析基于Ampere架构的dense HGEMM，A和B通过cp.async进行GMEM到SMEM的搬运，再通过ldmatrix从SMEM搬运到register，最后使用SM80_16x8x16_F16F16F16F16_TN MMA PTX计算。
+从流程上来讲，使用CuTe编写的代码和Raw CUDA进行的HGEMM没有本质区别，也没有用到全新的优化方式，仍然是SM80优化的那一套。CuTe把曾经几乎没有可读性的，复杂的坐标计算重构为了CuTe的Tensor分块和切片，操作tensor的每个函数都有易于理解的语义。
+本文会重点解释参与运算的矩阵是如何被TiledMMA和TiledCopy重新组织，分块和切片的。而不是讲解如何在SM80上面优化一个HGEMM，较为基础的优化部分本文会略过。本文代码基于CuTe官方教程，略有一些修改，完整代码在github上。
+//TODO github连接
+Tiling Partitioning Slicing Tiling：按照tiler完成tiling，再选择一个tile 1local_tile(Tensor &amp;&amp; tensor, 2 Tiler const&amp; tiler, // tiler to apply 3 Coord const&amp; coord) // coord to slice into &#34;remainder&#34; 4{ 5 return inner_partition(static_cast&lt;Tensor&amp;&amp;&gt;(tensor), 6 tiler, 7 coord); 8} 在代码中，我们经常使用local tile进行CTA切片，我们传入的是希望得到的Tile的形状，得到的是按照这个形状切出来的，再通过coord选择的一片。这在CTA的层级上非常常见，举个例子，用户传入的Problem Shape是128，128，64，我们就要处理一个128，128的C，我们选择32，32的tile去切分C，这时候用到的就是local tile，得到（（32，32），（4，4））的shape，在通过coord选出一片。
+Partitioning：按照参与者布局完成tiling，再选择一个参与者 1local_partition(Tensor &amp;&amp; tensor, 2 Layout&lt;LShape,LStride&gt; const&amp; tile, // coord -&gt; index 3 Index const&amp; index) // index to slice for 4{ 5 static_assert(is_integral&lt;Index&gt;::value); 6 return outer_partition(static_cast&lt;Tensor&amp;&amp;&gt;(tensor), 7 product_each(shape(tile)), 8 tile.get_flat_coord(index)); 9} 在代码中，我们使用Partitioning分配线程任务，我们传入的是线程布局，得到的是工作平均按照布局分配，再按照线程序号选出来的一片。继续上面的例子，我们得到了一个（32，32）的CTA tile，这个CTA由32个线程参与，形状是（16，2），我们使用local——partition，切出（（2，8），（16，2））shape，这时一个线程的工作就是（2，8）。
+Slicing：切片 静态Tilesize、Copy和MMA 1auto bM = Int&lt;128&gt;{}; 2auto bN = Int&lt;128&gt;{}; 3auto bK = Int&lt; 64&gt;{}; 4auto cta_tiler = make_shape(bM, bN, bK); 5auto bP = Int&lt;3&gt;{}; 这里我们选择三级流水线，bM，bN，bK为128 128 64，
+Shared Memory Layout 1auto swizzle_atom = composition( 2 Swizzle&lt;3,3,3&gt;{}, 3 Layout&lt;Shape &lt;_8,Shape &lt;_8, _8&gt;&gt;, 4 Stride&lt;_8,Stride&lt;_1,_64&gt;&gt;&gt;{}); 5 6auto sA = tile_to_shape(swizzle_atom, make_shape(bM,bK,bP)); 7auto sB = tile_to_shape(swizzle_atom, make_shape(bN,bK,bP)); 8auto sC = make_layout(make_shape(bM, bN)); 两者合计98304 bytes，也就是96 KiB动态shared memory。host侧的sC只提供静态(128,128) Layout，让kernel模板检查它与CTA的M/N shape一致；代码没有为C分配shared memory，真正的C视图是后面的gC。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-07-13 17:29:09 +0800 CST'>2026年7月13日</span>&nbsp;·&nbsp;<span>阅读此文大概需要38分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
+  <a class="entry-link" aria-label="post link to CuTe学习6-SM80 CuTe GEMM Walk Through" href="http://localhost:13131/technical-blog/cute-starter-6/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">CuTe学习4-MMA Atom
+      <span class="entry-hint" title="Draft">
+        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
+          <path
+            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+        </svg>
+      </span>
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>MMA Hierarchy CuTe对MMA的抽象是自底向上的,大概可以分为三层。最底层是硬件指令层，包裹了架构特化的MMA PTX指令和从PTX提取的类型信息和fragment布局。中间层是逻辑抽象层，将矩阵形状映射到指令形状上，并为线程分工。顶层是gemm接口，处理循环调度和调用PTX指令。整体层次大概如下：
+Source from https://zhuanlan.zhihu.com/p/663092747
+MMAOperation：最底层的硬件指令包装，定义寄存器数量和真正的PTX指令调用。 MMA_Traits&lt;MMAOperation&gt;：类型萃取层，告诉CuTe这个MMA指令的输入输出类型、M/N/K形状、线程和值的布局。 MMA_Atom：给定硬件架构下的一次最小MMA计算单元。 TiledMMA：把一个MMA_Atom映射到更大的M/N/K tile，并描述线程如何覆盖这个大tile。 ThrMMA：某一个具体线程看到的MMA视图，负责切出该线程自己的A/B/C fragment。 cute::gemm：最终执行入口，根据Tensor rank逐层dispatch，最后落到mma_atom.call()。 本文使用Ampere的SM80_16x8x16_F32F16F16F32_TN作为主例子介绍CuTe MMA各抽象层级，使用Ampere架构介绍是因为其相对简单直接，而且兼容Ampere架构的卡相对好找(RTX 30及之后，A100，L40 etc.)，后面会有文章介绍Hopper上的GMMA和Blackwell上的UMMA。
+MMAOperation MMAOperation是最靠近硬件的一层。它包装了特定架构上的一条或一组底层MMA PTX指令。
+1// source from include/cute/arch/mma_sm80.hpp 2struct SM80_16x8x8_F32F16F16F32_TN 3{ 4 using DRegisters = float[4]; 5 using ARegisters = uint32_t[2]; 6 using BRegisters = uint32_t[1]; 7 using CRegisters = float[4]; 8 9 CUTE_HOST_DEVICE static void 10 fma(float &amp; d0, float &amp; d1, float &amp; d2, float &amp; d3, 11 uint32_t const&amp; a0, uint32_t const&amp; a1, 12 uint32_t const&amp; b0, 13 float const &amp; c0, float const &amp; c1, float const &amp; c2, float const &amp; c3) 14 { 15#if defined(CUTE_ARCH_MMA_SM80_ENABLED) 16 asm volatile( 17 &#34;mma.sync.aligned.m16n8k8.row.col.f32.f16.f16.f32 &#34; 18 &#34;{%0, %1, %2, %3},&#34; 19 &#34;{%4, %5},&#34; 20 &#34;{%6},&#34; 21 &#34;{%7, %8, %9, %10};\n&#34; 22 : &#34;=f&#34;(d0), &#34;=f&#34;(d1), &#34;=f&#34;(d2), &#34;=f&#34;(d3) 23 : &#34;r&#34;(a0), &#34;r&#34;(a1), 24 &#34;r&#34;(b0), 25 &#34;f&#34;(c0), &#34;f&#34;(c1), &#34;f&#34;(c2), &#34;f&#34;(c3)); 26#endif 27 } 28}; CuTe MMA_Atom Visualization MMAOperation内部包含了两个信息：需要的的寄存器数量，和执行计算的PTX指令。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-07-07 16:27:26 +0800 CST'>2026年7月7日</span>&nbsp;·&nbsp;<span>阅读此文大概需要32分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
+  <a class="entry-link" aria-label="post link to CuTe学习4-MMA Atom" href="http://localhost:13131/technical-blog/cute-starter-4/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">CuTe学习3-Tensor
+    </h2>
+  </header>
+  <div class="entry-content">
     <p>Tensor 是 Layout &#43; Engine。Layout 负责把逻辑坐标映射成线性 offset，Engine 负责说明这段线性数据从哪里来、如何访问。我们接下来会先介绍 Engine，再介绍 Tensor。
-Engine 一个 Engine 对象的核心职责是管理数据的存储和访问机制，也就是告诉 Tensor：底层数据在哪里、元素类型是什么、从哪里开始迭代。传统 C&#43;&#43; Iterator 往往强调 &#43;&#43;it 这样的顺序步进。但在 GPU kernel 里，我们更常见的访问模式时线程随机访问，所以CuTe 的 Engine 就服务于这种随机访问的模式。
+Engine 一个 Engine 对象的核心职责是管理数据的存储和访问机制，和CPP容器有些类似。传统 C&#43;&#43; Iterator 往往强调 &#43;&#43;it 这样的顺序步进。但在 GPU kernel 里，我们更常见的访问模式时随机访问，CuTe 的 Engine 就服务于这种随机访问的模式。
 Engine的接口是std::array简化版，只暴露迭代器及其相关类型。
 1using iterator = // 迭代器类型 2using value_type = // 迭代器读写的值类型 3using reference = // 迭代器解引用后的引用类型 4iterator begin() // 起始迭代器 Engine 大体分为两类：
 ArrayEngine：Tensor 自己持有数据。 ViewEngine / ConstViewEngine：Tensor 不持有数据，只保存一个指向已有内存的迭代器或指针。 一般来说，我们很少手写 Engine 类型。创建 Tensor 时，CuTe 会根据 make_tensor 的参数自动选择合适的 Engine。
 ArrayEngine ArrayEngine 是持有数据的 Engine。它把数据作为 Tensor 对象自身的一部分保存下来，语义上接近 std::array&lt;T, N&gt;。根据元素类型是否按整字节存储，ArrayEngine 会选择不同的底层存储：
-array_aligned&lt;T, N&gt;：用于 sizeof_bits&lt;T&gt; 是 8 的倍数的类型，例如 float、half、int8_t 等。 array_subbyte&lt;T, N&gt;：用于 sub-byte 类型，例如 FP4、INT4 这类不足 8 bit 或非整字节的元素。 源码结构如下：
+array_aligned&lt;T, N&gt;：用于 sizeof_bits&lt;T&gt; 是 8 的倍数的类型，例如 float、half、int8_t 等。 array_subbyte&lt;T, N&gt;：用于 sub-byte 类型，例如 FP4、INT4 这类不足8-bit/1-byte的元素。 1template &lt;class T, size_t N&gt; 2struct ArrayEngine 3{ 4 using Storage = typename conditional&lt;(sizeof_bits&lt;T&gt;::value % 8 == 0), 5 array_aligned&lt;T,N&gt;, 6 array_subbyte&lt;T,N&gt;&gt;::type; 7 using iterator = typename Storage::iterator; 8 using reference = typename iterator_traits&lt;iterator&gt;::reference; 9 using element_type = typename iterator_traits&lt;iterator&gt;::element_type; 10 using value_type = typename iterator_traits&lt;iterator&gt;::value_type; 11 Storage storage_; 12 13 CUTE_HOST_DEVICE constexpr auto begin() const { return storage_.begin(); } 14 CUTE_HOST_DEVICE constexpr auto begin() { return storage_.begin(); } 15}; ViewEngine &amp; ConstViewEngine 这两种是不持有数据的 Engine，类似于 std::span 或 std::string_view。它们只保存一个迭代器，不管理迭代器背后的内存生命周期。
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2026-07-03 17:00:38 +0800 CST'>2026年7月3日</span>&nbsp;·&nbsp;<span>阅读此文大概需要 分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
-  <a class="entry-link" aria-label="post link to CuTe学习3-Tensor与Tensor算法" href="http://localhost:1313/technical-blog/cute-starter-3-tensor/"></a>
+  <footer class="entry-footer"><span title='2026-07-03 17:00:38 +0800 CST'>2026年7月3日</span>&nbsp;·&nbsp;<span>阅读此文大概需要27分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
+  <a class="entry-link" aria-label="post link to CuTe学习3-Tensor" href="http://localhost:13131/technical-blog/cute-starter-3/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
@@ -215,7 +258,7 @@ Ex.1 Mapping 2D matrix to a Thread Array 现在我们有8个线程组成的 Thre
 ...</p>
   </div>
   <footer class="entry-footer"><span title='2026-06-25 16:35:03 +0800 CST'>2026年6月25日</span>&nbsp;·&nbsp;<span>阅读此文大概需要31分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
-  <a class="entry-link" aria-label="post link to CuTe学习2-Layout Algebra" href="http://localhost:1313/technical-blog/cute-starter-2/"></a>
+  <a class="entry-link" aria-label="post link to CuTe学习2-Layout Algebra" href="http://localhost:13131/technical-blog/cute-starter-2/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
@@ -229,11 +272,11 @@ BLAS的row/col-major &#43; leading dimension描述阶段。这一阶段对现代
 本文遵循CuTe的notation。使用带下划线的数字(e.g. _3)表示静态整数，不带下划线的数字(e.g. 3)表示动态整数，使用Shape:Stride表示Layout，使用嵌套的括号表示Tuple的层级(e.g. (2,(3,4)) )。本文的张量并不特指CuTe中的Tensor，绝大多数指layout描述形状对应的张量。
 CuTe 类型与概念 静态整型 CuTe的绝大多数逻辑都建立在静态整型上面(Static integers or “compile-time integers”)。注意，这里使用了整型而不是整数，CuTe的Int&lt;&gt;是一个类模板，是cute::integral_constant&lt;int, N&gt;的别名。Int&lt;1&gt;的是这个类模板的特化类型，而不是一个整数，它的本质是一个类型标签，用于模板参数传递、类型推导或者函数签名中。而如果需要作为函数参数传入，则需要将其实例化，实例化的语法是Int&lt;1&gt;{}。同时CuTe为类模板重载了强制类型转换运算符与()运算符，使类模板对象也可以参与整数计算。再一次把实现的代码贴在这里，理解其写法有助于巩固TMP的语法和理解类模板和对象的区别。
 include/cute/numeric/integral_constant.hpp
-1// A constant value: short name and type-deduction for fast compilation 2template &lt;auto v&gt; 3struct C { 4 using type = C&lt;v&gt;; 5 static constexpr auto value = v; 6 using value_type = decltype(v); 7 CUTE_HOST_DEVICE constexpr operator value_type() const noexcept { return value; } 8 CUTE_HOST_DEVICE constexpr value_type operator()() const noexcept { return value; } 9}; 10// alias 11template &lt;int v&gt; 12using Int = C&lt;v&gt;; 13 14using _0 = Int&lt;0&gt;; 与静态整型相对的是动态整型，int size_t uint16_t等被std::is_integral接受的均在CuTe中被当作动态整型。这里有一个十分经典的疑问。
+1// A constant value: short name and type-deduction for fast compilation 2template &lt;auto v&gt; 3struct C { 4 using type = C&lt;v&gt;; 5 static constexpr auto value = v; 6 using value_type = decltype(v); 7 CUTE_HOST_DEVICE constexpr operator value_type() const noexcept { return value; } 8 CUTE_HOST_DEVICE constexpr value_type operator()() const noexcept { return value; } 9}; 10// alias 11template &lt;int v&gt; 12using Int = C&lt;v&gt;; 13 14using _0 = Int&lt;0&gt;; 与静态整型相对的是动态整型，int、size_t、uint16_t等被std::is_integral&lt;T&gt;接受的均在CuTe中被当作动态整型。这里有一个十分经典的疑问。
 ...</p>
   </div>
   <footer class="entry-footer"><span title='2026-05-29 12:00:00 +0800 CST'>2026年5月29日</span>&nbsp;·&nbsp;<span>阅读此文大概需要21分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
-  <a class="entry-link" aria-label="post link to CuTe学习1-Layout" href="http://localhost:1313/technical-blog/cute-starter-1/"></a>
+  <a class="entry-link" aria-label="post link to CuTe学习1-Layout" href="http://localhost:13131/technical-blog/cute-starter-1/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
@@ -246,14 +289,14 @@ include/cute/numeric/integral_constant.hpp
 如果说CUDA C&#43;&#43;给了我们操控GPU庞大数量运算单元的能力，那么CuTe试图回答的是另一个问题：如何把一个高性能kernel里那些重复、复杂、容易写错的索引和搬运逻辑，抽象成可以组合、可以检查、可以在编译期优化掉的组件。
 博主认为，CuTe主要作用在如下三个方面，本文将按此顺序介绍CuTe的抽象。
 提供数据从内存排布到逻辑索引的映射原语 提供数据在各内存层级之间的搬运原语 提供数据做矩阵乘法的计算原语 本文对CuTe中的概念均浅尝辄止，目的是提供一个总览，而不是具体的深度到某个函数的用法。具体的用法和逻辑会在后面的文章中进一步介绍。
-WHY CuTe? 在学习CuTe之前，我们先看一下一个GEMM kernel到底在忙什么。
-1// C = A * B 2for (int m = 0; m &lt; M; &#43;&#43;m) { 3 for (int n = 0; n &lt; N; &#43;&#43;n) { 4 float acc = 0.0f; 5 for (int k = 0; k &lt; K; &#43;&#43;k) { 6 acc &#43;= A[m * K &#43; k] * B[k * N &#43; n]; 7 } 8 C[m * N &#43; n] = acc; 9 } 10} 从数学角度看，这段代码已经把矩阵乘法说清楚了。但是从GPU性能角度看，这段代码几乎什么都没说清楚。
+WHY CuTe? 在学习CuTe之前，我们先看一下一个简单的GEMM kernel。
+1// C = A * B 2for (int m = 0; m &lt; M; &#43;&#43;m) { 3 for (int n = 0; n &lt; N; &#43;&#43;n) { 4 float acc = 0.0f; 5 for (int k = 0; k &lt; K; &#43;&#43;k) { 6 acc &#43;= A[m * K &#43; k] * B[k * N &#43; n]; 7 } 8 C[m * N &#43; n] = acc; 9 } 10} 从数学角度看，这段代码已经可以正确完成矩阵运算了。但是从GPU性能角度看，这段代码几乎什么都没说清楚。
 A[m * K &#43; k] 是行主序还是列主序？有没有padding？ 一个CTA算C矩阵的哪一块？一个warp算哪一块？一个thread算哪几个元素？ 全局内存读取是否合并访存？shared memory中是否会出现bank conflict？ 数据从global memory到shared memory，再到register，该由哪些线程搬？每个线程搬几个元素？ 最后的乘加是普通FMA，还是Tensor Core上的MMA指令？ 手写CUDA kernel时，这些问题通常会变成一大堆threadIdx.x、blockIdx.x、魔法数字、位运算和手算偏移。它们看起来很硬核，实际也确实很硬核，但是也很脆弱。改一个tile size，可能十几个地方都要跟着改；换一个数据布局，可能整个kernel的索引逻辑都得重写；想从SIMT FMA换成Tensor Core MMA，则又要重新组织线程和寄存器片段。
-1// raw cuda 2int offset = (blockIdx.x * 128 &#43; threadIdx.x / 4) * lda &#43; (threadIdx.x % 4) * 8; 3 4// CuTe 5auto layout1 = make_layout(make_shape(_2{}, _4{}), make_stride(_1{}, _2{})); 6int offset = layout1(make_coord(1, 3)); CuTe要解决的核心问题，就是把这些索引和搬运从手写整数表达式中抽出来，用类型系统和模板元编程来描述。这就是CuTe和普通工具库最大的区别。CuTe并不只是帮你少写几行代码，它希望你把索引计算分解为逻辑形状和内存排布的组合。然后这些组合在编译期被实例化，最终生成没有抽象开销的CUDA代码。
+1// instead of raw cuda... 2int offset = (blockIdx.x * 128 &#43; threadIdx.x / 4) * lda &#43; (threadIdx.x % 4) * 8; 3 4// We can use CuTe! 5auto layout1 = make_layout(make_shape(_2{}, _4{}), make_stride(_1{}, _2{})); 6int offset = layout1(make_coord(1, 3)); CuTe要解决的核心问题，就是把这些索引和搬运从手写整数表达式中抽出来，用类型系统和模板元编程来描述。这就是CuTe和普通工具库最大的区别。CuTe并不只是帮你少写几行代码，它希望你把索引计算分解为逻辑形状和内存排布的组合。然后这些组合在编译期被实例化，最终生成没有抽象开销的CUDA代码。
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2026-05-28 16:29:15 +0800 CST'>2026年5月28日</span>&nbsp;·&nbsp;<span>阅读此文大概需要33分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
-  <a class="entry-link" aria-label="post link to CuTe学习0-CuTe简介" href="http://localhost:1313/technical-blog/cute-starter-0/"></a>
+  <footer class="entry-footer"><span title='2026-05-28 16:29:15 +0800 CST'>2026年5月28日</span>&nbsp;·&nbsp;<span>阅读此文大概需要38分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
+  <a class="entry-link" aria-label="post link to CuTe学习0-CuTe简介" href="http://localhost:13131/technical-blog/cute-starter-0/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
@@ -271,12 +314,12 @@ WHY TMP? 在开始今天的正题之前，我希望和读者达成几个共识�
 ...</p>
   </div>
   <footer class="entry-footer"><span title='2026-05-25 12:00:00 +0800 CST'>2026年5月25日</span>&nbsp;·&nbsp;<span>阅读此文大概需要28分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
-  <a class="entry-link" aria-label="post link to CuTe学习00-模板元编程" href="http://localhost:1313/technical-blog/cute-starter-00/"></a>
+  <a class="entry-link" aria-label="post link to CuTe学习00-模板元编程" href="http://localhost:13131/technical-blog/cute-starter-00/"></a>
 </article>
     </main>
     
 <footer class="footer">
-        <span>&copy; 2026 <a href="http://localhost:1313/">鲤鱼爱的神秘小屋</a></span> · 
+        <span>&copy; 2026 <a href="http://localhost:13131/">鲤鱼爱的神秘小屋</a></span> · 
 
     
     

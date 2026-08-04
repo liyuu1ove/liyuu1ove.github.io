@@ -1,0 +1,11 @@
+{{- $src := .Get "src" -}}
+{{- $alt := .Get "alt" | default "" -}}
+{{- $width := .Get "width" | default "100%" -}}
+{{- $maxWidth := .Get "maxWidth" | default "100%" -}}
+{{- $caption := .Get "caption" -}}
+<figure class="post-image" style="width: {{ $width }}; max-width: {{ $maxWidth }}; margin-left: auto; margin-right: auto;">
+  <img src="{{ $src }}" alt="{{ $alt }}" loading="lazy" decoding="async" style="display: block; width: 100%; height: auto;">
+  {{- with $caption }}
+  <figcaption>{{ . }}</figcaption>
+  {{- end }}
+</figure>

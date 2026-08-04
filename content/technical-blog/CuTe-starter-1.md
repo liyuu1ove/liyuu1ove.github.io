@@ -20,7 +20,7 @@ CuTe利用Hierarchy Tensor进行Tensor描述和计算。阅读Graphene原文有�
 
 # CuTe 类型与概念
 ## 静态整型
-CuTe的绝大多数逻辑都建立在静态整型上面(Static integers or “compile-time integers”)。注意，这里使用了整型而不是整数，CuTe的Int<>是一个类模板，是cute::integral_constant<int, N>的别名。Int<1>的是这个类模板的特化类型，而不是一个整数，它的本质是一个类型标签，用于模板参数传递、类型推导或者函数签名中。而如果需要作为函数参数传入，则需要将其实例化，实例化的语法是Int<1>{}。同时CuTe为类模板重载了强制类型转换运算符与()运算符，使类模板对象也可以参与整数计算。再一次把实现的代码贴在这里，理解其写法有助于巩固TMP的语法和理解类模板和对象的区别。
+CuTe的绝大多数逻辑都建立在静态整型上面(Static integers or “compile-time integers”)。注意，这里使用了整型而不是整数，CuTe的`Int<>`是一个类模板，是`cute::integral_constant<int, N>`的别名。`Int<1>`的是这个类模板的特化类型，而不是一个整数，它的本质是一个类型标签，用于模板参数传递、类型推导或者函数签名中。而如果需要作为函数参数传入，则需要将其实例化，实例化的语法是`Int<1>{}`。同时CuTe为类模板重载了强制类型转换运算符与()运算符，使类模板对象也可以参与整数计算。再一次把实现的代码贴在这里，理解其写法有助于巩固TMP的语法和理解类模板和对象的区别。
 
 **include/cute/numeric/integral_constant.hpp**
 ``` C++ {title="include/cute/numeric/integral_constant.hpp"}
@@ -40,13 +40,13 @@ using Int = C<v>;
 using _0  = Int<0>;
 ```
 
-与静态整型相对的是动态整型，int size_t uint16_t等被std::is_integral<T>接受的均在CuTe中被当作动态整型。这里有一个十分经典的疑问。
+与静态整型相对的是动态整型，`int`、`size_t`、`uint16_t`等被`std::is_integral<T>`接受的均在CuTe中被当作动态整型。这里有一个十分经典的疑问。
 
 ``` C++
 Layout s8 = make_layout(Int<8>{});
 Layout d8 = make_layout(8);
 ```
-这里的8不是在编写代码的时候就hardcode进去了吗，为什么需要Int<8>{}呢？实际上编译期看到的并不是8，而是
+这里的8不是在编写代码的时候就hardcode进去了吗，为什么需要`Int<8>{}`呢？实际上编译期看到的并不是8，而是
 ``` C++
 Layout d8 = make_layout(int);
 ```

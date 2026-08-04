@@ -22,7 +22,7 @@ CuTe（CUDA Templates）是NVIDIA从CUTLASS 3.0版本开始推出的一个C++模
 
 # WHY CuTe?
 
-在学习CuTe之前，我们先看一下一个GEMM kernel到底在忙什么。
+在学习CuTe之前，我们先看一下一个简单的GEMM kernel。
 
 ``` C++
 // C = A * B
@@ -37,7 +37,7 @@ for (int m = 0; m < M; ++m) {
 }
 ```
 
-从数学角度看，这段代码已经把矩阵乘法说清楚了。但是从GPU性能角度看，这段代码几乎什么都没说清楚。
+从数学角度看，这段代码已经可以正确完成矩阵运算了。但是从GPU性能角度看，这段代码几乎什么都没说清楚。
 
 1. `A[m * K + k]` 是行主序还是列主序？有没有padding？
 2. 一个CTA算C矩阵的哪一块？一个warp算哪一块？一个thread算哪几个元素？
@@ -48,10 +48,10 @@ for (int m = 0; m < M; ++m) {
 手写CUDA kernel时，这些问题通常会变成一大堆`threadIdx.x`、`blockIdx.x`、魔法数字、位运算和手算偏移。它们看起来很硬核，实际也确实很硬核，但是也很脆弱。改一个tile size，可能十几个地方都要跟着改；换一个数据布局，可能整个kernel的索引逻辑都得重写；想从SIMT FMA换成Tensor Core MMA，则又要重新组织线程和寄存器片段。
 
 ``` C++
-// raw cuda 
+// instead of raw cuda... 
 int offset = (blockIdx.x * 128 + threadIdx.x / 4) * lda + (threadIdx.x % 4) * 8;
 
-// CuTe
+// We can use CuTe!
 auto layout1 = make_layout(make_shape(_2{}, _4{}), make_stride(_1{}, _2{}));
 int offset = layout1(make_coord(1, 3));
 ```
@@ -155,7 +155,7 @@ auto tensor = make_tensor(make_gmem_ptr(ptr), layout);
 于是我们可以用逻辑坐标访问数据。
 
 ``` C++
-tensor(1, 2);     // 等价于 ptr[layout(1, 2)]
+tensor(1, 2);
 ```
 
 这比`ptr[row * lda + col]`多了一层抽象，但这层抽象在编译期大概率会被优化掉。更重要的是，它把“这块数据长什么样”和“这块数据在哪里”分开了。Layout提供这块数据的逻辑形状与排布信息。Pointer指定这块数据所在的内存位置(SMEM，GMEM，register,etc.)。Tensor则是Pointer + Layout，可以直接通过Tensor访问到内存。
@@ -176,18 +176,11 @@ Tensor的另一层抽象是解耦了数据搬运，在手写kernel的时候，�
 
 理解Layout和Tensor之后，我们就可以进入第二个抽象：数据搬运。
 
-GPU上的矩阵乘法并不是直接从global memory里读两个数，然后立刻乘一下这么简单。一个典型的高性能kernel中的数据搬运大概会经历如下路径。
+GPU上的矩阵乘法并不是直接从global memory里读两个数，然后立刻乘一下这么简单。一个典型的SM80高性能GEMM kernel中的数据搬运大概会经历如下路径。
 
 ``` plain text
 global memory -> shared memory -> register -> MMA -> register -> global memory
 ```
-
-这里的每一步都很讲究。
-
-1. global memory读取要尽量合并访存。
-2. shared memory写入要尽量避免bank conflict。
-3. 每个线程搬运的数据量要均衡。
-4. 搬运的布局要方便后续MMA读取。
 
 如果手写这部分代码，通常会看到很多这样的表达式。
 
@@ -204,40 +197,24 @@ smem[row * smem_stride + col] = gmem[(global_row + row) * lda + global_col + col
 CuTe用`TiledCopy`来描述一组线程如何协作完成一次搬运。它的核心思想仍然是Layout：线程也可以有Layout，数据也可以有Layout，搬运就是把线程Layout映射到数据Layout上。为了防止代码过于混乱，作者在这里省略了很多变量的声明。具体的用法会在后面的文章中详细讲解。
 
 ``` C++
-auto tiled_copy = make_tiled_copy(copy_atom,
-                                  thr_layout,
-                                  val_layout);
+auto tiled_copy = make_tiled_copy(copy_atom, //单次搬运使用的指令
+                                  thr_layout,//线程如何组织
+                                  val_layout);//每个线程内部搬哪些元素
 ```
 
-这里可以先不用纠结每个参数的具体写法，只要理解它们的语义。
-
-``` plain text
-copy_atom:  单次搬运使用什么指令或向量宽度
-thr_layout: 线程如何组织
-val_layout: 每个线程内部搬哪些元素
-```
-
-然后我们可以把一个Tensor按照这个`TiledCopy`切给每个线程。
+这里可以先不用纠结每个参数的具体写法，只要理解它们的语义。然后我们可以把一个Tensor按照这个`TiledCopy`切给每个线程。
 
 ``` C++
+//按照tiled_copy描述的线程分工
 auto thr_copy = tiled_copy.get_thread_slice(threadIdx.x);
 
 auto src = thr_copy.partition_S(gmem_tensor);
 auto dst = thr_copy.partition_D(smem_tensor);
-
+//从src tensor搬运到dst tensor
 copy(tiled_copy, src, dst);
 ```
 
-这段代码的读法应该是：
-
-``` plain text
-请按照tiled_copy描述的线程分工，
-从src tensor搬运到dst tensor。
-```
-
-也就是说，我们不再直接写“第几个线程搬第几个元素”，而是先描述线程和数据的布局关系，再让CuTe帮我们展开成具体的每线程访问。对于高性能CUDA来说，这个抽象非常关键。因为访存模式不只是代码风格问题，它直接决定了kernel是不是能跑满带宽。
-
-当然，CuTe不是魔法棒。写出`TiledCopy`并不代表访存一定高效。它只是把访存模式变成了一个可组合、可检查、可替换的对象。真正的性能仍然取决于你选择的tile形状、线程布局、向量化宽度和目标硬件特性。
+也就是说，我们不再直接写“第几个线程搬第几个元素”，而是先描述线程和数据的布局关系，再让CuTe帮我们展开成具体的每线程访问。当然，CuTe不是魔法棒。写出`TiledCopy`并不代表访存一定高效。它只是把访存模式变成了一个可组合、可检查、可替换的对象。真正的性能仍然取决于你选择的tile形状、线程布局、向量化宽度和目标硬件特性。
 
 # TiledMMA
 
@@ -299,77 +276,33 @@ gemm(tiled_mma, smem_A, smem_B, accum);
 copy(tiled_copy_r2g, accum, tile_C);
 ```
 
-这个框架看起来没有比手写CUDA短多少，但是它的优势在于每个部分都变成了可替换的对象。我们可以换Layout，可以换Copy Atom，可以换MMA Atom，可以换tile shape，而不是在一堆整数下标中做考古。我们可以很简单地实验不同tile shape对性能的影响，而不用更改很多数值计算的逻辑。同时这样写出来的代码可读性极高，省去了阅读手写CUDA中无规则运算的困难。
+这个框架看起来没有比手写CUDA简单，但是它的优势在于每个部分都变成了语义清晰的对象。我们可以换Layout，可以换Copy Atom，可以换MMA Atom，可以换tile shape，而不是在一堆整数下标中做考古。我们可以很简单地实验不同tile shape对性能的影响，而不用更改很多数值计算的逻辑。同时这样写出来的代码可读性极高，省去了阅读手写CUDA中无规则运算的困难。
 
 # CuTe的编程思想
 
 到这里我们可以总结一下CuTe的编程思想。CuTe表面上是一个C++模板库，实际上它强迫我们用一种更结构化的方式思考CUDA kernel。
 
-## 形状优先
-
-CuTe代码里经常会出现`Shape`、`Stride`、`Layout`、`Tile`这些词。它们看起来比普通下标麻烦，但背后有一个统一思想：先描述对象的形状，再描述如何把形状映射到内存、线程或寄存器。
-
-``` C++
-auto cta_shape = make_shape(Int<128>{}, Int<128>{}, Int<64>{});
-auto mma_shape = make_shape(Int<64>{},  Int<64>{},  Int<32>{});
-```
-
-这种写法比直接写`128`、`64`更啰嗦，但它保留了语义。读代码时我们知道这不是一个随机常数，而是某个计算层级的tile shape。
-
-## 编译期优先
-
-CuTe大量使用`Int<128>{}`、`_0`、`_1`、`Shape<_128, _64>`这样的编译期整数。原因在上一篇已经讲过：只要形状、步长、分支和循环能在编译期确定，编译器就可以展开、折叠、消除抽象。
-
-``` C++
-auto layout = make_layout(make_shape(Int<4>{}, Int<8>{}),
-                          make_stride(Int<8>{}, Int<1>{}));
-```
-
-这里的`4`、`8`不是普通运行时变量，而是类型的一部分。编译器知道这个Layout的完整结构，也就更容易生成没有循环和分支的代码。
-
-当然，CuTe并不要求所有东西都是静态的。真实GEMM里`M`、`N`、`K`经常来自运行时参数。但高性能kernel内部最关键的tile size、线程布局和MMA形状，通常会尽量放到编译期。
-
-## 组合优先
-
-CuTe中很多复杂行为不是靠继承层级实现的，而是靠小对象组合出来的。
-
-``` plain text
-Shape + Stride -> Layout
-Pointer + Layout -> Tensor
-Copy Atom + Thread Layout + Value Layout -> TiledCopy
-MMA Atom + Thread Layout + Value Layout -> TiledMMA
-```
-
-这也是CuTe一开始难读的原因。它不会在一个地方把所有事情都说完，而是把一个kernel拆成很多层抽象。每一层都只是一个小函数，但组合起来之后，类型会变得非常长，报错也会非常壮观。
-
-所以读CuTe代码时，不要一上来就试图把所有模板参数都看懂。更实用的方法是先问三个问题。
-
-1. 这个对象描述的是内存、线程，还是寄存器？
-2. 这个对象的Shape是什么？
-3. 它把哪个逻辑坐标映射到了哪个线性偏移？
-
-能回答这三个问题，大多数CuTe代码就不会那么吓人了。
-
-
 # 学习建议
 
-CuTe的学习曲线非常陡。它难的地方不是单个概念，而是多个概念叠在一起之后，类型系统会把你带到一个非常抽象的地方。博主建议学习时按如下顺序来。
+CuTe的学习曲线非常陡。它难的地方不是单个概念，而是多个概念叠在一起之后，类型系统会把你带到一个非常抽象的地方。博主会按如下顺序来组织整个教程。
 
-1. 先理解`Shape`、`Stride`、`Layout`，只在CPU侧打印和测试，不急着写CUDA kernel。
-2. 再理解`Tensor`，重点看“指针 + Layout”如何形成view。
-3. 然后看`local_tile`、`local_partition`、`composition`这些切分和组合操作。
-4. 接着学习`TiledCopy`，用小tile观察每个线程搬哪些元素。
-5. 最后再碰`TiledMMA`和完整GEMM kernel。
-
-这里最重要的是，不要一开始就读完整CUTLASS GEMM。那种代码同时包含模板元编程、内存层级、流水线、MMA、架构特化和调度策略，信息密度太高。先用小例子把CuTe的基本对象彻底理解，再去读大kernel，会轻松很多。
+1. Layout
+2. layout algebra
+3. Tensor
+4. SM80 `TiledMMA`和`TiledCopy`。
+5. SM80 Dense HGEMM WalkThrough
+6. SM90 GMMA and TMA
+7. SM100 tcgen05 and TMEM
+8. SM100 Dense fp8 GEMM WalkThrough
+9. SM90 Fused Multi-head Attention
+10. SM100 Multi-Latent Attention
+11. SM100 Deepseek Sparse Attention
 
 # 写在最后
 
 CuTe的本质是一套面向GPU高性能计算的编译期抽象。它把过去手写CUDA kernel中最容易混乱的部分，也就是索引、布局、切分、搬运和硬件MMA映射，统一放进了类型系统和模板系统里。
 
-这带来的好处非常明显：代码可以组合，抽象可以优化，很多错误可以在编译期暴露，同一套逻辑也更容易适配不同tile shape和硬件指令。但代价同样明显：代码更抽象，类型更复杂，报错更难看，学习门槛也更高。
-
-所以学习CuTe时，不要把它当成一个普通API库。更好的方式是把它当成一种写CUDA kernel的新语言。`Layout`是它的坐标系统，`Tensor`是它的数据视图，`TiledCopy`是它的搬运语义，`TiledMMA`是它的计算语义。理解了这四个词，才算真正走进CuTe的大门。
+这带来的好处非常明显：代码可以组合，抽象可以优化，很多错误可以在编译期暴露，同一套逻辑也更容易适配不同tile shape和硬件指令。但代价同样明显：代码更抽象，类型更复杂，报错更难看，学习门槛也更高。不过学习CuTe仍然非常promising，CuTe可以说是现代算子开发皇冠上的明珠，基本所有基模厂都用CuTe来写sota算子(DeepGemm, KDA, etc.)，其能提供的粒度控制，自由度和性能不是其他任何一种语言能够比拟的。
 
 # 最后的最后
 
@@ -378,5 +311,5 @@ CuTe的本质是一套面向GPU高性能计算的编译期抽象。它把过去�
 简单来说，CuTe消灭了基本上所有在编译期已知的数值计算。但是CuTe最大价值在于消灭程序员的心智开销，或者说增加代码的可读性。使用CuTe不一定能写出来性能最好的代码（当然，据作者经验，经常是比raw CUDA性能好很多），但是一定能写出来可读性很好的代码。
 
 # 最后的最后的最后
-有的读者还可能会疑惑，CUTLASS和CuTe到底是什么关系呢，听起来好像我用CuTe也能组装出超高性能的GEMM，为什么还需要CUTLASS呢？简单的说，CuTe像一套高性能的赛车配件，但是你要亲手设计组装。CUTLASS像一个赛车工厂，用CuTe提供的高性能配件，自动地组装出高性能的赛车。回到计算上来，CuTe 是一个专注于“张量描述与硬件映射”的底层库；而 CUTLASS 是建立在 CuTe 之上、开箱即用的高性能矩阵乘法框架。CUTLASS会处理复杂的流水线与异步控制，边缘处理与对齐等一个实际的高性能的GEMM的kernel要考虑的所有事情。如果你要写一个规整的，传统的gemm-like(batched-gemm，grouped-gemm，etc.) kernel，那么CUTLASS将是你的不二之选。但是如果是实现Flashattention这种访存模式和gemm不同的kernel，CuTe将是最强而有力的工具。
+有的读者还可能会疑惑，CUTLASS和CuTe到底是什么关系呢，听起来好像我用CuTe也能组装出超高性能的GEMM，为什么还需要CUTLASS呢？简单的说，CuTe像一套高性能的赛车配件，但是你要亲手设计组装。CUTLASS像一个赛车工厂，用CuTe提供的高性能配件，自动地组装出高性能的赛车。回到计算上来，CuTe 是一个专注于“张量描述与硬件映射”的底层库。而 CUTLASS 是建立在 CuTe 之上、开箱即用的高性能矩阵乘法框架。CUTLASS会处理复杂的流水线与异步控制，边缘处理与对齐等一个实际的高性能的GEMM的kernel要考虑的所有事情。如果你要写一个规整的，传统的gemm-like (batched-gemm，grouped-gemm，etc.) kernel，那么CUTLASS将是你的不二之选。但是如果是实现Flash Attention这种访存模式和gemm不同的kernel，CuTe将是最强而有力的工具。
 

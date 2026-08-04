@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" dir="auto" data-theme="light">
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=13131&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
@@ -9,17 +9,17 @@
 <meta name="keywords" content="">
 <meta name="description" content="个人主页、论文、技术博客与随笔">
 <meta name="author" content="鲤鱼爱">
-<link rel="canonical" href="http://localhost:1313/tags/tensor/">
+<link rel="canonical" href="http://localhost:13131/tags/tensor/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.26e9583fb0cf555b3a58a7936237486984fe70640f533bf97fa925e2c19cd09d.css" integrity="sha256-JulYP7DPVVs6WKeTYjdIaYT&#43;cGQPUzv5f6kl4sGc0J0=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:13131/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:13131/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:13131/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:13131/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:13131/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/tags/tensor/index.xml" title="rss">
-<link rel="alternate" hreflang="zh" href="http://localhost:1313/tags/tensor/">
+<link rel="alternate" type="application/rss+xml" href="http://localhost:13131/tags/tensor/index.xml" title="rss">
+<link rel="alternate" hreflang="zh" href="http://localhost:13131/tags/tensor/">
 <noscript>
     <style>
         #theme-toggle,
@@ -77,7 +77,7 @@
       "Noto Sans Mono CJK SC", monospace;
   }
 </style>
-<meta property="og:url" content="http://localhost:1313/tags/tensor/">
+<meta property="og:url" content="http://localhost:13131/tags/tensor/">
   <meta property="og:site_name" content="鲤鱼爱的神秘小屋">
   <meta property="og:title" content="Tensor">
   <meta property="og:description" content="个人主页、论文、技术博客与随笔">
@@ -172,32 +172,26 @@
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">CuTe学习3-Tensor与Tensor算法
-      <span class="entry-hint" title="Draft">
-        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
-          <path
-            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
-        </svg>
-      </span>
+    <h2 class="entry-hint-parent">CuTe学习3-Tensor
     </h2>
   </header>
   <div class="entry-content">
     <p>Tensor 是 Layout &#43; Engine。Layout 负责把逻辑坐标映射成线性 offset，Engine 负责说明这段线性数据从哪里来、如何访问。我们接下来会先介绍 Engine，再介绍 Tensor。
-Engine 一个 Engine 对象的核心职责是管理数据的存储和访问机制，也就是告诉 Tensor：底层数据在哪里、元素类型是什么、从哪里开始迭代。传统 C&#43;&#43; Iterator 往往强调 &#43;&#43;it 这样的顺序步进。但在 GPU kernel 里，我们更常见的访问模式时线程随机访问，所以CuTe 的 Engine 就服务于这种随机访问的模式。
+Engine 一个 Engine 对象的核心职责是管理数据的存储和访问机制，和CPP容器有些类似。传统 C&#43;&#43; Iterator 往往强调 &#43;&#43;it 这样的顺序步进。但在 GPU kernel 里，我们更常见的访问模式时随机访问，CuTe 的 Engine 就服务于这种随机访问的模式。
 Engine的接口是std::array简化版，只暴露迭代器及其相关类型。
 1using iterator = // 迭代器类型 2using value_type = // 迭代器读写的值类型 3using reference = // 迭代器解引用后的引用类型 4iterator begin() // 起始迭代器 Engine 大体分为两类：
 ArrayEngine：Tensor 自己持有数据。 ViewEngine / ConstViewEngine：Tensor 不持有数据，只保存一个指向已有内存的迭代器或指针。 一般来说，我们很少手写 Engine 类型。创建 Tensor 时，CuTe 会根据 make_tensor 的参数自动选择合适的 Engine。
 ArrayEngine ArrayEngine 是持有数据的 Engine。它把数据作为 Tensor 对象自身的一部分保存下来，语义上接近 std::array&lt;T, N&gt;。根据元素类型是否按整字节存储，ArrayEngine 会选择不同的底层存储：
-array_aligned&lt;T, N&gt;：用于 sizeof_bits&lt;T&gt; 是 8 的倍数的类型，例如 float、half、int8_t 等。 array_subbyte&lt;T, N&gt;：用于 sub-byte 类型，例如 FP4、INT4 这类不足 8 bit 或非整字节的元素。 源码结构如下：
+array_aligned&lt;T, N&gt;：用于 sizeof_bits&lt;T&gt; 是 8 的倍数的类型，例如 float、half、int8_t 等。 array_subbyte&lt;T, N&gt;：用于 sub-byte 类型，例如 FP4、INT4 这类不足8-bit/1-byte的元素。 1template &lt;class T, size_t N&gt; 2struct ArrayEngine 3{ 4 using Storage = typename conditional&lt;(sizeof_bits&lt;T&gt;::value % 8 == 0), 5 array_aligned&lt;T,N&gt;, 6 array_subbyte&lt;T,N&gt;&gt;::type; 7 using iterator = typename Storage::iterator; 8 using reference = typename iterator_traits&lt;iterator&gt;::reference; 9 using element_type = typename iterator_traits&lt;iterator&gt;::element_type; 10 using value_type = typename iterator_traits&lt;iterator&gt;::value_type; 11 Storage storage_; 12 13 CUTE_HOST_DEVICE constexpr auto begin() const { return storage_.begin(); } 14 CUTE_HOST_DEVICE constexpr auto begin() { return storage_.begin(); } 15}; ViewEngine &amp; ConstViewEngine 这两种是不持有数据的 Engine，类似于 std::span 或 std::string_view。它们只保存一个迭代器，不管理迭代器背后的内存生命周期。
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2026-07-03 17:00:38 +0800 CST'>2026年7月3日</span>&nbsp;·&nbsp;<span>阅读此文大概需要 分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
-  <a class="entry-link" aria-label="post link to CuTe学习3-Tensor与Tensor算法" href="http://localhost:1313/technical-blog/cute-starter-3-tensor/"></a>
+  <footer class="entry-footer"><span title='2026-07-03 17:00:38 +0800 CST'>2026年7月3日</span>&nbsp;·&nbsp;<span>阅读此文大概需要27分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
+  <a class="entry-link" aria-label="post link to CuTe学习3-Tensor" href="http://localhost:13131/technical-blog/cute-starter-3/"></a>
 </article>
     </main>
     
 <footer class="footer">
-        <span>&copy; 2026 <a href="http://localhost:1313/">鲤鱼爱的神秘小屋</a></span> · 
+        <span>&copy; 2026 <a href="http://localhost:13131/">鲤鱼爱的神秘小屋</a></span> · 
 
     
     

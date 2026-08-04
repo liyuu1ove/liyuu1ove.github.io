@@ -140,14 +140,14 @@ auto a = make_layout(make_shape (12,make_shape ( 4,8)),
 auto result = composition(a, tiler);
 ```
 Result可以可视化为
-![result_3_8](composition2.png)
+{{< image src="composition2.png" alt="result_3_8" >}}
 ```CPP
 // <3:4, 8:2>
 auto tiler = make_tile(Layout<_3,_4>{},  // Apply 3:4 to mode-0
                        Layout<_8,_2>{}); // Apply 8:2 to mode-1
 ```
 这个Tile的含义是，在mode-0上以4的步长取3个元素，在mode-1上以2的步长取8个元素。我们把它作用在相同的Layout上可以得到
-![result_34_82](composition1.png)
+{{< image src="composition1.png" alt="result_34_82" >}}
 
 但是，这样子分块明明可以分出来很多块，通过composition我们只能得到一块，我们该如何access其他的tile呢。这里的设计哲学是CuTe要保持数学上的纯洁性，composition不能改变B的形状，所以我们只能切出一块。如果我们需要access其他块，我们就需要CuTe给程序员使用的高级API`local_tile`，我们可以通过再传入一个坐标来选择本block需要处理的那一块。有关这部分的使用将放在后面介绍，值得一提的是，`local_tile`使用的不是composition，而是后文要介绍的`Logical Divide`
 
@@ -155,14 +155,14 @@ auto tiler = make_tile(Layout<_3,_4>{},  // Apply 3:4 to mode-0
 在定义`Logical Divide`之前，我们还需要定义`Complement`，complement是数学上的补集，但是在CuTe的语境中并不是挖掉一块剩下的部分。CuTe Complement是这样的，以所选的tile为一个元素，找到一个描述这个元素的layout，使其可以占满给定的空间。这个Complement是一个更宏观的Layout。说来难以理解又空洞，我们通过几个具体数字的例子来说明。
 
 `complement(4:1, 24)` 的结果是 `6:4`。`4:1`描述了一段连续的4个元素，而`6:4`描述的是这段4元素布局在整个24元素空间中重复6次。
-![complement_4_1](complement_4_1.png)
+{{< image src="complement_4_1.png" alt="complement_4_1" >}}
 
 `complement(6:4, 24)` 的结果是 `4:1`。这里`6:4`表示每隔4个位置取一个元素，中间留下的连续空隙就由`4:1`来补齐。
-![complement_6_4](complement_6_4.png)
+{{< image src="complement_6_4.png" alt="complement_6_4" >}}
 
 
 `complement((2,2):(1,6), 24)` 的结果是 `(3,2):(2,12)`。灰色的格子表示`(2,2):(1,6)`,彩色的格子表示其重复。NVIDIA总结其为“这种重复的layout”。
-![complement_22_16](complement1.png)
+{{< image src="complement1.png" alt="complement_22_16" >}}
 
 *Source from [cutlass documentation](https://docs.nvidia.com/cutlass/latest/media/docs/cpp/cute/02_layout_algebra.html#complement-examples)*
 
@@ -226,7 +226,7 @@ logical_divide(A, B)
   = ((2,2),(2,3)):((4,1),(2,8))
 ```
 
-![divide1](divide1.png)
+{{< image src="divide1.png" alt="divide1" >}}
 
 上图把`A`画成了一维Layout。灰色格子表示`B = 4:2`指向的一个tile，彩色格子表示这个tile在`A`中的不同重复位置。logical divide之后，结果Layout的第一个mode描述tile内部的数据，第二个mode负责遍历所有tile。
 
@@ -246,7 +246,7 @@ logical_divide(A, B)
 
 现在我们希望在mode-0方向使用`3:3`分块，即以3的步长取3个元素；在mode-1方向使用`(2,4):(1,8)`分块，即以1的步长取2个元素，再以8的步长取4个元素组。也就是说，tiler可以写成：B `<3:3, (2,4):(1,8)>`，注意，这里我们使用了尖括号来表示一个`IntTuple<>`,以与Layout区分。
 
-![divide2](divide2.png)
+{{< image src="divide2.png" alt="divide2" >}}
 
 上图中，灰色区域表示tiler `B`选中的一个tile，其他颜色表示同样形状的tile在整个Layout中的重复位置。logical divide之后，每个mode都可以看作一个1D Layout上的Logical Divide，每个mode被拆成两层，每层的意义和我们在1D Logical Divide上面讲的完全一致。
 
@@ -298,7 +298,7 @@ logical_product(A, B) = (A, A* o B)
 
 先看一个一维例子。假设我们有一个小Layout A `(2,2):(4,1)` 它描述了一个小Tile。现在我们希望按照Layout B `6:1` 重复它。直观来说，这表示我们希望把`A`重复6次，得到一个包含24个元素的更大Layout。
 
-![product1](product1.png)
+{{< image src="product1.png" alt="product1" >}}
 
 上图把`A`和`B`都画成了一维Layout。`A`描述每个tile内部的布局，`B`描述这个tile重复的次数和顺序。Product之后，结果Layout的第一层mode是tile内部的数据，第二层mode负责遍历每一个tile。
 
@@ -306,7 +306,7 @@ logical_product(A, B) = (A, A* o B)
 
 当然，我们也可以通过修改`B`来改变tile重复的数量和顺序。
 
-![product2](product2.png)
+{{< image src="product2.png" alt="product2" >}}
 
 比如上图中，`B = (4,2):(2,1)`。这时`A`不再重复6次，而是重复8次，并且这些tile的排列顺序也发生了变化。换句话说，`A`决定“每块长什么样”，`B`决定“这些块怎么摆”。
 
@@ -314,7 +314,7 @@ logical_product(A, B) = (A, A* o B)
 
 Product同样可以推广到多维Layout。我们可以使用前面介绍过的by-mode tiler思路，对二维Layout分别在不同mode上应用logical product。
 
-![product2d](product2d.png)
+{{< image src="product2d.png" alt="product2d" >}}
 
 上图展示了一个二维Product的例子。它的结果可以理解为：一个`2x5`的row-major小块，被按照一个`3x4`的column-major排列方式平铺出去。最终得到的是一个rank-2 Layout，只不过它的内部已经包含了“块内布局”和“块间布局”两层结构。
 

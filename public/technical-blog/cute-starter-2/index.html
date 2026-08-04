@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" dir="auto" data-theme="light">
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=13131&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
@@ -9,16 +9,16 @@
 <meta name="keywords" content="CuTe, Layout">
 <meta name="description" content="介绍定义在CuTe Layout的代数运算及其使用场景">
 <meta name="author" content="鲤鱼爱">
-<link rel="canonical" href="http://localhost:1313/technical-blog/cute-starter-2/">
+<link rel="canonical" href="http://localhost:13131/technical-blog/cute-starter-2/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.26e9583fb0cf555b3a58a7936237486984fe70640f533bf97fa925e2c19cd09d.css" integrity="sha256-JulYP7DPVVs6WKeTYjdIaYT&#43;cGQPUzv5f6kl4sGc0J0=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:13131/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:13131/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:13131/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:13131/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:13131/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="zh" href="http://localhost:1313/technical-blog/cute-starter-2/">
+<link rel="alternate" hreflang="zh" href="http://localhost:13131/technical-blog/cute-starter-2/">
 <noscript>
     <style>
         #theme-toggle,
@@ -76,7 +76,7 @@
       "Noto Sans Mono CJK SC", monospace;
   }
 </style>
-<meta property="og:url" content="http://localhost:1313/technical-blog/cute-starter-2/">
+<meta property="og:url" content="http://localhost:13131/technical-blog/cute-starter-2/">
   <meta property="og:site_name" content="鲤鱼爱的神秘小屋">
   <meta property="og:title" content="CuTe学习2-Layout Algebra">
   <meta property="og:description" content="介绍定义在CuTe Layout的代数运算及其使用场景">
@@ -102,13 +102,13 @@
       "@type": "ListItem",
       "position":  1 ,
       "name": "技术博客",
-      "item": "http://localhost:1313/technical-blog/"
+      "item": "http://localhost:13131/technical-blog/"
     }, 
     {
       "@type": "ListItem",
       "position":  2 ,
       "name": "CuTe学习2-Layout Algebra",
-      "item": "http://localhost:1313/technical-blog/cute-starter-2/"
+      "item": "http://localhost:13131/technical-blog/cute-starter-2/"
     }
   ]
 }
@@ -134,14 +134,14 @@
   },
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "http://localhost:1313/technical-blog/cute-starter-2/"
+    "@id": "http://localhost:13131/technical-blog/cute-starter-2/"
   },
   "publisher": {
     "@type": "Organization",
     "name": "鲤鱼爱的神秘小屋",
     "logo": {
       "@type": "ImageObject",
-      "url": "http://localhost:1313/favicon.ico"
+      "url": "http://localhost:13131/favicon.ico"
     }
   }
 }
@@ -316,21 +316,36 @@
 </span></span><span class="line"><span class="ln">5</span><span class="cl"><span class="c1">// (_3,(2,4)):(236,(26,1))
 </span></span></span><span class="line"><span class="ln">6</span><span class="cl"><span class="c1"></span><span class="k">auto</span> <span class="n">result</span> <span class="o">=</span> <span class="n">composition</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">tiler</span><span class="p">);</span>
 </span></span></code></pre></div><p>Result可以可视化为
-<img alt="result_3_8" loading="lazy" src="/technical-blog/cute-starter-2/technical-blog/cute-starter-2/composition2.png"></p>
+<figure class="post-image" style="width: 100%; max-width: 100%; margin-left: auto; margin-right: auto;">
+  <img src="composition2.png" alt="result_3_8" loading="lazy" decoding="async" style="display: block; width: 100%; height: auto;">
+</figure>
+</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-CPP" data-lang="CPP"><span class="line"><span class="ln">1</span><span class="cl"><span class="c1">// &lt;3:4, 8:2&gt;
 </span></span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="c1"></span><span class="k">auto</span> <span class="n">tiler</span> <span class="o">=</span> <span class="n">make_tile</span><span class="p">(</span><span class="n">Layout</span><span class="o">&lt;</span><span class="n">_3</span><span class="p">,</span><span class="n">_4</span><span class="o">&gt;</span><span class="p">{},</span>  <span class="c1">// Apply 3:4 to mode-0
 </span></span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="c1"></span>                       <span class="n">Layout</span><span class="o">&lt;</span><span class="n">_8</span><span class="p">,</span><span class="n">_2</span><span class="o">&gt;</span><span class="p">{});</span> <span class="c1">// Apply 8:2 to mode-1
 </span></span></span></code></pre></div><p>这个Tile的含义是，在mode-0上以4的步长取3个元素，在mode-1上以2的步长取8个元素。我们把它作用在相同的Layout上可以得到
-<img alt="result_34_82" loading="lazy" src="/technical-blog/cute-starter-2/technical-blog/cute-starter-2/composition1.png"></p>
+<figure class="post-image" style="width: 100%; max-width: 100%; margin-left: auto; margin-right: auto;">
+  <img src="composition1.png" alt="result_34_82" loading="lazy" decoding="async" style="display: block; width: 100%; height: auto;">
+</figure>
+</p>
 <p>但是，这样子分块明明可以分出来很多块，通过composition我们只能得到一块，我们该如何access其他的tile呢。这里的设计哲学是CuTe要保持数学上的纯洁性，composition不能改变B的形状，所以我们只能切出一块。如果我们需要access其他块，我们就需要CuTe给程序员使用的高级API<code>local_tile</code>，我们可以通过再传入一个坐标来选择本block需要处理的那一块。有关这部分的使用将放在后面介绍，值得一提的是，<code>local_tile</code>使用的不是composition，而是后文要介绍的<code>Logical Divide</code></p>
 <h2 id="complement">Complement<a hidden class="anchor" aria-hidden="true" href="#complement">#</a></h2>
 <p>在定义<code>Logical Divide</code>之前，我们还需要定义<code>Complement</code>，complement是数学上的补集，但是在CuTe的语境中并不是挖掉一块剩下的部分。CuTe Complement是这样的，以所选的tile为一个元素，找到一个描述这个元素的layout，使其可以占满给定的空间。这个Complement是一个更宏观的Layout。说来难以理解又空洞，我们通过几个具体数字的例子来说明。</p>
 <p><code>complement(4:1, 24)</code> 的结果是 <code>6:4</code>。<code>4:1</code>描述了一段连续的4个元素，而<code>6:4</code>描述的是这段4元素布局在整个24元素空间中重复6次。
-<img alt="complement_4_1" loading="lazy" src="/technical-blog/cute-starter-2/technical-blog/cute-starter-2/complement_4_1.png"></p>
+<figure class="post-image" style="width: 100%; max-width: 100%; margin-left: auto; margin-right: auto;">
+  <img src="complement_4_1.png" alt="complement_4_1" loading="lazy" decoding="async" style="display: block; width: 100%; height: auto;">
+</figure>
+</p>
 <p><code>complement(6:4, 24)</code> 的结果是 <code>4:1</code>。这里<code>6:4</code>表示每隔4个位置取一个元素，中间留下的连续空隙就由<code>4:1</code>来补齐。
-<img alt="complement_6_4" loading="lazy" src="/technical-blog/cute-starter-2/technical-blog/cute-starter-2/complement_6_4.png"></p>
+<figure class="post-image" style="width: 100%; max-width: 100%; margin-left: auto; margin-right: auto;">
+  <img src="complement_6_4.png" alt="complement_6_4" loading="lazy" decoding="async" style="display: block; width: 100%; height: auto;">
+</figure>
+</p>
 <p><code>complement((2,2):(1,6), 24)</code> 的结果是 <code>(3,2):(2,12)</code>。灰色的格子表示<code>(2,2):(1,6)</code>,彩色的格子表示其重复。NVIDIA总结其为“这种重复的layout”。
-<img alt="complement_22_16" loading="lazy" src="/technical-blog/cute-starter-2/technical-blog/cute-starter-2/complement1.png"></p>
+<figure class="post-image" style="width: 100%; max-width: 100%; margin-left: auto; margin-right: auto;">
+  <img src="complement1.png" alt="complement_22_16" loading="lazy" decoding="async" style="display: block; width: 100%; height: auto;">
+</figure>
+</p>
 <p><em>Source from <a href="https://docs.nvidia.com/cutlass/latest/media/docs/cpp/cute/02_layout_algebra.html#complement-examples">cutlass documentation</a></em></p>
 <h2 id="logical-divide-tiling">Logical Divide (Tiling)<a hidden class="anchor" aria-hidden="true" href="#logical-divide-tiling">#</a></h2>
 <p>有了composition和complement，我们终于可以定义logical divide了。Logical divide是CuTe逻辑分块中最重要的操作之一，基本所有的高阶tiling api，比如<code>local_tile()</code>、<code>local_partition()</code>、<code>make_tiled_mma()</code>，底层都离不开类似的逻辑。</p>
@@ -361,7 +376,10 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plain" data-lang="plain"><span class="line"><span class="ln">1</span><span class="cl">logical_divide(A, B)
 </span></span><span class="line"><span class="ln">2</span><span class="cl">  = composition((4,2,3):(2,1,8), (4,(2,3)):(2,(1,8)))
 </span></span><span class="line"><span class="ln">3</span><span class="cl">  = ((2,2),(2,3)):((4,1),(2,8))
-</span></span></code></pre></div><p><img alt="divide1" loading="lazy" src="/technical-blog/cute-starter-2/technical-blog/cute-starter-2/divide1.png"></p>
+</span></span></code></pre></div><figure class="post-image" style="width: 100%; max-width: 100%; margin-left: auto; margin-right: auto;">
+  <img src="divide1.png" alt="divide1" loading="lazy" decoding="async" style="display: block; width: 100%; height: auto;">
+</figure>
+
 <p>上图把<code>A</code>画成了一维Layout。灰色格子表示<code>B = 4:2</code>指向的一个tile，彩色格子表示这个tile在<code>A</code>中的不同重复位置。logical divide之后，结果Layout的第一个mode描述tile内部的数据，第二个mode负责遍历所有tile。</p>
 <p>所以，一维logical divide可以理解为：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plain" data-lang="plain"><span class="line"><span class="ln">1</span><span class="cl">原始Layout -&gt; (tile内部坐标, tile编号)
@@ -370,7 +388,10 @@
 <p>上面的一维例子可以自然推广到多维Layout。对二维矩阵来说，我们通常希望同时在行方向和列方向分块，也就是对不同mode分别应用不同的tiler。</p>
 <p>考虑下面这个二维Layout：A <code>(9,(4,8)):(59,(13,1))</code></p>
 <p>现在我们希望在mode-0方向使用<code>3:3</code>分块，即以3的步长取3个元素；在mode-1方向使用<code>(2,4):(1,8)</code>分块，即以1的步长取2个元素，再以8的步长取4个元素组。也就是说，tiler可以写成：B <code>&lt;3:3, (2,4):(1,8)&gt;</code>，注意，这里我们使用了尖括号来表示一个<code>IntTuple&lt;&gt;</code>,以与Layout区分。</p>
-<p><img alt="divide2" loading="lazy" src="/technical-blog/cute-starter-2/technical-blog/cute-starter-2/divide2.png"></p>
+<figure class="post-image" style="width: 100%; max-width: 100%; margin-left: auto; margin-right: auto;">
+  <img src="divide2.png" alt="divide2" loading="lazy" decoding="async" style="display: block; width: 100%; height: auto;">
+</figure>
+
 <p>上图中，灰色区域表示tiler <code>B</code>选中的一个tile，其他颜色表示同样形状的tile在整个Layout中的重复位置。logical divide之后，每个mode都可以看作一个1D Layout上的Logical Divide，每个mode被拆成两层，每层的意义和我们在1D Logical Divide上面讲的完全一致。</p>
 <p>从这个角度看，logical divide可以理解成一种坐标重排：它不是改变数据本身，而是把原本的矩阵坐标重新组织成“tile内坐标 + tile间坐标”。这和我们写CUDA kernel时的直觉是一致的：先定位当前block负责哪一个tile，再定位当前线程负责tile内部哪些元素。</p>
 <h2 id="aside-zipped-tiled-flat-divides">Aside: Zipped, Tiled, Flat Divides<a hidden class="anchor" aria-hidden="true" href="#aside-zipped-tiled-flat-divides">#</a></h2>
@@ -395,15 +416,24 @@
 </span></span></code></pre></div><p>其中<code>A</code>描述tile内部元素，<code>A* o B</code>描述这些tile按照<code>B</code>的方式被复制到哪些位置。如果说logical divide是把一个大Layout拆成“tile内部坐标 + tile编号”，那么logical product就是反过来：给定一个tile布局和一个tile排列布局，把它们组合成一个更大的Layout。</p>
 <h3 id="ex5-logical-product-1-d-layout">Ex.5 Logical Product 1-D Layout<a hidden class="anchor" aria-hidden="true" href="#ex5-logical-product-1-d-layout">#</a></h3>
 <p>先看一个一维例子。假设我们有一个小Layout A <code>(2,2):(4,1)</code> 它描述了一个小Tile。现在我们希望按照Layout B <code>6:1</code> 重复它。直观来说，这表示我们希望把<code>A</code>重复6次，得到一个包含24个元素的更大Layout。</p>
-<p><img alt="product1" loading="lazy" src="/technical-blog/cute-starter-2/technical-blog/cute-starter-2/product1.png"></p>
+<figure class="post-image" style="width: 100%; max-width: 100%; margin-left: auto; margin-right: auto;">
+  <img src="product1.png" alt="product1" loading="lazy" decoding="async" style="display: block; width: 100%; height: auto;">
+</figure>
+
 <p>上图把<code>A</code>和<code>B</code>都画成了一维Layout。<code>A</code>描述每个tile内部的布局，<code>B</code>描述这个tile重复的次数和顺序。Product之后，结果Layout的第一层mode是tile内部的数据，第二层mode负责遍历每一个tile。</p>
 <p>注意，这个结果和前面一维Logical Divide例子得到的结果完全一样。这也说明了Product和Divide之间确实存在某种“反向”的直觉：Divide从大Layout中拆出tile结构，Product则用tile结构重新构造出大Layout。</p>
 <p>当然，我们也可以通过修改<code>B</code>来改变tile重复的数量和顺序。</p>
-<p><img alt="product2" loading="lazy" src="/technical-blog/cute-starter-2/technical-blog/cute-starter-2/product2.png"></p>
+<figure class="post-image" style="width: 100%; max-width: 100%; margin-left: auto; margin-right: auto;">
+  <img src="product2.png" alt="product2" loading="lazy" decoding="async" style="display: block; width: 100%; height: auto;">
+</figure>
+
 <p>比如上图中，<code>B = (4,2):(2,1)</code>。这时<code>A</code>不再重复6次，而是重复8次，并且这些tile的排列顺序也发生了变化。换句话说，<code>A</code>决定“每块长什么样”，<code>B</code>决定“这些块怎么摆”。</p>
 <h3 id="ex6-logical-product-2-d-layout">Ex.6 Logical Product 2-D Layout<a hidden class="anchor" aria-hidden="true" href="#ex6-logical-product-2-d-layout">#</a></h3>
 <p>Product同样可以推广到多维Layout。我们可以使用前面介绍过的by-mode tiler思路，对二维Layout分别在不同mode上应用logical product。</p>
-<p><img alt="product2d" loading="lazy" src="/technical-blog/cute-starter-2/technical-blog/cute-starter-2/product2d.png"></p>
+<figure class="post-image" style="width: 100%; max-width: 100%; margin-left: auto; margin-right: auto;">
+  <img src="product2d.png" alt="product2d" loading="lazy" decoding="async" style="display: block; width: 100%; height: auto;">
+</figure>
+
 <p>上图展示了一个二维Product的例子。它的结果可以理解为：一个<code>2x5</code>的row-major小块，被按照一个<code>3x4</code>的column-major排列方式平铺出去。最终得到的是一个rank-2 Layout，只不过它的内部已经包含了“块内布局”和“块间布局”两层结构。</p>
 <p>不过，这种直接手写tiler来做Product的方式并不是最推荐的使用方式。原因是这里的<code>B</code>非常不直观,为了构造它，程序员需要非常清楚<code>A</code>的shape和stride，否则很容易写错。我们真正希望得到的是用Layout B的方式排列Layout A。也就是说，<code>A</code>和<code>B</code>应该尽量保持独立，而不是让<code>B</code>依赖<code>A</code>的具体stride细节。CuTe更高层的API会在这个方向上继续封装，让程序员用更接近矩阵分块的逻辑的描述tiling和partition，而不是直接操作这些底层代数。</p>
 <h2 id="asideblocked-and-raked-products">Aside:Blocked and Raked Products<a hidden class="anchor" aria-hidden="true" href="#asideblocked-and-raked-products">#</a></h2>
@@ -416,15 +446,15 @@
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="http://localhost:1313/tags/cute/">CuTe</a></li>
-      <li><a href="http://localhost:1313/tags/layout/">Layout</a></li>
+      <li><a href="http://localhost:13131/tags/cute/">CuTe</a></li>
+      <li><a href="http://localhost:13131/tags/layout/">Layout</a></li>
     </ul>
   </footer>
 </article>
     </main>
     
 <footer class="footer">
-        <span>&copy; 2026 <a href="http://localhost:1313/">鲤鱼爱的神秘小屋</a></span> · 
+        <span>&copy; 2026 <a href="http://localhost:13131/">鲤鱼爱的神秘小屋</a></span> · 
 
     
     

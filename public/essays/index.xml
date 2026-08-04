@@ -2,24 +2,24 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>随笔 on 鲤鱼爱的神秘小屋</title>
-    <link>http://localhost:1313/essays/</link>
+    <link>http://localhost:13131/essays/</link>
     <description>Recent content in 随笔 on 鲤鱼爱的神秘小屋</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
     <lastBuildDate>Mon, 29 Jun 2026 15:06:22 +0800</lastBuildDate>
-    <atom:link href="http://localhost:1313/essays/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:13131/essays/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>At the End of June</title>
-      <link>http://localhost:1313/essays/at-the-end-of-june/</link>
+      <link>http://localhost:13131/essays/at-the-end-of-june/</link>
       <pubDate>Mon, 29 Jun 2026 15:06:22 +0800</pubDate>
-      <guid>http://localhost:1313/essays/at-the-end-of-june/</guid>
+      <guid>http://localhost:13131/essays/at-the-end-of-june/</guid>
       <description>写在六月末</description>
     </item>
     <item>
       <title>Life in Berkeley</title>
-      <link>http://localhost:1313/essays/life-in-berkeley/</link>
+      <link>http://localhost:13131/essays/life-in-berkeley/</link>
       <pubDate>Fri, 29 May 2026 11:21:43 +0800</pubDate>
-      <guid>http://localhost:1313/essays/life-in-berkeley/</guid>
+      <guid>http://localhost:13131/essays/life-in-berkeley/</guid>
       <description></description>
     </item>
   </channel>

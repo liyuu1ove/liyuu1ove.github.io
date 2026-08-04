@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh" dir="auto" data-theme="light">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=13131&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Technical Blog | 鲤鱼爱的神秘小屋</title>
+<meta name="keywords" content="">
+<meta name="description" content="个人主页、论文、技术博客与随笔">
+<meta name="author" content="鲤鱼爱">
+<link rel="canonical" href="http://localhost:13131/categories/technical-blog/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.26e9583fb0cf555b3a58a7936237486984fe70640f533bf97fa925e2c19cd09d.css" integrity="sha256-JulYP7DPVVs6WKeTYjdIaYT&#43;cGQPUzv5f6kl4sGc0J0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:13131/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:13131/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:13131/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:13131/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:13131/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://localhost:13131/categories/technical-blog/index.xml" title="rss">
+<link rel="alternate" hreflang="zh" href="http://localhost:13131/categories/technical-blog/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    }
+
+</script><script>
+  (function () {
+    var params = new URLSearchParams(window.location.search);
+    var forcedTheme = params.get("theme");
+    var exportMode = params.get("export");
+    if (forcedTheme === "dark" || forcedTheme === "light") {
+      document.documentElement.dataset.theme = forcedTheme;
+      localStorage.setItem("pref-theme", forcedTheme);
+    }
+    if (exportMode) {
+      document.documentElement.dataset.export = exportMode;
+      document.body && document.body.classList.add("export-" + exportMode);
+    }
+  })();
+</script>
+
+<style>
+  body,
+  .post-content,
+  .catalog-page,
+  .academic-home,
+  .about-block,
+  .news-list,
+  .compact-section,
+  .publication-body,
+  .search-page,
+  .searchbox-page input,
+  .nav-search input {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+      Cantarell, "Open Sans", "Helvetica Neue", "PingFang SC", "Hiragino Sans GB",
+      "Microsoft YaHei", "Noto Sans CJK SC", "Noto Sans SC", "WenQuanYi Micro Hei",
+      sans-serif;
+  }
+
+  code,
+  pre,
+  .catalog-date,
+  .academic-section h2 span {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+      "Liberation Mono", "DejaVu Sans Mono", "Sarasa Mono SC",
+      "Noto Sans Mono CJK SC", monospace;
+  }
+</style>
+<meta property="og:url" content="http://localhost:13131/categories/technical-blog/">
+  <meta property="og:site_name" content="鲤鱼爱的神秘小屋">
+  <meta property="og:title" content="Technical Blog">
+  <meta property="og:description" content="个人主页、论文、技术博客与随笔">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="website">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Technical Blog">
+  <meta name="twitter:description" content="个人主页、论文、技术博客与随笔">
+
+</head>
+<body class="list" id="top">
+    <header class="header">
+  <nav class="header-nav">
+    <div class="logo"><a href="/" accesskey="h" title="鲤鱼爱的神秘小屋 (Alt + H)">鲤鱼爱的神秘小屋</a>
+      <div class="logo-switches">
+        <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+          <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+          <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+        </button>
+        <span class="nav-sep">|</span>
+        <ul class="lang-menu">
+          <li>
+            <a href="/en/" title="English" aria-label="English">English</a>
+          </li>
+        </ul>
+      </div>
+    </div><ul id="menu" class="menu">
+      <li>
+        <a href="/" title="主页">
+          <span>主页</span>
+        </a>
+      </li>
+      <li>
+        <a href="/about/" title="关于我">
+          <span>关于我</span>
+        </a>
+      </li>
+      <li>
+        <a href="/publications/" title="发表">
+          <span>发表</span>
+        </a>
+      </li>
+      <li>
+        <a href="/technical-blog/" title="技术博客">
+          <span>技术博客</span>
+        </a>
+      </li>
+      <li>
+        <a href="/essays/" title="随笔">
+          <span>随笔</span>
+        </a>
+      </li>
+    </ul>
+
+    <form class="nav-search" action="/search/" method="get" role="search">
+      <label class="nav-search-label" for="nav-search-input">搜索</label>
+      <input
+        id="nav-search-input"
+        name="q"
+        type="search"
+        autocomplete="off"
+        placeholder="搜索文章"
+      >
+      <button class="nav-search-button" type="submit" aria-label="打开搜索">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="11" cy="11" r="7"></circle>
+          <line x1="20" y1="20" x2="16.65" y2="16.65"></line>
+        </svg>
+      </button>
+    </form>
+  </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    Technical Blog
+  </h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">CuTe学习00-模板元编程
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>1未成年C请在成年C&#43;&#43;陪同下观看! 模板元编程 C&#43;&#43;模板元编程（Template Meta Programming）是C&#43;&#43;中最强大、也最硬核的特性之一。简单来说，普通的C&#43;&#43;代码是在运行期（Runtime）由CPU执行；而模板元编程则是让编译器在编译期（Compile-time）执行代码。它的本质是利用C&#43;&#43;的模板系统，在编译阶段生成定制化的源代码或计算出具体的值。
+现代C&#43;&#43;模板元编程主要依赖在C&#43;&#43;17中引入的特性，本文接下来将简单介绍模板元编程与这些特性，作为理解CuTe的基础。本实验代码全部使用x86-64 gcc 16.1编译，flag为-O3 -maxv2。汇编代码使用intel asm syntax，仅用于解释TMP优化，并且只对本文负责。...表示省略不重要的内存搬运等汇编。
+WHY TMP? 在开始今天的正题之前，我希望和读者达成几个共识，作为我们接下来讨论性能的基础。
+逻辑分支的控制流开销远超纯计算指令。在CPU上分支预测失败会带来数十个周期的流水线惩罚，而在GPU的SIMT架构下，分支发散导致的性能惩罚则更为剧烈。 高频的函数调用或深层递归会引入频繁的栈帧构建与上下文切换，这类开销通常是不可接受的性能瓶颈。 编译器的启发式优化并非万能。评估优化策略的实际成效依赖于微基准测试，而验证其底层优化行为则需深入审查生成的汇编代码。 Ex.1-编译期求值 在高性能计算中我们会面临很多常数计算，比如固定大小的TileSize，BlockSize等。我们以计算阶乘为切入点，描述TMP在常数优化方面的优势。
+递归 1int factorial(int n) { 2 return (n &lt;= 1) ? 1 : n * factorial(n - 1); 3} 4 5int main(){ 6 int a = factorial(5); 7} 1&#34;factorial(int)&#34;: 2 ... 3 cmp DWORD PTR [rbp-4], 1 4 jle .L2 5 ... 6 call &#34;factorial(int)&#34; 7 imul eax, DWORD PTR [rbp-4] 8 jmp .L4 9.L2: 10 mov eax, 1 11.L4: 12 leave 13 ret 14&#34;main&#34;: 15 ... 16 call &#34;factorial(int)&#34; 17 mov DWORD PTR [rbp-4], eax 18 ... 这段代码执行时会进行递归，直到计算出5!为止。从数值计算来讲，这当然没有问题。但是在性能方面，观察汇编，我们发现每次递归都要执行函数调用和条件判断终止，这两个操作的硬件代价很高，并且这个函数有着线性复杂度。言而总之，递归的方式性能并不好。
+模板计算 1template&lt;int N&gt; 2struct Factorial { 3 static constexpr int value = N * Factorial&lt;N - 1&gt;::value; 4}; 5 6template&lt;&gt; 7struct Factorial&lt;1&gt; { 8 static constexpr int value = 1; 9}; 10 11int main(){ 12 int result = Factorial&lt;5&gt;::value; 13} 1&#34;main&#34;: 2 ... 3 mov DWORD PTR [rbp-4], 120 4 ... 5 ret 观察汇编，我们发现一个神奇的事情，阶乘的结果是一个立即数！这代表运行时完全没有开销。当然，这也不是没有代价的，实际的计算过程是在编译期。我们把这个过程称作模板实例化，以 factorial&lt;3&gt; 为例，实例化的过程如下。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-05-25 12:00:00 +0800 CST'>2026年5月25日</span>&nbsp;·&nbsp;<span>阅读此文大概需要28分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
+  <a class="entry-link" aria-label="post link to CuTe学习00-模板元编程" href="http://localhost:13131/technical-blog/cute-starter-00/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="http://localhost:13131/categories/technical-blog/">
+      «&nbsp;上一页&nbsp;
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:13131/">鲤鱼爱的神秘小屋</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

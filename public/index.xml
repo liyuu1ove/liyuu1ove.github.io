@@ -2,94 +2,113 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>鲤鱼爱的神秘小屋</title>
-    <link>http://localhost:1313/</link>
+    <link>http://localhost:13131/</link>
     <description>Recent content on 鲤鱼爱的神秘小屋</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 07 Jul 2026 16:27:26 +0800</lastBuildDate>
-    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 29 Jul 2026 14:21:13 +0800</lastBuildDate>
+    <atom:link href="http://localhost:13131/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Cute Starter 4 Mma Atom</title>
-      <link>http://localhost:1313/technical-blog/cute-starter-4-mma-atom/</link>
-      <pubDate>Tue, 07 Jul 2026 16:27:26 +0800</pubDate>
-      <guid>http://localhost:1313/technical-blog/cute-starter-4-mma-atom/</guid>
-      <description></description>
+      <title>CuTe学习5-Copy Atom</title>
+      <link>http://localhost:13131/technical-blog/cute-starter-5/</link>
+      <pubDate>Wed, 29 Jul 2026 14:21:13 +0800</pubDate>
+      <guid>http://localhost:13131/technical-blog/cute-starter-5/</guid>
+      <description>&lt;h1 id=&#34;copy-atom&#34;&gt;Copy Atom&lt;/h1&gt;
+&lt;p&gt;CuTe中的copy也基本遵循和MMA一样的层级，数据搬运和计算是一个高性能Kernel面对的最大问题。虽然Copy也很重要，但是我有点累了，不想写了，留着后面单独介绍TMA的时候写吧&lt;/p&gt;
+&lt;figure class=&#34;post-image&#34; style=&#34;width: 100%; max-width: 500px; margin-left: auto; margin-right: auto;&#34;&gt;
+  &lt;img src=&#34;copy.png&#34; alt=&#34;CuTe copy hierarchy&#34; loading=&#34;lazy&#34; decoding=&#34;async&#34; style=&#34;display: block; width: 100%; height: auto;&#34;&gt;
+  &lt;figcaption&gt;CuTe Copy Hierarchy&lt;/figcaption&gt;
+&lt;/figure&gt;</description>
     </item>
     <item>
-      <title>CuTe学习3-Tensor与Tensor算法</title>
-      <link>http://localhost:1313/technical-blog/cute-starter-3-tensor/</link>
+      <title>CuTe学习6-SM80 CuTe GEMM Walk Through</title>
+      <link>http://localhost:13131/technical-blog/cute-starter-6/</link>
+      <pubDate>Mon, 13 Jul 2026 17:29:09 +0800</pubDate>
+      <guid>http://localhost:13131/technical-blog/cute-starter-6/</guid>
+      <description>以一个SM80 HGEMM为例，详细介绍CuTe GEMM中的tiling、slicing</description>
+    </item>
+    <item>
+      <title>CuTe学习4-MMA Atom</title>
+      <link>http://localhost:13131/technical-blog/cute-starter-4/</link>
+      <pubDate>Tue, 07 Jul 2026 16:27:26 +0800</pubDate>
+      <guid>http://localhost:13131/technical-blog/cute-starter-4/</guid>
+      <description>介绍CuTe中MMA Atom的层次化结构</description>
+    </item>
+    <item>
+      <title>CuTe学习3-Tensor</title>
+      <link>http://localhost:13131/technical-blog/cute-starter-3/</link>
       <pubDate>Fri, 03 Jul 2026 17:00:38 +0800</pubDate>
-      <guid>http://localhost:1313/technical-blog/cute-starter-3-tensor/</guid>
-      <description>介绍CuTe Tensor类</description>
+      <guid>http://localhost:13131/technical-blog/cute-starter-3/</guid>
+      <description>介绍CuTe Tensor模板类</description>
     </item>
     <item>
       <title>CuTe学习2特别篇-Divide&amp;Product</title>
-      <link>http://localhost:1313/technical-blog/cute-starter-2-aside/</link>
+      <link>http://localhost:13131/technical-blog/cute-starter-2-aside/</link>
       <pubDate>Thu, 02 Jul 2026 15:02:51 +0800</pubDate>
-      <guid>http://localhost:1313/technical-blog/cute-starter-2-aside/</guid>
+      <guid>http://localhost:13131/technical-blog/cute-starter-2-aside/</guid>
       <description>介绍 Zipped, Tiled and Flat Divides和Blocked and Raked Products</description>
     </item>
     <item>
       <title>At the End of June</title>
-      <link>http://localhost:1313/essays/at-the-end-of-june/</link>
+      <link>http://localhost:13131/essays/at-the-end-of-june/</link>
       <pubDate>Mon, 29 Jun 2026 15:06:22 +0800</pubDate>
-      <guid>http://localhost:1313/essays/at-the-end-of-june/</guid>
+      <guid>http://localhost:13131/essays/at-the-end-of-june/</guid>
       <description>写在六月末</description>
     </item>
     <item>
       <title>CuTe学习2-Layout Algebra</title>
-      <link>http://localhost:1313/technical-blog/cute-starter-2/</link>
+      <link>http://localhost:13131/technical-blog/cute-starter-2/</link>
       <pubDate>Thu, 25 Jun 2026 16:35:03 +0800</pubDate>
-      <guid>http://localhost:1313/technical-blog/cute-starter-2/</guid>
+      <guid>http://localhost:13131/technical-blog/cute-starter-2/</guid>
       <description>介绍定义在CuTe Layout的代数运算及其使用场景</description>
     </item>
     <item>
       <title>集合通讯学习1-NCCL与集合通讯原语</title>
-      <link>http://localhost:1313/technical-blog/collective-communication-starter-1/</link>
+      <link>http://localhost:13131/technical-blog/collective-communication-starter-1/</link>
       <pubDate>Mon, 15 Jun 2026 16:39:20 +0800</pubDate>
-      <guid>http://localhost:1313/technical-blog/collective-communication-starter-1/</guid>
+      <guid>http://localhost:13131/technical-blog/collective-communication-starter-1/</guid>
       <description>介绍NCCL API和集合通讯原语</description>
     </item>
     <item>
       <title>集合通讯学习0-分布式计算与硬件网络</title>
-      <link>http://localhost:1313/technical-blog/collective-communication-starter-0/</link>
+      <link>http://localhost:13131/technical-blog/collective-communication-starter-0/</link>
       <pubDate>Thu, 11 Jun 2026 16:26:55 +0800</pubDate>
-      <guid>http://localhost:1313/technical-blog/collective-communication-starter-0/</guid>
+      <guid>http://localhost:13131/technical-blog/collective-communication-starter-0/</guid>
       <description>简单介绍分布式计算的概念和现代数据中心硬件网络</description>
     </item>
     <item>
       <title>CuTe学习1-Layout</title>
-      <link>http://localhost:1313/technical-blog/cute-starter-1/</link>
+      <link>http://localhost:13131/technical-blog/cute-starter-1/</link>
       <pubDate>Fri, 29 May 2026 12:00:00 +0800</pubDate>
-      <guid>http://localhost:1313/technical-blog/cute-starter-1/</guid>
+      <guid>http://localhost:13131/technical-blog/cute-starter-1/</guid>
       <description>介绍CuTe的layout模板类</description>
     </item>
     <item>
       <title>Life in Berkeley</title>
-      <link>http://localhost:1313/essays/life-in-berkeley/</link>
+      <link>http://localhost:13131/essays/life-in-berkeley/</link>
       <pubDate>Fri, 29 May 2026 11:21:43 +0800</pubDate>
-      <guid>http://localhost:1313/essays/life-in-berkeley/</guid>
+      <guid>http://localhost:13131/essays/life-in-berkeley/</guid>
       <description></description>
     </item>
     <item>
       <title>CuTe学习0-CuTe简介</title>
-      <link>http://localhost:1313/technical-blog/cute-starter-0/</link>
+      <link>http://localhost:13131/technical-blog/cute-starter-0/</link>
       <pubDate>Thu, 28 May 2026 16:29:15 +0800</pubDate>
-      <guid>http://localhost:1313/technical-blog/cute-starter-0/</guid>
+      <guid>http://localhost:13131/technical-blog/cute-starter-0/</guid>
       <description>简单介绍CuTe抽象</description>
     </item>
     <item>
       <title>CuTe学习00-模板元编程</title>
-      <link>http://localhost:1313/technical-blog/cute-starter-00/</link>
+      <link>http://localhost:13131/technical-blog/cute-starter-00/</link>
       <pubDate>Mon, 25 May 2026 12:00:00 +0800</pubDate>
-      <guid>http://localhost:1313/technical-blog/cute-starter-00/</guid>
+      <guid>http://localhost:13131/technical-blog/cute-starter-00/</guid>
       <description>简单介绍C&#43;&#43;模板元编程</description>
     </item>
     <item>
       <title>About me</title>
-      <link>http://localhost:1313/about/</link>
+      <link>http://localhost:13131/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/about/</guid>
+      <guid>http://localhost:13131/about/</guid>
       <description>我是谁</description>
     </item>
   </channel>

@@ -8,3 +8,6 @@ tags = []
 categories = ['Technical Blog']
 +++
 
+# Divide
+## Zipped Divides
+

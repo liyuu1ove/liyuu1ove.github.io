@@ -3,11 +3,16 @@
 all:
 
 HUGO_MIN_VERSION := 0.146.0
-MOBILE_SHOT_PORT := 1313
-MOBILE_SHOT_WIDTH := 430
-MOBILE_SHOT_HEIGHT := 3200
+
+MOBILE_SHOT_PORT := 13131
 MOBILE_CARD_WIDTH := 430
 MOBILE_CARD_HEIGHT := 932
+# Use a 3x-class raster for sharper text on modern phone displays.
+MOBILE_CARD_RENDER_DPI := 288
+# 12.7 mm at 288 DPI, matching the page margin applied below.
+MOBILE_CARD_TOP_SAFE_AREA := 144
+# Applied to every PDF page before pagination.
+MOBILE_CARD_TOP_MARGIN_MM := 12.7
 SUDO ?= sudo
 
 publish:
@@ -60,37 +65,18 @@ install-mobile-export-deps:
 	@command -v chromium-browser >/dev/null 2>&1 && chromium-browser --version || true
 	@wkhtmltopdf --version
 
-export-mobile-image:
-	@if [ -z "$(PAGE)" ]; then echo 'usage: make export-mobile-image PAGE="/technical-blog/cute-starter-1/" OUT="exports/post.png"'; exit 1; fi
-	@if ! command -v chromium-browser >/dev/null 2>&1; then echo 'error: chromium-browser is not installed'; echo 'run: make install-mobile-export-deps'; exit 1; fi
-	@mkdir -p "$$(dirname "$${OUT:-exports/mobile-shot.png}")"
-	@tmp_log=$$(mktemp); \
-	trap 'if [ -n "$$server_pid" ]; then kill $$server_pid >/dev/null 2>&1 || true; wait $$server_pid >/dev/null 2>&1 || true; fi; rm -f "$$tmp_log"' EXIT; \
-	hugo server -D --bind 127.0.0.1 --port $(MOBILE_SHOT_PORT) >"$$tmp_log" 2>&1 & \
-	server_pid=$$!; \
-	for i in 1 2 3 4 5 6 7 8 9 10; do \
-		if grep -q 'Web Server is available at' "$$tmp_log"; then break; fi; \
-		sleep 1; \
-	done; \
-	if ! grep -q 'Web Server is available at' "$$tmp_log"; then \
-		cat "$$tmp_log"; \
-		echo 'error: hugo server did not start in time'; \
-		exit 1; \
-	fi; \
-		url="http://127.0.0.1:$(MOBILE_SHOT_PORT)$${PAGE}"; \
-		case "$$url" in *\?*) url="$$url&theme=$${THEME:-dark}" ;; *) url="$$url?theme=$${THEME:-dark}" ;; esac; \
-		out_path="$${OUT:-exports/mobile-shot.png}"; \
-		chromium-browser --headless --disable-gpu --hide-scrollbars --virtual-time-budget=4000 --window-size=$${WIDTH:-$(MOBILE_SHOT_WIDTH)},$${HEIGHT:-$(MOBILE_SHOT_HEIGHT)} --screenshot="$$out_path" "$$url"; \
-		echo "==> Saved mobile image to $$out_path"
 
-export-mobile-cards:
-	@if [ -z "$(PAGE)" ]; then echo 'usage: make export-mobile-cards PAGE="/technical-blog/cute-starter-1/" OUT_DIR="exports/<page-slug>"'; exit 1; fi
+export:
 	@if ! command -v wkhtmltopdf >/dev/null 2>&1; then echo 'error: wkhtmltopdf is not installed'; echo 'run: make install-mobile-export-deps'; exit 1; fi
 	@if ! command -v pdftoppm >/dev/null 2>&1; then echo 'error: pdftoppm is not installed'; echo 'run: make install-mobile-export-deps'; exit 1; fi
-	@page_slug=$$(printf '%s' "$${PAGE}" | sed 's#/*$$##; s#.*/##'); \
-	if [ -z "$$page_slug" ]; then page_slug="mobile-cards"; fi; \
-	out_dir="$${OUT_DIR:-exports/$$page_slug}"; \
-	mkdir -p "$$out_dir"; \
+	@if [ -n "$(PAGE)" ]; then \
+		pages="$(PAGE)"; \
+		batch=0; \
+	else \
+		pages=$$(hugo list all | awk -F, 'NR > 1 && $$9 == "page" && ($$10 == "technical-blog" || $$10 == "essays") { sub(/^https?:\/\/[^/]+/, "", $$8); print $$8 }'); \
+		batch=1; \
+	fi; \
+	if [ -z "$$pages" ]; then echo 'error: no technical blog or essay pages were found'; exit 1; fi; \
 	tmp_log=$$(mktemp); \
 	tmp_pdf=$$(mktemp --suffix=.pdf); \
 	trap 'if [ -n "$$server_pid" ]; then kill $$server_pid >/dev/null 2>&1 || true; wait $$server_pid >/dev/null 2>&1 || true; fi; rm -f "$$tmp_log" "$$tmp_pdf"' EXIT; \
@@ -105,23 +91,41 @@ export-mobile-cards:
 		echo 'error: hugo server did not start in time'; \
 		exit 1; \
 	fi; \
-	url="http://127.0.0.1:$(MOBILE_SHOT_PORT)$${PAGE}"; \
-	case "$$url" in *\?*) url="$$url&theme=$${THEME:-dark}&export=mobile" ;; *) url="$$url?theme=$${THEME:-dark}&export=mobile" ;; esac; \
-	wkhtmltopdf --enable-local-file-access --background --javascript-delay 2000 --user-style-sheet "$$(pwd)/static/export-mobile.css" --page-width "$${WIDTH:-$(MOBILE_CARD_WIDTH)}px" --page-height "$${HEIGHT:-$(MOBILE_CARD_HEIGHT)}px" --margin-top 0 --margin-right 0 --margin-bottom 0 --margin-left 0 "$$url" "$$tmp_pdf" >/dev/null 2>&1; \
-	if [ ! -s "$$tmp_pdf" ]; then \
-		echo 'error: failed to render PDF'; \
-		exit 1; \
-	fi; \
-	pdfinfo "$$tmp_pdf" >/dev/null 2>&1 || { echo 'error: rendered PDF is invalid'; exit 1; }; \
-	pdftoppm -png -rx 180 -ry 180 "$$tmp_pdf" "$$out_dir/page" >/dev/null; \
-	if ! ls "$$out_dir"/page-*.png >/dev/null 2>&1; then \
-		echo 'error: no PNG pages were generated'; \
-		exit 1; \
-	fi; \
-	if command -v mogrify >/dev/null 2>&1; then \
-		mogrify -trim +repage "$$out_dir"/page-*.png; \
-	fi; \
-	echo "==> Exported mobile cards to $$out_dir"
+	exported=0; \
+	skipped=0; \
+	for page in $$pages; do \
+		page_slug=$$(printf '%s' "$$page" | sed 's#/*$$##; s#.*/##'); \
+		if [ -z "$$page_slug" ]; then echo "error: invalid page path $$page"; exit 1; fi; \
+		if [ "$$batch" -eq 1 ]; then \
+			out_dir="exports/$$page_slug"; \
+			set -- "$$out_dir"/page-*.png; \
+			if [ -e "$$1" ]; then \
+				echo "==> Skipping $$page (cards already exist in $$out_dir)"; \
+				skipped=$$((skipped + 1)); \
+				continue; \
+			fi; \
+		else \
+			out_dir="$${OUT_DIR:-exports/$$page_slug}"; \
+			rm -rf "$$out_dir"; \
+		fi; \
+		mkdir -p "$$out_dir"; \
+		url="http://127.0.0.1:$(MOBILE_SHOT_PORT)$$page"; \
+		case "$$url" in *\?*) url="$$url&theme=$${THEME:-dark}&export=mobile" ;; *) url="$$url?theme=$${THEME:-dark}&export=mobile" ;; esac; \
+		rm -f "$$tmp_pdf"; \
+		wkhtmltopdf --enable-local-file-access --background --javascript-delay 2000 --user-style-sheet "$$(pwd)/static/export-mobile.css" --page-width "$${WIDTH:-$(MOBILE_CARD_WIDTH)}px" --page-height "$${HEIGHT:-$(MOBILE_CARD_HEIGHT)}px" --margin-top $(MOBILE_CARD_TOP_MARGIN_MM)mm --margin-right 0 --margin-bottom 0 --margin-left 0 "$$url" "$$tmp_pdf" >/dev/null 2>&1; \
+		if [ ! -s "$$tmp_pdf" ]; then echo "error: failed to render $$page"; exit 1; fi; \
+		pdfinfo "$$tmp_pdf" >/dev/null 2>&1 || { echo "error: rendered PDF is invalid for $$page"; exit 1; }; \
+		pdftoppm -png -rx $(MOBILE_CARD_RENDER_DPI) -ry $(MOBILE_CARD_RENDER_DPI) "$$tmp_pdf" "$$out_dir/page" >/dev/null; \
+		set -- "$$out_dir"/page-*.png; \
+		if [ ! -e "$$1" ]; then echo "error: no PNG pages were generated for $$page"; exit 1; fi; \
+		if command -v mogrify >/dev/null 2>&1; then \
+			card_geometry=$$(identify -format '%wx%h' "$$1"); \
+			mogrify -trim +repage -background 'rgb(29, 30, 32)' -gravity north -splice 0x$(MOBILE_CARD_TOP_SAFE_AREA) -extent "$$card_geometry" "$$out_dir"/page-*.png; \
+		fi; \
+		echo "==> Exported $$page to $$out_dir"; \
+		exported=$$((exported + 1)); \
+	done; \
+	echo "==> Exported $$exported article(s); skipped $$skipped article(s)"
 
 new:
 	@if [ -z "$(SECTION)" ] || [ -z "$(TITLE)" ]; then echo 'usage: make new SECTION="technical-blog|essays|publications" TITLE="Your Post Title"'; exit 1; fi
