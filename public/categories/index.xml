@@ -2,24 +2,24 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Categories on 鲤鱼爱的神秘小屋</title>
-    <link>http://localhost:13131/categories/</link>
+    <link>http://localhost:1313/categories/</link>
     <description>Recent content in Categories on 鲤鱼爱的神秘小屋</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
     <lastBuildDate>Wed, 29 Jul 2026 14:21:13 +0800</lastBuildDate>
-    <atom:link href="http://localhost:13131/categories/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Technical Blog</title>
-      <link>http://localhost:13131/categories/technical-blog/</link>
+      <link>http://localhost:1313/categories/technical-blog/</link>
       <pubDate>Wed, 29 Jul 2026 14:21:13 +0800</pubDate>
-      <guid>http://localhost:13131/categories/technical-blog/</guid>
+      <guid>http://localhost:1313/categories/technical-blog/</guid>
       <description></description>
     </item>
     <item>
       <title>Essays</title>
-      <link>http://localhost:13131/categories/essays/</link>
+      <link>http://localhost:1313/categories/essays/</link>
       <pubDate>Mon, 29 Jun 2026 15:06:22 +0800</pubDate>
-      <guid>http://localhost:13131/categories/essays/</guid>
+      <guid>http://localhost:1313/categories/essays/</guid>
       <description></description>
     </item>
   </channel>

@@ -62,17 +62,9 @@ content/technical-blog/CuTe-starter-2/
 content/technical-blog/collective-communication-starter-1/
 ```
 
-In the Markdown file, reference page resources by filename:
+In the Markdown file, reference page resources by filename in html style
 
-```markdown
-![divide1](divide1.png)
-```
-
-Avoid paths like:
-
-```markdown
-![divide1](CuTe-starter-2/divide1.png)
-```
+{{< image src="SM80_16x8x8.png" alt="MMAOperation" maxWidth="500px" caption="CuTe MMA_Atom Visualization">}}
 
 Those can generate broken or duplicated paths depending on Hugo page bundle behavior.
 

@@ -2,195 +2,198 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:13131/categories/</loc>
+    <loc>http://localhost:1313/categories/</loc>
     <lastmod>2026-07-29T14:21:13+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-us"
-                href="http://localhost:13131/en/categories/"
+                href="http://localhost:1313/en/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="http://localhost:13131/categories/"
+                href="http://localhost:1313/categories/"
                 />
   </url><url>
-    <loc>http://localhost:13131/technical-blog/cute-starter-5/</loc>
+    <loc>http://localhost:1313/tags/copy-atom/</loc>
     <lastmod>2026-07-29T14:21:13+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:13131/categories/technical-blog/</loc>
+    <loc>http://localhost:1313/tags/cuda/</loc>
     <lastmod>2026-07-29T14:21:13+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:13131/technical-blog/</loc>
+    <loc>http://localhost:1313/tags/cute/</loc>
     <lastmod>2026-07-29T14:21:13+08:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-us"
-                href="http://localhost:13131/en/technical-blog/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-cn"
-                href="http://localhost:13131/technical-blog/"
-                />
   </url><url>
-    <loc>http://localhost:13131/</loc>
+    <loc>http://localhost:1313/technical-blog/cute-starter-5/</loc>
+    <lastmod>2026-07-29T14:21:13+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/</loc>
     <lastmod>2026-07-29T14:21:13+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-us"
-                href="http://localhost:13131/en/"
+                href="http://localhost:1313/en/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="http://localhost:13131/"
+                href="http://localhost:1313/tags/"
                 />
   </url><url>
-    <loc>http://localhost:13131/tags/cuda/</loc>
-    <lastmod>2026-07-13T17:29:09+08:00</lastmod>
+    <loc>http://localhost:1313/categories/technical-blog/</loc>
+    <lastmod>2026-07-29T14:21:13+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:13131/tags/cute/</loc>
-    <lastmod>2026-07-13T17:29:09+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:13131/technical-blog/cute-starter-6/</loc>
-    <lastmod>2026-07-13T17:29:09+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:13131/tags/gemm/</loc>
-    <lastmod>2026-07-13T17:29:09+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:13131/tags/</loc>
-    <lastmod>2026-07-13T17:29:09+08:00</lastmod>
+    <loc>http://localhost:1313/technical-blog/</loc>
+    <lastmod>2026-07-29T14:21:13+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-us"
-                href="http://localhost:13131/en/tags/"
+                href="http://localhost:1313/en/technical-blog/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="http://localhost:13131/tags/"
+                href="http://localhost:1313/technical-blog/"
                 />
   </url><url>
-    <loc>http://localhost:13131/technical-blog/cute-starter-4/</loc>
+    <loc>http://localhost:1313/</loc>
+    <lastmod>2026-07-29T14:21:13+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-us"
+                href="http://localhost:1313/en/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="http://localhost:1313/"
+                />
+  </url><url>
+    <loc>http://localhost:1313/technical-blog/cute-starter-6/</loc>
+    <lastmod>2026-07-13T17:29:09+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/gemm/</loc>
+    <lastmod>2026-07-13T17:29:09+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/technical-blog/cute-starter-4/</loc>
     <lastmod>2026-07-07T16:27:26+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:13131/tags/mma-atom/</loc>
+    <loc>http://localhost:1313/tags/mmaatom/</loc>
     <lastmod>2026-07-07T16:27:26+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:13131/technical-blog/cute-starter-3/</loc>
+    <loc>http://localhost:1313/technical-blog/cute-starter-3/</loc>
     <lastmod>2026-07-03T17:00:38+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:13131/tags/tensor/</loc>
+    <loc>http://localhost:1313/tags/tensor/</loc>
     <lastmod>2026-07-03T17:00:38+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:13131/technical-blog/cute-starter-2-aside/</loc>
+    <loc>http://localhost:1313/technical-blog/cute-starter-2-aside/</loc>
     <lastmod>2026-07-02T15:02:51+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:13131/essays/at-the-end-of-june/</loc>
+    <loc>http://localhost:1313/essays/at-the-end-of-june/</loc>
     <lastmod>2026-06-29T15:06:22+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:13131/categories/essays/</loc>
+    <loc>http://localhost:1313/categories/essays/</loc>
     <lastmod>2026-06-29T15:06:22+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:13131/essays/</loc>
+    <loc>http://localhost:1313/essays/</loc>
     <lastmod>2026-06-29T15:06:22+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-us"
-                href="http://localhost:13131/en/essays/"
+                href="http://localhost:1313/en/essays/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="http://localhost:13131/essays/"
+                href="http://localhost:1313/essays/"
                 />
   </url><url>
-    <loc>http://localhost:13131/technical-blog/cute-starter-2/</loc>
+    <loc>http://localhost:1313/technical-blog/cute-starter-2/</loc>
     <lastmod>2026-06-25T16:35:03+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:13131/tags/layout/</loc>
+    <loc>http://localhost:1313/tags/layout/</loc>
     <lastmod>2026-06-25T16:35:03+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:13131/tags/collective-communication/</loc>
+    <loc>http://localhost:1313/tags/collective-communication/</loc>
     <lastmod>2026-06-15T16:39:20+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:13131/tags/distributed-training/</loc>
+    <loc>http://localhost:1313/tags/distributed-training/</loc>
     <lastmod>2026-06-15T16:39:20+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:13131/tags/nccl/</loc>
+    <loc>http://localhost:1313/tags/nccl/</loc>
     <lastmod>2026-06-15T16:39:20+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:13131/technical-blog/collective-communication-starter-1/</loc>
+    <loc>http://localhost:1313/technical-blog/collective-communication-starter-1/</loc>
     <lastmod>2026-06-15T16:39:20+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:13131/tags/distributed-system/</loc>
+    <loc>http://localhost:1313/tags/distributed-system/</loc>
     <lastmod>2026-06-11T16:26:55+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:13131/tags/ib/</loc>
+    <loc>http://localhost:1313/tags/ib/</loc>
     <lastmod>2026-06-11T16:26:55+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:13131/tags/nvlink/</loc>
+    <loc>http://localhost:1313/tags/nvlink/</loc>
     <lastmod>2026-06-11T16:26:55+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:13131/tags/roce/</loc>
+    <loc>http://localhost:1313/tags/roce/</loc>
     <lastmod>2026-06-11T16:26:55+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:13131/technical-blog/collective-communication-starter-0/</loc>
+    <loc>http://localhost:1313/technical-blog/collective-communication-starter-0/</loc>
     <lastmod>2026-06-11T16:26:55+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:13131/technical-blog/cute-starter-1/</loc>
+    <loc>http://localhost:1313/technical-blog/cute-starter-1/</loc>
     <lastmod>2026-05-29T12:00:00+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:13131/essays/life-in-berkeley/</loc>
+    <loc>http://localhost:1313/essays/life-in-berkeley/</loc>
     <lastmod>2026-05-29T11:21:43+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:13131/technical-blog/cute-starter-0/</loc>
+    <loc>http://localhost:1313/technical-blog/cute-starter-0/</loc>
     <lastmod>2026-05-28T16:29:15+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:13131/technical-blog/cute-starter-00/</loc>
+    <loc>http://localhost:1313/technical-blog/cute-starter-00/</loc>
     <lastmod>2026-05-25T12:00:00+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:13131/tags/modern-c&#43;&#43;/</loc>
+    <loc>http://localhost:1313/tags/modern-c&#43;&#43;/</loc>
     <lastmod>2026-05-25T12:00:00+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:13131/tags/tmp/</loc>
+    <loc>http://localhost:1313/tags/tmp/</loc>
     <lastmod>2026-05-25T12:00:00+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:13131/about/</loc>
+    <loc>http://localhost:1313/about/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-us"
-                href="http://localhost:13131/en/about/"
+                href="http://localhost:1313/en/about/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="http://localhost:13131/about/"
+                href="http://localhost:1313/about/"
                 />
   </url><url>
-    <loc>http://localhost:13131/publications/</loc>
+    <loc>http://localhost:1313/publications/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-us"
-                href="http://localhost:13131/en/publications/"
+                href="http://localhost:1313/en/publications/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="http://localhost:13131/publications/"
+                href="http://localhost:1313/publications/"
                 />
   </url><url>
-    <loc>http://localhost:13131/search/</loc>
+    <loc>http://localhost:1313/search/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-us"
-                href="http://localhost:13131/en/search/"
+                href="http://localhost:1313/en/search/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="http://localhost:13131/search/"
+                href="http://localhost:1313/search/"
                 />
   </url>
 </urlset>

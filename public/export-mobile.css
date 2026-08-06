@@ -75,7 +75,7 @@ body {
 
 /* Keep a first-card buffer for the post thumbnail above the title. */
 .post-single {
-  padding-top: 160px !important;
+  padding-top: 180px !important;
 }
 
 .post-title,

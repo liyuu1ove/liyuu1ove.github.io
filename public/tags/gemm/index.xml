@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>GEMM on 鲤鱼爱的神秘小屋</title>
-    <link>http://localhost:13131/tags/gemm/</link>
+    <link>http://localhost:1313/tags/gemm/</link>
     <description>Recent content in GEMM on 鲤鱼爱的神秘小屋</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
     <lastBuildDate>Mon, 13 Jul 2026 17:29:09 +0800</lastBuildDate>
-    <atom:link href="http://localhost:13131/tags/gemm/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/gemm/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>CuTe学习6-SM80 CuTe GEMM Walk Through</title>
-      <link>http://localhost:13131/technical-blog/cute-starter-6/</link>
+      <link>http://localhost:1313/technical-blog/cute-starter-6/</link>
       <pubDate>Mon, 13 Jul 2026 17:29:09 +0800</pubDate>
-      <guid>http://localhost:13131/technical-blog/cute-starter-6/</guid>
-      <description>以一个SM80 HGEMM为例，详细介绍CuTe GEMM中的tiling、slicing</description>
+      <guid>http://localhost:1313/technical-blog/cute-starter-6/</guid>
+      <description>以SM80 HGEMM为例，详细介绍CuTe GEMM中的层次化结构</description>
     </item>
   </channel>
 </rss>

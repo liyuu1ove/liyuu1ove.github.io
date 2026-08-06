@@ -2,83 +2,26 @@
 title = 'CuTe学习6-SM80 CuTe GEMM Walk Through'
 date = '2026-07-13T17:29:09+08:00'
 draft = true
-description = '以一个SM80 HGEMM为例，详细介绍CuTe GEMM中的tiling、slicing'
+description = '以SM80 HGEMM为例，详细介绍CuTe GEMM中的层次化结构'
 readingTimeText = '阅读此文大概需要38分钟'
 tags = ['CuTe','GEMM','CUDA']
 categories = ['Technical Blog']
 +++
 
 # Overview
-本文分析基于Ampere架构的dense HGEMM，A和B通过`cp.async`进行GMEM到SMEM的搬运，再通过`ldmatrix`从SMEM搬运到register，最后使用`SM80_16x8x16_F16F16F16F16_TN` MMA PTX计算。
+本文分析基于Ampere架构的dense HGEMM。
 
-从流程上来讲，使用CuTe编写的代码和Raw CUDA进行的HGEMM没有本质区别，也没有用到全新的优化方式，仍然是SM80优化的那一套。CuTe把曾经几乎没有可读性的，复杂的坐标计算重构为了CuTe的Tensor分块和切片，操作tensor的每个函数都有易于理解的语义。
+从流程上来讲，使用CuTe编写的代码和Raw CUDA进行的HGEMM没有本质区别，也没有用到全新的优化方式，仍然是SM80优化的那一套。CuTe把曾经几乎没有可读性的，复杂的坐标计算重构为了CuTe的Tensor分块和切片，操作tensor的每个函数都有易于理解的语义。本文会重点解释参与运算的矩阵是如何被TiledMMA和TiledCopy重新组织，分块和切片的。而不是讲解如何在SM80上面优化一个HGEMM，较为基础的优化部分本文会略过。本文代码基于CuTe官方教程，略有一些修改，完整代码在github上。
 
-本文会重点解释参与运算的矩阵是如何被TiledMMA和TiledCopy重新组织，分块和切片的。而不是讲解如何在SM80上面优化一个HGEMM，较为基础的优化部分本文会略过。本文代码基于CuTe官方教程，略有一些修改，完整代码在github上。
+本文会按照代码数据流向的顺序进行讲解。
+
+``` plain text
+GMEM->SMEM->RMEM->TENSOR CORE
+```
 
 //TODO github连接
-# Tiling Partitioning Slicing
 
-## Tiling：按照tiler完成tiling，再选择一个tile
-
-``` CPP
-local_tile(Tensor    && tensor,
-           Tiler const& tiler,   // tiler to apply
-           Coord const& coord)   // coord to slice into "remainder"
-{
-  return inner_partition(static_cast<Tensor&&>(tensor),
-                         tiler,
-                         coord);
-}
-```
-
-在代码中，我们经常使用local tile进行CTA切片，我们传入的是希望得到的Tile的形状，得到的是按照这个形状切出来的，再通过coord选择的一片。这在CTA的层级上非常常见，举个例子，用户传入的Problem Shape是128，128，64，我们就要处理一个128，128的C，我们选择32，32的tile去切分C，这时候用到的就是local tile，得到（（32，32），（4，4））的shape，在通过coord选出一片。
-
-## Partitioning：按照参与者布局完成tiling，再选择一个参与者
-
-``` CPP
-local_partition(Tensor                     && tensor,
-                Layout<LShape,LStride> const& tile,    // coord -> index
-                Index                  const& index)   // index to slice for
-{
-  static_assert(is_integral<Index>::value);
-  return outer_partition(static_cast<Tensor&&>(tensor),
-                         product_each(shape(tile)),
-                         tile.get_flat_coord(index));
-}
-```
-
-在代码中，我们使用Partitioning分配线程任务，我们传入的是线程布局，得到的是工作平均按照布局分配，再按照线程序号选出来的一片。继续上面的例子，我们得到了一个（32，32）的CTA tile，这个CTA由32个线程参与，形状是（16，2），我们使用local——partition，切出（（2，8），（16，2））shape，这时一个线程的工作就是（2，8）。
-
-## Slicing：切片
-
-
-# 静态Tilesize、Copy和MMA 
-
-```cpp
-auto bM = Int<128>{};
-auto bN = Int<128>{};
-auto bK = Int< 64>{};
-auto cta_tiler = make_shape(bM, bN, bK);
-auto bP = Int<3>{};
-```
-这里我们选择三级流水线，bM，bN，bK为128 128 64，
-
-## Shared Memory Layout
-
-```cpp
-auto swizzle_atom = composition(
-    Swizzle<3,3,3>{},
-    Layout<Shape <_8,Shape <_8, _8>>,
-           Stride<_8,Stride<_1,_64>>>{});
-
-auto sA = tile_to_shape(swizzle_atom, make_shape(bM,bK,bP));
-auto sB = tile_to_shape(swizzle_atom, make_shape(bN,bK,bP));
-auto sC = make_layout(make_shape(bM, bN));
-```
-
-两者合计98304 bytes，也就是96 KiB动态shared memory。host侧的`sC`只提供静态`(128,128)` Layout，让kernel模板检查它与CTA的M/N shape一致；代码没有为C分配shared memory，真正的C视图是后面的`gC`。
-
-## GMem到SMem的TiledCopy
+# GMEM->SMEM
 
 ```cpp
 TiledCopy copyA = make_tiled_copy(
@@ -86,8 +29,6 @@ TiledCopy copyA = make_tiled_copy(
     Layout<Shape<_16,_8>,Stride<_8,_1>>{},
     Layout<Shape< _1,_8>>{});
 ```
-
-`copyB`使用相同配置。三个参数分别表示：
 
 1. Copy Atom：每次执行128-bit的`cp.async`，即8个half；
 2. Thread Layout：128个线程排成逻辑`16 x 8`；

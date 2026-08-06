@@ -1,4 +1,4 @@
-.PHONY: publish preview new setup-hugo install-hugo-apt install-mobile-export-deps export-mobile-image export-mobile-cards
+.PHONY: publish preview new setup-hugo install-hugo-apt install-mobile-export-deps export export
 
 all:
 

@@ -1,10 +1,10 @@
 +++
-title = 'CuTe学习4-MMA Atom'
+title = 'CuTe学习4-MmaAtom'
 date = '2026-07-07T16:27:26+08:00'
 draft = false
-description = '介绍CuTe中MMA Atom的层次化结构'
+description = '介绍CuTe中MmaAtom的层次化结构'
 readingTimeText = '阅读此文大概需要32分钟'
-tags = ['CuTe','MMA Atom']
+tags = ['CuTe','MmaAtom']
 categories = ['Technical Blog']
 +++
 
@@ -23,7 +23,7 @@ CuTe对MMA的抽象是自底向上的,大概可以分为三层。最底层是硬
 5. `ThrMMA`：某一个具体线程看到的MMA视图，负责切出该线程自己的A/B/C fragment。
 6. `cute::gemm`：最终执行入口，根据Tensor rank逐层dispatch，最后落到`mma_atom.call()`。
 
-本文使用Ampere的`SM80_16x8x16_F32F16F16F32_TN`作为主例子介绍CuTe MMA各抽象层级，使用Ampere架构介绍是因为其相对简单直接，而且兼容Ampere架构的卡相对好找(RTX 30及之后，A100，L40 etc.)，后面会有文章介绍Hopper上的GMMA和Blackwell上的UMMA。
+本文使用Ampere的`SM80_16x8x16_F32F16F16F32_TN`作为主例子介绍CuTe MMA各抽象层级，使用Ampere架构介绍是因为其相对简单直接，而且兼容Ampere架构的卡相对好找(RTX 30系及之后，A100，L40，etc.)，后面会有文章介绍Hopper和Blackwell。
 
 # MMAOperation
 
@@ -63,13 +63,15 @@ struct SM80_16x8x8_F32F16F16F32_TN
 
 MMAOperation内部包含了两个信息：需要的的寄存器数量，和执行计算的PTX指令。
 
-寄存器数量使用别名声明。比如，一次`m16n8k8`的F16 MMA F32 ACC在每个参与线程上，D需要4个float寄存器，A需要2个32-bit寄存器，B需要1个32-bit寄存器，C需要4个float寄存器。注意这里的寄存器类型是`uint32_t`，并不是`half_t`。原因是PTX MMA指令的操作数通常以寄存器打包形式传入(32-bit)，CuTe会在mma unpack层处理逻辑元素类型和寄存器类型之间的关系。
+寄存器数量使用别名声明，因为我们不希望在这个类里面分配内存，只希望其携带信息。比如，一次`m16n8k8`的F16 MMA F32 ACC在每个参与线程上，D需要4个float寄存器，A需要2个32-bit寄存器，B需要1个32-bit寄存器，C需要4个float寄存器。注意这里的寄存器类型是`uint32_t`，并不是`half_t`。原因是PTX MMA指令的操作数通常以寄存器打包形式传入(32-bit)，CuTe会在mma unpack层处理逻辑元素类型和寄存器类型之间的关系。
 
 这里使用的数据类型还可能有很多种。
 1. f16/bf16/int8/fp8/nvfp4等低精度类型会被打包进`uint32_t`。
 2. 累加器如果是 f32，就直接使用 float。
 3. 64-bit 通常用于描述符、地址、或更宽 operand。在 Hopper/Blackwell 的 GMMA/WGMMA 路径里，A/B 有时不是普通操作数，而是 shared-memory descriptor。这类 operand 使用`uint64_t`。还有double会使用`uint64_t`。
-4. 使用Blackwell TMEM的累加器D使用void，C使用TMEM的目标地址，这一部分会在之后的SM100 tcgen05里面再提及。
+4. 使用Blackwell TMEM时，D使用void，累加器C使用TMEM的目标地址，这一部分会在之后的SM100 tcgen05里面再提及。
+
+本文要讲解的PTX指令也很简单
 
 `MMAOperation`只暴露PTX指令需要的寄存器数量和PTX指令。其他更复杂的元信息由Traits提取。
 
@@ -114,11 +116,11 @@ CuTe的形状表示和传统矩阵库之间差别很大。有关CuTe和BLAS的na
 
 `ThrID = Layout<_32>`表示这个MMA Atom由32个线程参与，也就是一个warp。更准确地说，它描述逻辑线程id到硬件lane id的映射。对于SM80 warp-level MMA，这个映射是最简单的32线程布局。这里特别强调是因为SM90/100引入了GMMA/UMMA等需要多个Warp协同的MMA。
 
-`ALayout`、`BLayout`、`CLayout`描述的是前面提到过的Thread-Value映射。它描述了每个线程持有哪一部分寄存器，这一部分工作在raw CUDA中是由cuda::wmma和fragment处理的，如果要手写PTX指令，这部分的对应关系将会是算术噩梦。CuTe通过已经包装好的TV映射帮我们处理了这点。有关这个映射是如何构建的可以参考 [how to construct MMA atoms](https://docs.nvidia.com/cutlass/latest/media/docs/cpp/cute/0t_mma_atom.html#traits)。这部分映射构建和ldmatrix的行为有很大关系，我们在Copy一章会继续讲解。
+`ALayout`、`BLayout`、`CLayout`描述的是前面提到过的Thread-Value映射。它描述了每个线程持有哪一部分寄存器，这一部分工作在raw CUDA中是由cuda::wmma和fragment处理的，如果要手写PTX指令，这部分的对应关系将会是算术噩梦。CuTe通过已经包装好的TV映射帮我们处理了这点。有关这个映射是如何构建的可以参考 [how to construct MMA atoms](https://docs.nvidia.com/cutlass/latest/media/docs/cpp/cute/0t_mma_atom.html#traits)。这部分映射构建和`ldmatrix`的行为有很大关系，我们在Copy一章会继续讲解。
 
 # MMA_Atom
 
-`MMA_Atom`继承了`MMA_Traits`。`MMA_Atom`包含了这个这条MMA指令的数据类型、M/N/K形状和fragment布局。`MMA_Atom`是做CuTe矩阵运算的最小单元，这也是其Atom名字的由来。
+`MMA_Atom`继承`MMA_Traits`。`MMA_Atom`包含了这个这条MMA指令的数据类型、M/N/K形状和fragment布局。`MMA_Atom`是做CuTe矩阵运算的最小单元，这也是其Atom名字的由来。
 
 {{< image src="mmaatom.png" alt="hierarchy" maxWidth="500px" >}}
 
@@ -152,7 +154,7 @@ LayoutA_TV / LayoutB_TV / LayoutC_TV
 
 # Tiled MMA
 
-`MMA_Atom`只描述一次硬件MMA指令。例如SM80的`m16n8k16`只计算一个`16x8x16`的小块。真实GEMM kernel中，一个warp或CTA通常要计算更大的tile。于是我们需要把多个MMA Atom组织起来，这就是`TiledMMA`。
+`MMA_Atom`只描述一次硬件MMA指令。例如SM80的`m16n8k8`只计算一个`16x8x8`的小块。真实GEMM kernel中，一个warp或CTA通常要计算更大的tile。于是我们需要把多个MMA Atom组织起来，这就是`TiledMMA`。
 
 `TiledMMA`同样定义在include/cute/atom/mma_atom.hpp。它继承自`MMA_Atom`，所以保留了所有类型别名。同时它增加了一组布局函数，用来描述大tile如何被多个atom和多个线程覆盖。
 
@@ -189,15 +191,43 @@ TiledMMA mmaC = make_tiled_mma(SM80_16x8x8_F32F16F16F32_TN{},
                                  Tile<X,X,_16>{}); 
 
 ```
-{{< image src="SM80_16x8x16_permutations.png" alt="16x16x8" maxWidth="500px" >}} 
+{{< image src="SM80_16x8x16.png" alt="16x8x16" maxWidth="500px" >}} 
 
-我们使用Tile<X,X,_16>去分别切割MNK。M维和N维使用X表示不变，我们想在K维要一个16的分片，这里会使用两个8扩展为16。我们可以在图片中看到MMA在K维度重复两次变为16，32个线程不变，每个线程处理8个元素。
+我们使用Tile<X,X,_16>去分别切割MNK。M维和N维使用X表示不变，我们想在K维要一个16的分片，这里会使用两个MMA扩展为16。我们可以在图片中看到MMA在K维度重复两次变为16，32个线程不变，每个线程处理8个元素。
 
+现在我们举一个和实际优化关系不大的例子来讲解Permutation。我们发现T0线程处理的元素（T0V0 T0V1 T0V4 T0V5）在A，B的K维度中不连续，我们想让其排在一起。
 
+``` CPP
+From:        
+       0    1    2    3    4    5    6    7    8    9   10   11   12   13   14   15 
+    +----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+
+ 0  |  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 | 10 | 11 | 12 | 13 | 14 | 15 |
+    +----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+
+To:          
+       0    1    2    3    4    5    6    7    8    9   10   11   12   13   14   15 
+    +----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+
+ 0  |  0 |  1 |  8 |  9 |  2 |  3 | 10 | 11 |  4 |  5 | 12 | 13 |  6 |  7 | 14 | 15 |
+    +----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+
+Permutation: 
+       0    1    2    3    4    5    6    7    8    9   10   11   12   13   14   15 
+    +----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+
+ 0  |  0 |  1 |  4 |  5 |  8 |  9 | 12 | 13 |  2 |  3 |  6 |  7 | 10 | 11 | 14 | 15 |
+    +----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+
+```
 
+其中To代表我们想得到的排列，Permutation表示想达到这种排列，对应位置的元素在想得到的排列的位置。
+注意到我们可以使用（（2，4），2）：（（1，4），2）来表示这个Permutation。我们现在就可以重排K维度的元素。
+``` CPP
+TiledMMA mmaC = make_tiled_mma(SM80_16x8x8_F32F16F16F32_TN{},
+                                 Layout<Shape<_1,_1,_1>>{},
+                                 Tile<X,X,
+                                 Layout<Shape<Shape<_2,_4>,_2>,Stride<Stride<_1,_4>,_2>>
+                                 >{}); 
+```
 
+{{< image src="SM80_16x8x16_permutation.png" alt="16x8x16_permutation" maxWidth="500px" >}} 
 
-
+这个permutation的重排确实很复杂，其实实际代码中我们很少用得到重排，更多的只是简单扩大。所以不理解这段问题也不大，有兴趣的读者可以自己尝试不同的tiler，并使用`print_latex`来验证并加深自己对layout algebra的理解。
 
 ## get_slice()
 
@@ -207,7 +237,7 @@ TiledMMA mmaC = make_tiled_mma(SM80_16x8x8_F32F16F16F32_TN{},
 
 # ThrMMA
 
-`ThrMMA`是线程私有的MMA视图。它保存了当前线程在`ThrLayoutVMNK`中的坐标，并提供三个partition函数：partition_A/B/C(...)，它用来从整体tensor中选出当前线程处理的那块。这个结构非常重要，在后面GEMM walk through中会着重强调。
+`ThrMMA`是线程私有的MMA视图。它保存了当前线程在`ThrLayoutVMNK`中的坐标，并提供三个partition函数：partition_A/B/C()，它用来从整体tensor中选出当前线程处理的那块。
 
 # gemm
 
@@ -278,13 +308,12 @@ for (int k = 0; k < K; ++k) {
 
 当然，我们作为编程者，大可不必操心MMA到底是如何dispatch的，这就是CuTe MMA体系的最伟大之处，为我们封装了类似于wmma的高阶api，但给了我们更自由的形状和更细的粒度。
 
-
 # Wrap up
 本文从底向上介绍了CuTe的MMA层级。
 
 学习MMA Atom时最重要的直觉是：CuTe不是只封装了一条MMA指令，而是把“硬件寄存器接口、线程持有fragment的方式、大tile的线程分解、线程私有fragment视图、最终gemm dispatch”全部放进同一个类型系统中。
 
-下一篇文章将进入GEMM walk through，把前面介绍过的Tensor、Layout Algebra、Copy和MMA连起来，看一个实际GEMM kernel中的数据如何从global memory流向shared memory、register和Tensor Core。
+下下一篇文章将进入GEMM walk through，把前面介绍过的Tensor、Layout Algebra、MMA和下一篇文章讲的MMA Copy连起来，看一个实际GEMM kernel中的数据如何从global memory流向shared memory、register，最终在Tensor Core中被计算的。
 
 # Reference
 

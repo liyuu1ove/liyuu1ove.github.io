@@ -1,29 +1,24 @@
 <!DOCTYPE html>
 <html lang="zh" dir="auto" data-theme="light">
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=13131&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>CuTe学习5-Copy Atom | 鲤鱼爱的神秘小屋</title>
-<meta name="keywords" content="">
-<meta name="description" content="Copy Atom
-CuTe中的copy也基本遵循和MMA一样的层级，数据搬运和计算是一个高性能Kernel面对的最大问题。虽然Copy也很重要，但是我有点累了，不想写了，留着后面单独介绍TMA的时候写吧
-
-  
-  CuTe Copy Hierarchy
-">
+<meta name="keywords" content="CuTe, Copy Atom, CUDA">
+<meta name="description" content="介绍CuTe中Copy Atom的层次化结构">
 <meta name="author" content="鲤鱼爱">
-<link rel="canonical" href="http://localhost:13131/technical-blog/cute-starter-5/">
+<link rel="canonical" href="http://localhost:1313/technical-blog/cute-starter-5/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.26e9583fb0cf555b3a58a7936237486984fe70640f533bf97fa925e2c19cd09d.css" integrity="sha256-JulYP7DPVVs6WKeTYjdIaYT&#43;cGQPUzv5f6kl4sGc0J0=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:13131/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:13131/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:13131/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:13131/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:13131/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="zh" href="http://localhost:13131/technical-blog/cute-starter-5/">
+<link rel="alternate" hreflang="zh" href="http://localhost:1313/technical-blog/cute-starter-5/">
 <noscript>
     <style>
         #theme-toggle,
@@ -81,21 +76,22 @@ CuTe中的copy也基本遵循和MMA一样的层级，数据搬运和计算是一
       "Noto Sans Mono CJK SC", monospace;
   }
 </style>
-<meta property="og:url" content="http://localhost:13131/technical-blog/cute-starter-5/">
+<meta property="og:url" content="http://localhost:1313/technical-blog/cute-starter-5/">
   <meta property="og:site_name" content="鲤鱼爱的神秘小屋">
   <meta property="og:title" content="CuTe学习5-Copy Atom">
-  <meta property="og:description" content="Copy Atom CuTe中的copy也基本遵循和MMA一样的层级，数据搬运和计算是一个高性能Kernel面对的最大问题。虽然Copy也很重要，但是我有点累了，不想写了，留着后面单独介绍TMA的时候写吧
-CuTe Copy Hierarchy">
+  <meta property="og:description" content="介绍CuTe中Copy Atom的层次化结构">
   <meta property="og:locale" content="zh_cn">
   <meta property="og:type" content="article">
     <meta property="article:section" content="technical-blog">
-    <meta property="article:published_time" content="2026-07-29T14:21:13+08:00">
-    <meta property="article:modified_time" content="2026-07-29T14:21:13+08:00">
+    <meta property="article:published_time" content="2026-07-10T14:21:13+08:00">
+    <meta property="article:modified_time" content="2026-07-10T14:21:13+08:00">
+    <meta property="article:tag" content="CuTe">
+    <meta property="article:tag" content="Copy Atom">
+    <meta property="article:tag" content="CUDA">
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="CuTe学习5-Copy Atom">
-  <meta name="twitter:description" content="Copy Atom CuTe中的copy也基本遵循和MMA一样的层级，数据搬运和计算是一个高性能Kernel面对的最大问题。虽然Copy也很重要，但是我有点累了，不想写了，留着后面单独介绍TMA的时候写吧
-CuTe Copy Hierarchy">
+  <meta name="twitter:description" content="介绍CuTe中Copy Atom的层次化结构">
 
 
 <script type="application/ld+json">
@@ -107,13 +103,13 @@ CuTe Copy Hierarchy">
       "@type": "ListItem",
       "position":  1 ,
       "name": "技术博客",
-      "item": "http://localhost:13131/technical-blog/"
+      "item": "http://localhost:1313/technical-blog/"
     }, 
     {
       "@type": "ListItem",
       "position":  2 ,
       "name": "CuTe学习5-Copy Atom",
-      "item": "http://localhost:13131/technical-blog/cute-starter-5/"
+      "item": "http://localhost:1313/technical-blog/cute-starter-5/"
     }
   ]
 }
@@ -124,29 +120,29 @@ CuTe Copy Hierarchy">
   "@type": "BlogPosting",
   "headline": "CuTe学习5-Copy Atom",
   "name": "CuTe学习5-Copy Atom",
-  "description": "Copy Atom CuTe中的copy也基本遵循和MMA一样的层级，数据搬运和计算是一个高性能Kernel面对的最大问题。虽然Copy也很重要，但是我有点累了，不想写了，留着后面单独介绍TMA的时候写吧\nCuTe Copy Hierarchy ",
+  "description": "介绍CuTe中Copy Atom的层次化结构",
   "keywords": [
-    
+    "CuTe", "Copy Atom", "CUDA"
   ],
-  "articleBody": "Copy Atom CuTe中的copy也基本遵循和MMA一样的层级，数据搬运和计算是一个高性能Kernel面对的最大问题。虽然Copy也很重要，但是我有点累了，不想写了，留着后面单独介绍TMA的时候写吧\nCuTe Copy Hierarchy ",
-  "wordCount" : "6",
+  "articleBody": "Copy Hierarchy 前面介绍MMA时，我们从一条PTX指令一路向上讲到了MMA_Atom、TiledMMA、ThrMMA和cute::gemm。CuTe中的copy也遵循类似的层次：最底层包装具体的数据搬运指令，中间层描述指令的Thread-Value映射，再向上把一条指令扩展成多个线程协作的copy tile，最后由cute::copy真正执行搬运。\nCuTe Copy Hierarchy CopyOperation：包装一条具体的copy指令，声明指令的source/destination寄存器接口。 Copy_Traits：描述该指令需要多少线程，以及source和destination两侧的bit级Thread-Value Layout。 Copy_Atom：把bit级Traits重解释为指定逻辑元素类型，形成一次最小copy操作。 TiledCopy：把Copy Atom铺到更大的逻辑tile上，描述多个线程分别负责哪些value。 ThrCopy：固定当前thread id，并用partition_S/D切出该线程的source/destination视图。 cute::copy：沿Tensor的外层mode循环，最终调用Copy Atom中的底层指令。 本文使用两条Ampere GEMM中常见的路径作为主例子：\n1GMEM --cp.async--\u003e SMEM --ldmatrix--\u003e RMEM --mma.sync--\u003e Tensor Core cp.async解决global memory到shared memory的异步、向量化搬运；ldmatrix解决shared memory中的矩阵tile如何按照Tensor Core需要的fragment布局进入每个lane的寄存器。理解这两种完全不同的指令之后，Copy_Atom为什么需要同时描述source和destination映射也就比较直观了。\nCopyOperation CopyOperation是最靠近硬件的一层。和MMAOperation类似，它声明了PTX需要用到的寄存器数量和包装了PTX指令。\nldmatrix Tensor Core的MMA指令中，lane必须按照PTX规定的fragment格式持有A/B operand。Turing开始提供的ldmatrix正是为这个过程设计的：一个warp协作地从shared memory读取若干个8 x 8、元素宽度为16-bit的矩阵，并把结果分发到32个lane的寄存器中。\nCuTe对ldmatrix.sync.aligned.x1.m8n8.shared.b16的包装如下：\n1// Source from include/cute/arch/copy_sm75.hpp 2struct SM75_U32x1_LDSM_N 3{ 4 using SRegisters = uint128_t[1]; 5 using DRegisters = uint32_t[1]; 6 7 CUTE_HOST_DEVICE static void 8 copy(uint128_t const\u0026 smem_src, 9 uint32_t\u0026 dst) 10 { 11#if defined(CUTE_ARCH_LDSM_SM75_ACTIVATED) 12 uint32_t smem_int_ptr = cast_smem_ptr_to_uint(\u0026smem_src); 13 asm volatile(\"ldmatrix.sync.aligned.x1.m8n8.shared.b16 {%0}, [%1];\\n\" 14 : \"=r\"(dst) 15 : \"r\"(smem_int_ptr)); 16#endif 17 } 18}; 这里的x1表示整个warp读取一个8 x 8矩阵。矩阵一共有8 * 8 * 16 bit = 1024 bit = 128 byte。结果平均分给32个lane，因此每个lane得到一个32-bit寄存器，也就是两个16-bit元素。\nSRegisters = uint128_t[1]容易引起误解：它并不表示每个lane都实际搬运128-bit到自己的寄存器。这个类型描述source侧传给指令的是一个能覆盖128-bit行数据的shared-memory地址视图。对于x1，只有lane 0到7提供的8个行地址会被硬件使用；整个warp仍然都要执行同一条ldmatrix，随后硬件把加载结果分发给全部32个lane。这个分发是ldmatrix指令本身的语义，不需要再写__shfl_sync。\nCuTe还提供x2和x4版本：\n1x1: 读取1个8x8矩阵，lane 0..7提供地址，每个lane得到1个uint32_t 2x2: 读取2个8x8矩阵，lane 0..15提供地址，每个lane得到2个uint32_t 3x4: 读取4个8x8矩阵，lane 0..31提供地址，每个lane得到4个uint32_t SM75_U32x1_LDSM_N名字中的U32x1表示每个lane产生一个32-bit destination register，N表示non-transpose版本。对应的SM75_U16x2_LDSM_T等类型包装了带.trans修饰的转置版本。实际选择哪个版本，取决于MMA operand的布局、shared-memory布局以及每次想加载多少fragment。\nldmatrix fragment layout for one 8x8 Matrix with 16-bit elements cp.async Ampere的cp.async用于从global memory直接向shared memory发起异步copy，其不需要在寄存器中转，因此可以降低中间寄存器压力，并允许copy和后续计算重叠。\nCuTe中的SM80_CP_ASYNC_CACHEALWAYS包装如下：\n1// Source from include/cute/arch/copy_sm80.hpp 2template \u003cclass TS, class TD = TS\u003e 3struct SM80_CP_ASYNC_CACHEALWAYS 4{ 5 using SRegisters = TS[1]; 6 using DRegisters = TD[1]; 7 8 static_assert(sizeof(TS) == sizeof(TD)); 9 static_assert(sizeof(TS) == 4 || sizeof(TS) == 8 || sizeof(TS) == 16); 10 11 CUTE_HOST_DEVICE static void 12 copy(TS const\u0026 gmem_src, 13 TD \u0026 smem_dst) 14 { 15#if defined(CUTE_ARCH_CP_ASYNC_SM80_ENABLED) 16 TS const* gmem_ptr = \u0026gmem_src; 17 uint32_t smem_int_ptr = cast_smem_ptr_to_uint(\u0026smem_dst); 18 asm volatile(\"cp.async.ca.shared.global.L2::128B [%0], [%1], %2;\\n\" 19 :: \"r\"(smem_int_ptr), 20 \"l\"(gmem_ptr), 21 \"n\"(sizeof(TS))); 22#endif 23 } 24}; 这条指令含义如下：\ncp.async表示异步搬运，这条指令发射后不会阻塞 CUDA Core/ALU，SM 发射完指令后可以立即去执行后续的计算指令，数据的传输过程由专用的异步拷贝硬件逻辑在后台完成。 .ca（Cache Always）表示数据可以缓存在所有层级；CuTe还提供使用.cg（Cache Global）策略的SM80_CP_ASYNC_CACHEGLOBAL。 shared.global表示 目标空间.源空间。 L2::128B是L2 prefetch size hint，数据对齐与传输块大小为 128 字节，不表示当前线程一次搬运128 byte。真正的单线程copy宽度由sizeof(TS)决定，只能是4、8或16 byte。若TS = uint128_t，当前线程搬运的是16 byte。这是一条cp.async的最大搬运粒度。 最常见的写法是把128b访存和真实逻辑元素类型分开，即常说的128b合并访存：\n1using GmemCopyAtom = Copy_Atom\u003c 2 SM80_CP_ASYNC_CACHEALWAYS\u003cuint128_t\u003e, 3 half_t\u003e; 这里底层PTX每次搬一个uint128_t，而Copy_Atom把这128 bit解释为8个half_t。它只改变CuTe用来分区Tensor的value粒度，不会做uint128_t到half_t的数值转换。\ncp.async同步原语 发出cp.async之后，数据不一定已经可以被后续指令使用。CuTe提供了与PTX group机制对应的接口：\n1CUTE_HOST_DEVICE 2void cp_async_fence() 3{ 4#if defined(CUTE_ARCH_CP_ASYNC_SM80_ENABLED) 5 asm volatile(\"cp.async.commit_group;\\n\" ::); 6#endif 7} 8 9template \u003cint N\u003e 10CUTE_HOST_DEVICE 11void cp_async_wait() 12{ 13#if defined(CUTE_ARCH_CP_ASYNC_SM80_ENABLED) 14 if constexpr (N == 0) { 15 asm volatile(\"cp.async.wait_all;\\n\" ::); 16 } else { 17 asm volatile(\"cp.async.wait_group %0;\\n\" :: \"n\"(N)); 18 } 19#endif 20} cp_async_fence()实际上发出的是cp.async.commit_group，把当前线程此前尚未提交的cp.async组成一个group，但不等待group完成，类似于插桩。\ncp_async_wait()会阻塞当前线程，直到此前提交但尚未完成的group数量不大于N。因此：\n1cp_async_wait\u003c0\u003e() 等待所有旧group完成 2cp_async_wait\u003c1\u003e() 允许至多1个较新的group继续在途 等待是per-thread的，而一个CTA通常会让不同线程copy不同的shared-memory位置，之后又由另一些线程消费这些位置。因此GEMM pipeline在等待目标stage之后通常还需要__syncthreads()，保证CTA内生产者和消费者在使用该stage前完成同步。commit_group、wait_group和CTA barrier解决的是不同层次的问题，不能互相替代。\nCopy_Traits Copy_Traits补充三类信息：参与的逻辑线程、source侧映射、destination侧映射。\n与MMA Traits直接用逻辑元素描述TV Layout不同，Copy Traits先用bit作为统一单位。这样同一条128-bit copy指令既可以服务8个half_t，也可以服务4个float，而不用为每一种元素类型重复定义Traits。\nldmatrix Traits SM75_U32x1_LDSM_N的Traits如下：\n1template \u003c\u003e 2struct Copy_Traits\u003cSM75_U32x1_LDSM_N\u003e 3{ 4 using ThrID = Layout\u003c_32\u003e; 5 6 using SrcLayout = Layout\u003cShape \u003cShape \u003c _8,_4\u003e,_128\u003e, 7 Stride\u003cStride\u003c_128,_0\u003e, _1\u003e\u003e; 8 9 using DstLayout = Layout\u003cShape \u003c_32,_32\u003e, 10 Stride\u003c_32, _1\u003e\u003e; 11 12 using RefLayout = DstLayout; 13}; 三个Layout的单位都是bit：\nThrID = Layout\u003c_32\u003e表示这是一个32线程的warp级操作。 SrcLayout描述(src-thread, src-bit)到source地址的映射。thread mode的(_8,_4):(_128,_0)中，第二层stride为0，表示32个lane只有8个不同的行地址；这正对应x1只使用lane 0到7提供地址的硬件行为。 DstLayout = (_32,_32):(_32,_1)表示32个lane各得到连续的32 bit。 RefLayout是CuTe协调source和destination映射时使用的参考TV Layout。这里结果分发方式就是参考布局。 source和destination的每线程value数量可以不同。以half_t解释该Atom时，提供有效行地址的lane需要让source视图覆盖一行8个half，而每个lane的destination只有2个half。ldmatrix的价值正是在一条warp级指令中完成这种collective load和fragment分发。\ncp.async Traits cp.async的Traits简单得多：\n1template \u003cclass S, class D\u003e 2struct Copy_Traits\u003cSM80_CP_ASYNC_CACHEALWAYS\u003cS,D\u003e\u003e 3{ 4 using ThrID = Layout\u003c_1\u003e; 5 using SrcLayout = Layout\u003cShape\u003c_1,Int\u003csizeof_bits\u003cS\u003e::value\u003e\u003e\u003e; 6 using DstLayout = Layout\u003cShape\u003c_1,Int\u003csizeof_bits\u003cD\u003e::value\u003e\u003e\u003e; 7 using RefLayout = SrcLayout; 8}; ThrID = Layout\u003c_1\u003e表示一个Atom只涉及一个线程。source和destination都是(1, sizeof_bits)，所以它们是一一对应的bit copy。当S = D = uint128_t时，一个Atom覆盖1个线程和128 bit；随后Copy_Atom\u003c..., half_t\u003e会把它重解释为1个线程和8个half value。\nCopy_Atom Copy_Atom把CopyOperation、Copy_Traits和用户指定的内部value类型组合在一起：\n1template \u003cclass CopyOperation, class CopyInternalType\u003e 2struct Copy_Atom\u003cCopyOperation, CopyInternalType\u003e 3 : Copy_Atom\u003cCopy_Traits\u003cCopyOperation\u003e, CopyInternalType\u003e 4{}; 在具体实现中，它会把Traits中的bit Layout recast为CopyInternalType对应的value Layout：\n1using ValType = CopyInternalType; 2 3using ValLayoutSrc = decltype( 4 recast_layout\u003cuint1_t, ValType\u003e(BitLayoutSrc{})); 5using ValLayoutDst = decltype( 6 recast_layout\u003cuint1_t, ValType\u003e(BitLayoutDst{})); 7using ValLayoutRef = decltype( 8 recast_layout\u003cuint1_t, ValType\u003e(BitLayoutRef{})); 因此，Copy Atom表达的是“一次最小指令中，哪些线程把哪些逻辑value从source映射到destination”。例如：\n1Copy_Atom",
+  "wordCount" : "902",
   "inLanguage": "zh",
-  "datePublished": "2026-07-29T14:21:13+08:00",
-  "dateModified": "2026-07-29T14:21:13+08:00",
+  "datePublished": "2026-07-10T14:21:13+08:00",
+  "dateModified": "2026-07-10T14:21:13+08:00",
   "author":{
     "@type": "Person",
     "name": "鲤鱼爱"
   },
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "http://localhost:13131/technical-blog/cute-starter-5/"
+    "@id": "http://localhost:1313/technical-blog/cute-starter-5/"
   },
   "publisher": {
     "@type": "Organization",
     "name": "鲤鱼爱的神秘小屋",
     "logo": {
       "@type": "ImageObject",
-      "url": "http://localhost:13131/favicon.ico"
+      "url": "http://localhost:1313/favicon.ico"
     }
   }
 }
@@ -240,30 +236,355 @@ CuTe Copy Hierarchy">
         </svg>
       </span>
     </h1>
-    <div class="post-meta"><span title='2026-07-29 14:21:13 +0800 CST'>2026年7月29日</span>&nbsp;·&nbsp;<span>阅读此文大概需要 分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span>
+    <div class="post-description">
+      介绍CuTe中Copy Atom的层次化结构
+    </div>
+    <div class="post-meta"><span title='2026-07-10 14:21:13 +0800 CST'>2026年7月10日</span>&nbsp;·&nbsp;<span>阅读此文大概需要30分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span>
 
 </div>
   </header> 
-  <div class="post-content md-content"><h1 id="copy-atom">Copy Atom<a hidden class="anchor" aria-hidden="true" href="#copy-atom">#</a></h1>
-<p>CuTe中的copy也基本遵循和MMA一样的层级，数据搬运和计算是一个高性能Kernel面对的最大问题。虽然Copy也很重要，但是我有点累了，不想写了，留着后面单独介绍TMA的时候写吧</p>
+  <div class="post-content md-content"><h1 id="copy-hierarchy">Copy Hierarchy<a hidden class="anchor" aria-hidden="true" href="#copy-hierarchy">#</a></h1>
+<p>前面介绍MMA时，我们从一条PTX指令一路向上讲到了<code>MMA_Atom</code>、<code>TiledMMA</code>、<code>ThrMMA</code>和<code>cute::gemm</code>。CuTe中的copy也遵循类似的层次：最底层包装具体的数据搬运指令，中间层描述指令的Thread-Value映射，再向上把一条指令扩展成多个线程协作的copy tile，最后由<code>cute::copy</code>真正执行搬运。</p>
 <figure class="post-image" style="width: 100%; max-width: 500px; margin-left: auto; margin-right: auto;">
-  <img src="copy.png" alt="CuTe copy hierarchy" loading="lazy" decoding="async" style="display: block; width: 100%; height: auto;">
+  <img src="copy.png" alt="CopyHierarchy" loading="lazy" decoding="async" style="display: block; width: 100%; height: auto;">
   <figcaption>CuTe Copy Hierarchy</figcaption>
 </figure>
 
+<ol>
+<li><code>CopyOperation</code>：包装一条具体的copy指令，声明指令的source/destination寄存器接口。</li>
+<li><code>Copy_Traits</code>：描述该指令需要多少线程，以及source和destination两侧的bit级Thread-Value Layout。</li>
+<li><code>Copy_Atom</code>：把bit级Traits重解释为指定逻辑元素类型，形成一次最小copy操作。</li>
+<li><code>TiledCopy</code>：把Copy Atom铺到更大的逻辑tile上，描述多个线程分别负责哪些value。</li>
+<li><code>ThrCopy</code>：固定当前thread id，并用<code>partition_S/D</code>切出该线程的source/destination视图。</li>
+<li><code>cute::copy</code>：沿Tensor的外层mode循环，最终调用Copy Atom中的底层指令。</li>
+</ol>
+<p>本文使用两条Ampere GEMM中常见的路径作为主例子：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plain" data-lang="plain"><span class="line"><span class="ln">1</span><span class="cl">GMEM --cp.async--&gt; SMEM --ldmatrix--&gt; RMEM --mma.sync--&gt; Tensor Core
+</span></span></code></pre></div><p><code>cp.async</code>解决global memory到shared memory的异步、向量化搬运；<code>ldmatrix</code>解决shared memory中的矩阵tile如何按照Tensor Core需要的fragment布局进入每个lane的寄存器。理解这两种完全不同的指令之后，<code>Copy_Atom</code>为什么需要同时描述source和destination映射也就比较直观了。</p>
+<h1 id="copyoperation">CopyOperation<a hidden class="anchor" aria-hidden="true" href="#copyoperation">#</a></h1>
+<p><code>CopyOperation</code>是最靠近硬件的一层。和<code>MMAOperation</code>类似，它声明了PTX需要用到的寄存器数量和包装了PTX指令。</p>
+<h2 id="ldmatrix">ldmatrix<a hidden class="anchor" aria-hidden="true" href="#ldmatrix">#</a></h2>
+<p>Tensor Core的MMA指令中，lane必须按照PTX规定的fragment格式持有A/B operand。Turing开始提供的<code>ldmatrix</code>正是为这个过程设计的：一个warp协作地从shared memory读取若干个<code>8 x 8</code>、元素宽度为16-bit的矩阵，并把结果分发到32个lane的寄存器中。</p>
+<p>CuTe对<code>ldmatrix.sync.aligned.x1.m8n8.shared.b16</code>的包装如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="c1">// Source from include/cute/arch/copy_sm75.hpp
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">SM75_U32x1_LDSM_N</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="k">using</span> <span class="n">SRegisters</span> <span class="o">=</span> <span class="n">uint128_t</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="k">using</span> <span class="n">DRegisters</span> <span class="o">=</span> <span class="kt">uint32_t</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="n">CUTE_HOST_DEVICE</span> <span class="k">static</span> <span class="kt">void</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="nf">copy</span><span class="p">(</span><span class="n">uint128_t</span> <span class="k">const</span><span class="o">&amp;</span> <span class="n">smem_src</span><span class="p">,</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">       <span class="kt">uint32_t</span><span class="o">&amp;</span> <span class="n">dst</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="p">{</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="cp">#if defined(CUTE_ARCH_LDSM_SM75_ACTIVATED)
+</span></span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="cp"></span>    <span class="kt">uint32_t</span> <span class="n">smem_int_ptr</span> <span class="o">=</span> <span class="n">cast_smem_ptr_to_uint</span><span class="p">(</span><span class="o">&amp;</span><span class="n">smem_src</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl">    <span class="k">asm</span> <span class="k">volatile</span><span class="p">(</span><span class="s">&#34;ldmatrix.sync.aligned.x1.m8n8.shared.b16 {%0}, [%1];</span><span class="se">\n</span><span class="s">&#34;</span>
+</span></span><span class="line"><span class="ln">14</span><span class="cl">        <span class="o">:</span> <span class="s">&#34;=r&#34;</span><span class="p">(</span><span class="n">dst</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">15</span><span class="cl">        <span class="o">:</span>  <span class="s">&#34;r&#34;</span><span class="p">(</span><span class="n">smem_int_ptr</span><span class="p">));</span>
+</span></span><span class="line"><span class="ln">16</span><span class="cl"><span class="cp">#endif
+</span></span></span><span class="line"><span class="ln">17</span><span class="cl"><span class="cp"></span>  <span class="p">}</span>
+</span></span><span class="line"><span class="ln">18</span><span class="cl"><span class="p">};</span>
+</span></span></code></pre></div><p>这里的<code>x1</code>表示整个warp读取一个<code>8 x 8</code>矩阵。矩阵一共有<code>8 * 8 * 16 bit = 1024 bit = 128 byte</code>。结果平均分给32个lane，因此每个lane得到一个32-bit寄存器，也就是两个16-bit元素。</p>
+<p><code>SRegisters = uint128_t[1]</code>容易引起误解：它并不表示每个lane都实际搬运128-bit到自己的寄存器。这个类型描述source侧传给指令的是一个能覆盖128-bit行数据的shared-memory地址视图。对于<code>x1</code>，只有lane 0到7提供的8个行地址会被硬件使用；整个warp仍然都要执行同一条<code>ldmatrix</code>，随后硬件把加载结果分发给全部32个lane。这个分发是<code>ldmatrix</code>指令本身的语义，不需要再写<code>__shfl_sync</code>。</p>
+<p>CuTe还提供<code>x2</code>和<code>x4</code>版本：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plain" data-lang="plain"><span class="line"><span class="ln">1</span><span class="cl">x1: 读取1个8x8矩阵，lane 0..7提供地址，每个lane得到1个uint32_t
+</span></span><span class="line"><span class="ln">2</span><span class="cl">x2: 读取2个8x8矩阵，lane 0..15提供地址，每个lane得到2个uint32_t
+</span></span><span class="line"><span class="ln">3</span><span class="cl">x4: 读取4个8x8矩阵，lane 0..31提供地址，每个lane得到4个uint32_t
+</span></span></code></pre></div><p><code>SM75_U32x1_LDSM_N</code>名字中的<code>U32x1</code>表示每个lane产生一个32-bit destination register，<code>N</code>表示non-transpose版本。对应的<code>SM75_U16x2_LDSM_T</code>等类型包装了带<code>.trans</code>修饰的转置版本。实际选择哪个版本，取决于MMA operand的布局、shared-memory布局以及每次想加载多少fragment。</p>
+<figure class="post-image" style="width: 100%; max-width: 500px; margin-left: auto; margin-right: auto;">
+  <img src="mma-ldmatrix-fragments.png" alt="ldmatrix" loading="lazy" decoding="async" style="display: block; width: 100%; height: auto;">
+  <figcaption>ldmatrix fragment layout for one 8x8 Matrix with 16-bit elements</figcaption>
+</figure>
+
+<h2 id="cpasync">cp.async<a hidden class="anchor" aria-hidden="true" href="#cpasync">#</a></h2>
+<p>Ampere的<code>cp.async</code>用于从global memory直接向shared memory发起异步copy，其不需要在寄存器中转，因此可以降低中间寄存器压力，并允许copy和后续计算重叠。</p>
+<p>CuTe中的<code>SM80_CP_ASYNC_CACHEALWAYS</code>包装如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="c1">// Source from include/cute/arch/copy_sm80.hpp
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="c1"></span><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">TS</span><span class="p">,</span> <span class="k">class</span> <span class="nc">TD</span> <span class="o">=</span> <span class="n">TS</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="k">struct</span> <span class="nc">SM80_CP_ASYNC_CACHEALWAYS</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="k">using</span> <span class="n">SRegisters</span> <span class="o">=</span> <span class="n">TS</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  <span class="k">using</span> <span class="n">DRegisters</span> <span class="o">=</span> <span class="n">TD</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">TS</span><span class="p">)</span> <span class="o">==</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">TD</span><span class="p">));</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">TS</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span> <span class="o">||</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">TS</span><span class="p">)</span> <span class="o">==</span> <span class="mi">8</span> <span class="o">||</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">TS</span><span class="p">)</span> <span class="o">==</span> <span class="mi">16</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl">
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="n">CUTE_HOST_DEVICE</span> <span class="k">static</span> <span class="kt">void</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  <span class="nf">copy</span><span class="p">(</span><span class="n">TS</span> <span class="k">const</span><span class="o">&amp;</span> <span class="n">gmem_src</span><span class="p">,</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl">       <span class="n">TD</span>      <span class="o">&amp;</span> <span class="n">smem_dst</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  <span class="p">{</span>
+</span></span><span class="line"><span class="ln">15</span><span class="cl"><span class="cp">#if defined(CUTE_ARCH_CP_ASYNC_SM80_ENABLED)
+</span></span></span><span class="line"><span class="ln">16</span><span class="cl"><span class="cp"></span>    <span class="n">TS</span> <span class="k">const</span><span class="o">*</span> <span class="n">gmem_ptr</span>    <span class="o">=</span> <span class="o">&amp;</span><span class="n">gmem_src</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">17</span><span class="cl">    <span class="kt">uint32_t</span> <span class="n">smem_int_ptr</span> <span class="o">=</span> <span class="n">cast_smem_ptr_to_uint</span><span class="p">(</span><span class="o">&amp;</span><span class="n">smem_dst</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">18</span><span class="cl">    <span class="k">asm</span> <span class="k">volatile</span><span class="p">(</span><span class="s">&#34;cp.async.ca.shared.global.L2::128B [%0], [%1], %2;</span><span class="se">\n</span><span class="s">&#34;</span>
+</span></span><span class="line"><span class="ln">19</span><span class="cl">        <span class="o">::</span> <span class="s">&#34;r&#34;</span><span class="p">(</span><span class="n">smem_int_ptr</span><span class="p">),</span>
+</span></span><span class="line"><span class="ln">20</span><span class="cl">           <span class="s">&#34;l&#34;</span><span class="p">(</span><span class="n">gmem_ptr</span><span class="p">),</span>
+</span></span><span class="line"><span class="ln">21</span><span class="cl">           <span class="s">&#34;n&#34;</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">TS</span><span class="p">)));</span>
+</span></span><span class="line"><span class="ln">22</span><span class="cl"><span class="cp">#endif
+</span></span></span><span class="line"><span class="ln">23</span><span class="cl"><span class="cp"></span>  <span class="p">}</span>
+</span></span><span class="line"><span class="ln">24</span><span class="cl"><span class="p">};</span>
+</span></span></code></pre></div><p>这条指令含义如下：</p>
+<ol>
+<li><code>cp.async</code>表示异步搬运，这条指令发射后不会阻塞 CUDA Core/ALU，SM 发射完指令后可以立即去执行后续的计算指令，数据的传输过程由专用的异步拷贝硬件逻辑在后台完成。</li>
+<li><code>.ca</code>（Cache Always）表示数据可以缓存在所有层级；CuTe还提供使用<code>.cg</code>（Cache Global）策略的<code>SM80_CP_ASYNC_CACHEGLOBAL</code>。</li>
+<li><code>shared.global</code>表示 目标空间.源空间。</li>
+<li><code>L2::128B</code>是L2 prefetch size hint，数据对齐与传输块大小为 128 字节，不表示当前线程一次搬运128 byte。真正的单线程copy宽度由<code>sizeof(TS)</code>决定，只能是4、8或16 byte。若<code>TS = uint128_t</code>，当前线程搬运的是16 byte。这是一条cp.async的最大搬运粒度。</li>
+</ol>
+<p>最常见的写法是把128b访存和真实逻辑元素类型分开，即常说的128b合并访存：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="ln">1</span><span class="cl"><span class="k">using</span> <span class="n">GmemCopyAtom</span> <span class="o">=</span> <span class="n">Copy_Atom</span><span class="o">&lt;</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl">    <span class="n">SM80_CP_ASYNC_CACHEALWAYS</span><span class="o">&lt;</span><span class="n">uint128_t</span><span class="o">&gt;</span><span class="p">,</span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl">    <span class="n">half_t</span><span class="o">&gt;</span><span class="p">;</span>
+</span></span></code></pre></div><p>这里底层PTX每次搬一个<code>uint128_t</code>，而<code>Copy_Atom</code>把这128 bit解释为8个<code>half_t</code>。它只改变CuTe用来分区Tensor的value粒度，不会做<code>uint128_t</code>到<code>half_t</code>的数值转换。</p>
+<h2 id="cpasync同步原语">cp.async同步原语<a hidden class="anchor" aria-hidden="true" href="#cpasync同步原语">#</a></h2>
+<p>发出<code>cp.async</code>之后，数据不一定已经可以被后续指令使用。CuTe提供了与PTX group机制对应的接口：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="n">CUTE_HOST_DEVICE</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="kt">void</span> <span class="nf">cp_async_fence</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="cp">#if defined(CUTE_ARCH_CP_ASYNC_SM80_ENABLED)
+</span></span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="cp"></span>  <span class="k">asm</span> <span class="k">volatile</span><span class="p">(</span><span class="s">&#34;cp.async.commit_group;</span><span class="se">\n</span><span class="s">&#34;</span> <span class="o">::</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="cp">#endif
+</span></span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="cp"></span><span class="p">}</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="kt">int</span> <span class="n">N</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="n">CUTE_HOST_DEVICE</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="kt">void</span> <span class="n">cp_async_wait</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="cp">#if defined(CUTE_ARCH_CP_ASYNC_SM80_ENABLED)
+</span></span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="cp"></span>  <span class="k">if</span> <span class="nf">constexpr</span> <span class="p">(</span><span class="n">N</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln">15</span><span class="cl">    <span class="k">asm</span> <span class="k">volatile</span><span class="p">(</span><span class="s">&#34;cp.async.wait_all;</span><span class="se">\n</span><span class="s">&#34;</span> <span class="o">::</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">16</span><span class="cl">  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln">17</span><span class="cl">    <span class="k">asm</span> <span class="k">volatile</span><span class="p">(</span><span class="s">&#34;cp.async.wait_group %0;</span><span class="se">\n</span><span class="s">&#34;</span> <span class="o">::</span> <span class="s">&#34;n&#34;</span><span class="p">(</span><span class="n">N</span><span class="p">));</span>
+</span></span><span class="line"><span class="ln">18</span><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="ln">19</span><span class="cl"><span class="cp">#endif
+</span></span></span><span class="line"><span class="ln">20</span><span class="cl"><span class="cp"></span><span class="p">}</span>
+</span></span></code></pre></div><p><code>cp_async_fence()</code>实际上发出的是<code>cp.async.commit_group</code>，把当前线程此前尚未提交的<code>cp.async</code>组成一个group，但不等待group完成，类似于插桩。</p>
+<p><code>cp_async_wait&lt;N&gt;()</code>会阻塞当前线程，直到此前提交但尚未完成的group数量不大于<code>N</code>。因此：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plain" data-lang="plain"><span class="line"><span class="ln">1</span><span class="cl">cp_async_wait&lt;0&gt;()  等待所有旧group完成
+</span></span><span class="line"><span class="ln">2</span><span class="cl">cp_async_wait&lt;1&gt;()  允许至多1个较新的group继续在途
+</span></span></code></pre></div><p>等待是per-thread的，而一个CTA通常会让不同线程copy不同的shared-memory位置，之后又由另一些线程消费这些位置。因此GEMM pipeline在等待目标stage之后通常还需要<code>__syncthreads()</code>，保证CTA内生产者和消费者在使用该stage前完成同步。<code>commit_group</code>、<code>wait_group</code>和CTA barrier解决的是不同层次的问题，不能互相替代。</p>
+<h1 id="copy_traits">Copy_Traits<a hidden class="anchor" aria-hidden="true" href="#copy_traits">#</a></h1>
+<p><code>Copy_Traits</code>补充三类信息：参与的逻辑线程、source侧映射、destination侧映射。</p>
+<p>与MMA Traits直接用逻辑元素描述TV Layout不同，Copy Traits先用bit作为统一单位。这样同一条128-bit copy指令既可以服务8个<code>half_t</code>，也可以服务4个<code>float</code>，而不用为每一种元素类型重复定义Traits。</p>
+<h2 id="ldmatrix-traits">ldmatrix Traits<a hidden class="anchor" aria-hidden="true" href="#ldmatrix-traits">#</a></h2>
+<p><code>SM75_U32x1_LDSM_N</code>的Traits如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">template</span> <span class="o">&lt;&gt;</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="k">struct</span> <span class="nc">Copy_Traits</span><span class="o">&lt;</span><span class="n">SM75_U32x1_LDSM_N</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="k">using</span> <span class="n">ThrID</span> <span class="o">=</span> <span class="n">Layout</span><span class="o">&lt;</span><span class="n">_32</span><span class="o">&gt;</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  <span class="k">using</span> <span class="n">SrcLayout</span> <span class="o">=</span> <span class="n">Layout</span><span class="o">&lt;</span><span class="n">Shape</span> <span class="o">&lt;</span><span class="n">Shape</span> <span class="o">&lt;</span>  <span class="n">_8</span><span class="p">,</span><span class="n">_4</span><span class="o">&gt;</span><span class="p">,</span><span class="n">_128</span><span class="o">&gt;</span><span class="p">,</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">                           <span class="n">Stride</span><span class="o">&lt;</span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">_128</span><span class="p">,</span><span class="n">_0</span><span class="o">&gt;</span><span class="p">,</span>  <span class="n">_1</span><span class="o">&gt;&gt;</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="k">using</span> <span class="n">DstLayout</span> <span class="o">=</span> <span class="n">Layout</span><span class="o">&lt;</span><span class="n">Shape</span> <span class="o">&lt;</span><span class="n">_32</span><span class="p">,</span><span class="n">_32</span><span class="o">&gt;</span><span class="p">,</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl">                           <span class="n">Stride</span><span class="o">&lt;</span><span class="n">_32</span><span class="p">,</span> <span class="n">_1</span><span class="o">&gt;&gt;</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl">
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  <span class="k">using</span> <span class="n">RefLayout</span> <span class="o">=</span> <span class="n">DstLayout</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="p">};</span>
+</span></span></code></pre></div><p>三个Layout的单位都是bit：</p>
+<ol>
+<li><code>ThrID = Layout&lt;_32&gt;</code>表示这是一个32线程的warp级操作。</li>
+<li><code>SrcLayout</code>描述<code>(src-thread, src-bit)</code>到source地址的映射。thread mode的<code>(_8,_4):(_128,_0)</code>中，第二层stride为0，表示32个lane只有8个不同的行地址；这正对应<code>x1</code>只使用lane 0到7提供地址的硬件行为。</li>
+<li><code>DstLayout = (_32,_32):(_32,_1)</code>表示32个lane各得到连续的32 bit。</li>
+<li><code>RefLayout</code>是CuTe协调source和destination映射时使用的参考TV Layout。这里结果分发方式就是参考布局。</li>
+</ol>
+<p>source和destination的每线程value数量可以不同。以<code>half_t</code>解释该Atom时，提供有效行地址的lane需要让source视图覆盖一行8个half，而每个lane的destination只有2个half。<code>ldmatrix</code>的价值正是在一条warp级指令中完成这种collective load和fragment分发。</p>
+<h2 id="cpasync-traits">cp.async Traits<a hidden class="anchor" aria-hidden="true" href="#cpasync-traits">#</a></h2>
+<p><code>cp.async</code>的Traits简单得多：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="ln">1</span><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">S</span><span class="p">,</span> <span class="k">class</span> <span class="nc">D</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="k">struct</span> <span class="nc">Copy_Traits</span><span class="o">&lt;</span><span class="n">SM80_CP_ASYNC_CACHEALWAYS</span><span class="o">&lt;</span><span class="n">S</span><span class="p">,</span><span class="n">D</span><span class="o">&gt;&gt;</span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="ln">4</span><span class="cl">  <span class="k">using</span> <span class="n">ThrID</span> <span class="o">=</span> <span class="n">Layout</span><span class="o">&lt;</span><span class="n">_1</span><span class="o">&gt;</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">5</span><span class="cl">  <span class="k">using</span> <span class="n">SrcLayout</span> <span class="o">=</span> <span class="n">Layout</span><span class="o">&lt;</span><span class="n">Shape</span><span class="o">&lt;</span><span class="n">_1</span><span class="p">,</span><span class="n">Int</span><span class="o">&lt;</span><span class="n">sizeof_bits</span><span class="o">&lt;</span><span class="n">S</span><span class="o">&gt;::</span><span class="n">value</span><span class="o">&gt;&gt;&gt;</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">6</span><span class="cl">  <span class="k">using</span> <span class="n">DstLayout</span> <span class="o">=</span> <span class="n">Layout</span><span class="o">&lt;</span><span class="n">Shape</span><span class="o">&lt;</span><span class="n">_1</span><span class="p">,</span><span class="n">Int</span><span class="o">&lt;</span><span class="n">sizeof_bits</span><span class="o">&lt;</span><span class="n">D</span><span class="o">&gt;::</span><span class="n">value</span><span class="o">&gt;&gt;&gt;</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">7</span><span class="cl">  <span class="k">using</span> <span class="n">RefLayout</span> <span class="o">=</span> <span class="n">SrcLayout</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">8</span><span class="cl"><span class="p">};</span>
+</span></span></code></pre></div><p><code>ThrID = Layout&lt;_1&gt;</code>表示一个Atom只涉及一个线程。source和destination都是<code>(1, sizeof_bits&lt;T&gt;)</code>，所以它们是一一对应的bit copy。当<code>S = D = uint128_t</code>时，一个Atom覆盖1个线程和128 bit；随后<code>Copy_Atom&lt;..., half_t&gt;</code>会把它重解释为1个线程和8个half value。</p>
+<h1 id="copy_atom">Copy_Atom<a hidden class="anchor" aria-hidden="true" href="#copy_atom">#</a></h1>
+<p><code>Copy_Atom</code>把<code>CopyOperation</code>、<code>Copy_Traits</code>和用户指定的内部value类型组合在一起：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="ln">1</span><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">CopyOperation</span><span class="p">,</span> <span class="k">class</span> <span class="nc">CopyInternalType</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="k">struct</span> <span class="nc">Copy_Atom</span><span class="o">&lt;</span><span class="n">CopyOperation</span><span class="p">,</span> <span class="n">CopyInternalType</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl">  <span class="o">:</span> <span class="n">Copy_Atom</span><span class="o">&lt;</span><span class="n">Copy_Traits</span><span class="o">&lt;</span><span class="n">CopyOperation</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">CopyInternalType</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="ln">4</span><span class="cl"><span class="p">{};</span>
+</span></span></code></pre></div><p>在具体实现中，它会把Traits中的bit Layout recast为<code>CopyInternalType</code>对应的value Layout：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="ln">1</span><span class="cl"><span class="k">using</span> <span class="n">ValType</span> <span class="o">=</span> <span class="n">CopyInternalType</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl">
+</span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="k">using</span> <span class="n">ValLayoutSrc</span> <span class="o">=</span> <span class="k">decltype</span><span class="p">(</span>
+</span></span><span class="line"><span class="ln">4</span><span class="cl">    <span class="n">recast_layout</span><span class="o">&lt;</span><span class="n">uint1_t</span><span class="p">,</span> <span class="n">ValType</span><span class="o">&gt;</span><span class="p">(</span><span class="n">BitLayoutSrc</span><span class="p">{}));</span>
+</span></span><span class="line"><span class="ln">5</span><span class="cl"><span class="k">using</span> <span class="n">ValLayoutDst</span> <span class="o">=</span> <span class="k">decltype</span><span class="p">(</span>
+</span></span><span class="line"><span class="ln">6</span><span class="cl">    <span class="n">recast_layout</span><span class="o">&lt;</span><span class="n">uint1_t</span><span class="p">,</span> <span class="n">ValType</span><span class="o">&gt;</span><span class="p">(</span><span class="n">BitLayoutDst</span><span class="p">{}));</span>
+</span></span><span class="line"><span class="ln">7</span><span class="cl"><span class="k">using</span> <span class="n">ValLayoutRef</span> <span class="o">=</span> <span class="k">decltype</span><span class="p">(</span>
+</span></span><span class="line"><span class="ln">8</span><span class="cl">    <span class="n">recast_layout</span><span class="o">&lt;</span><span class="n">uint1_t</span><span class="p">,</span> <span class="n">ValType</span><span class="o">&gt;</span><span class="p">(</span><span class="n">BitLayoutRef</span><span class="p">{}));</span>
+</span></span></code></pre></div><p>因此，Copy Atom表达的是“一次最小指令中，哪些线程把哪些逻辑value从source映射到destination”。例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plain" data-lang="plain"><span class="line"><span class="ln">1</span><span class="cl">Copy_Atom&lt;SM80_CP_ASYNC_CACHEALWAYS&lt;uint128_t&gt;, half_t&gt;
+</span></span><span class="line"><span class="ln">2</span><span class="cl">    一个线程，一次GMEM-&gt;SMEM搬运8个half
+</span></span><span class="line"><span class="ln">3</span><span class="cl">
+</span></span><span class="line"><span class="ln">4</span><span class="cl">Copy_Atom&lt;SM75_U32x4_LDSM_N, half_t&gt;
+</span></span><span class="line"><span class="ln">5</span><span class="cl">    一个warp，一次SMEM-&gt;RMEM加载4个8x8 b16矩阵
+</span></span><span class="line"><span class="ln">6</span><span class="cl">    每个lane最终得到4个uint32_t，也就是8个half
+</span></span></code></pre></div><p><code>Copy_Atom::call()</code>要求source和destination都是rank-1 Tensor。当value数量满足指令要求时，它进入<code>copy_unpack</code>，把逻辑元素Tensor重新解释为<code>CopyOperation</code>声明的<code>SRegisters</code>和<code>DRegisters</code>类型，最终调用<code>CopyOperation::copy()</code>。这与<code>MMA_Atom::call()</code>先检查fragment、再unpack并调用PTX包装的结构基本一致。</p>
+<h1 id="tiledcopy">TiledCopy<a hidden class="anchor" aria-hidden="true" href="#tiledcopy">#</a></h1>
+<p>一个Copy Atom只描述一次最小copy。GEMM中通常需要整个CTA协作搬运一个二维tile，因此还要定义：</p>
+<ol>
+<li><code>ThrLayout</code> 线程如何排列在tile上。</li>
+<li><code>ValLayout</code> 每个线程的多个value如何排列。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">TiledCopy</span> <span class="n">copyA</span> <span class="o">=</span> <span class="n">make_tiled_copy</span><span class="p">(</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl">    <span class="n">Copy_Atom</span><span class="o">&lt;</span><span class="n">SM80_CP_ASYNC_CACHEALWAYS</span><span class="o">&lt;</span><span class="n">uint128_t</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">half_t</span><span class="o">&gt;</span><span class="p">{},</span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl">    <span class="n">Layout</span><span class="o">&lt;</span><span class="n">Shape</span><span class="o">&lt;</span><span class="n">_8</span><span class="p">,</span><span class="n">_4</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">Stride</span><span class="o">&lt;</span><span class="n">_4</span><span class="p">,</span><span class="n">_1</span><span class="o">&gt;&gt;</span><span class="p">{},</span> <span class="c1">// thread layout
+</span></span></span><span class="line"><span class="ln">4</span><span class="cl"><span class="c1"></span>    <span class="n">Layout</span><span class="o">&lt;</span><span class="n">Shape</span><span class="o">&lt;</span> <span class="n">_1</span><span class="p">,</span><span class="n">_8</span><span class="o">&gt;&gt;</span><span class="p">{});</span>               <span class="c1">// value layout
+</span></span></span></code></pre></div><figure class="post-image" style="width: 100%; max-width: 100%; margin-left: auto; margin-right: auto;">
+  <img src="tiledcopy.png" alt="tiledcopy" loading="lazy" decoding="async" style="display: block; width: 100%; height: auto;">
+  <figcaption>这里的S和D layout完全一样，只展示了S</figcaption>
+</figure>
+
+<p>这个例子中的thread layout把32个线程排成(8,4):(4,1),value layout表示每个线程在第一维取1个位置、第二维取连续8个half。两者通过<code>raked_product</code>组合后覆盖一个<code>8 x 32</code>的copy tile。因为每线程的8个half恰好是128 bits，所以每个线程执行一次128-bit <code>cp.async</code>。</p>
+<h1 id="thrcopy">ThrCopy<a hidden class="anchor" aria-hidden="true" href="#thrcopy">#</a></h1>
+<p>进入kernel后，需要从<code>TiledCopy</code>中取出当前线程的视图：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">ThrCopy</span> <span class="n">thr_copy_a</span> <span class="o">=</span> <span class="n">copyA</span><span class="p">.</span><span class="n">get_slice</span><span class="p">(</span><span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl">
+</span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="n">Tensor</span> <span class="n">tAgA</span> <span class="o">=</span> <span class="n">thr_copy_a</span><span class="p">.</span><span class="n">partition_S</span><span class="p">(</span><span class="n">gA</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">4</span><span class="cl"><span class="n">Tensor</span> <span class="n">tAsA</span> <span class="o">=</span> <span class="n">thr_copy_a</span><span class="p">.</span><span class="n">partition_D</span><span class="p">(</span><span class="n">sA</span><span class="p">);</span>
+</span></span></code></pre></div><p>这里同样没有发生数据搬运：</p>
+<ol>
+<li><code>get_slice(threadIdx.x)</code>只把当前thread id保存在<code>ThrCopy</code>中。</li>
+<li><code>partition_S(gA)</code>使用Copy Atom的source映射切分<code>gA</code>。</li>
+<li><code>partition_D(sA)</code>使用Copy Atom的destination映射切分<code>sA</code>。</li>
+</ol>
+<p>为什么不能对source和destination使用完全相同的普通partition？对于<code>cp.async</code>，两侧确实接近一一对应；但<code>ldmatrix</code>的source端是少量lane提供行地址，destination端却是32个lane各自接收fragment，两侧TV Layout并不相同。<code>partition_S/D</code>通过共同的<code>RefLayout</code>协调这两种视图，确保一次Atom调用的输入和输出正确对应。</p>
+<p>假设<code>gA</code>表示<code>(128,64,K_TILE)</code>，<code>sA</code>表示三阶段pipeline中的<code>(128,64,3)</code>，前面的<code>16 x 64</code> TiledCopy会得到类似的线程私有视图：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plain" data-lang="plain"><span class="line"><span class="ln">1</span><span class="cl">tAgA: (CPY, CPY_M, CPY_K, K_TILE)
+</span></span><span class="line"><span class="ln">2</span><span class="cl">tAsA: (CPY, CPY_M, CPY_K, PIPE)
+</span></span></code></pre></div><p>其中<code>CPY</code>是一次Copy Atom内的value mode，这里size为8；<code>CPY_M</code>的size为8，因为<code>16 x 64</code> copy tile还要沿M方向重复8次才能覆盖完整的<code>128 x 64</code> CTA tile；<code>CPY_K</code>在这个配置中size为1。</p>
+<p>真正执行一个global K tile到一个shared-memory stage的copy时，再固定最外层坐标：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">copy</span><span class="p">(</span><span class="n">copyA</span><span class="p">,</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl">     <span class="n">tAgA</span><span class="p">(</span><span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">k_tile</span><span class="p">),</span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl">     <span class="n">tAsA</span><span class="p">(</span><span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">k_pipe</span><span class="p">));</span>
+</span></span></code></pre></div><p>这里传给<code>copy</code>的是<code>copyA</code>而不是<code>thr_copy_a</code>。CuTe甚至显式删除了直接接收<code>ThrCopy</code>的<code>copy</code>重载，强调<code>ThrCopy</code>的职责只是partition。线程映射已经体现在<code>tAgA/tAsA</code>的Layout中，执行策略仍然由<code>TiledCopy</code>继承的Copy Atom提供。</p>
+<h2 id="retile_s和retile_d">retile_S和retile_D<a hidden class="anchor" aria-hidden="true" href="#retile_s和retile_d">#</a></h2>
+<p><code>ThrCopy</code>还提供<code>retile_S/D</code>。它们用于已有Tensor已经按照另一套逻辑布局完成线程分区、但底层Engine中的同一批数据需要被当前Copy Atom读写的场景。</p>
+<p>典型例子是SMEM到RMEM的<code>ldmatrix</code>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">TiledCopy</span> <span class="n">s2r_copy_a</span> <span class="o">=</span> <span class="n">make_tiled_copy_A</span><span class="p">(</span><span class="n">s2r_atom_a</span><span class="p">,</span> <span class="n">mma</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="n">ThrCopy</span> <span class="n">s2r_thr_copy_a</span> <span class="o">=</span> <span class="n">s2r_copy_a</span><span class="p">.</span><span class="n">get_slice</span><span class="p">(</span><span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl">
+</span></span><span class="line"><span class="ln">4</span><span class="cl"><span class="n">Tensor</span> <span class="n">tXsA</span> <span class="o">=</span> <span class="n">s2r_thr_copy_a</span><span class="p">.</span><span class="n">partition_S</span><span class="p">(</span><span class="n">sA</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">5</span><span class="cl"><span class="n">Tensor</span> <span class="n">tXrA</span> <span class="o">=</span> <span class="n">s2r_thr_copy_a</span><span class="p">.</span><span class="n">retile_D</span><span class="p">(</span><span class="n">tCrA</span><span class="p">);</span>
+</span></span></code></pre></div><p><code>tCrA</code>是MMA视角下的register fragment；<code>tXrA</code>是LDSM Copy视角下对同一批register的视图。<code>retile_D</code>不会分配第二份register，也不会重排数据，它只保留原Tensor的Engine并构造一个新的Layout。之后<code>ldmatrix</code>按照<code>tXrA</code>写入，<code>gemm</code>再按照<code>tCrA</code>读取同一批寄存器。</p>
+<h1 id="cutecopy">cute::copy<a hidden class="anchor" aria-hidden="true" href="#cutecopy">#</a></h1>
+<p>前面的对象都在描述映射，<code>cute::copy</code>才是真正执行copy的入口。指定Copy Atom时，其核心dispatch可以简化成：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span><span class="err">... </span><span class="nc">CopyArgs</span><span class="p">,</span> <span class="k">class</span> <span class="nc">SrcTensor</span><span class="p">,</span> <span class="k">class</span> <span class="nc">DstTensor</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="kt">void</span> <span class="n">copy</span><span class="p">(</span><span class="n">Copy_Atom</span><span class="o">&lt;</span><span class="n">CopyArgs</span><span class="p">...</span><span class="o">&gt;</span> <span class="k">const</span><span class="o">&amp;</span> <span class="n">copy_atom</span><span class="p">,</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">          <span class="n">SrcTensor</span> <span class="k">const</span><span class="o">&amp;</span> <span class="n">src</span><span class="p">,</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">          <span class="n">DstTensor</span>      <span class="o">&amp;</span> <span class="n">dst</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  <span class="k">if</span> <span class="nf">constexpr</span> <span class="p">(</span><span class="n">rank</span><span class="p">(</span><span class="n">src</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">    <span class="n">copy_atom</span><span class="p">.</span><span class="n">call</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">    <span class="c1">// 保留第0个Atom value mode，合并其余mode并循环
+</span></span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="c1"></span>    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size_of_rest_modes</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl">      <span class="n">copy_atom</span><span class="p">.</span><span class="n">call</span><span class="p">(</span><span class="n">src_v</span><span class="p">(</span><span class="n">_</span><span class="p">,</span><span class="n">i</span><span class="p">),</span> <span class="n">dst_v</span><span class="p">(</span><span class="n">_</span><span class="p">,</span><span class="n">i</span><span class="p">));</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>因此传入：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plain" data-lang="plain"><span class="line"><span class="ln">1</span><span class="cl">src/dst: (CPY, CPY_M, CPY_K)
+</span></span></code></pre></div><p>时，<code>CPY</code>是一次底层指令处理的value mode，<code>copy</code>会遍历<code>CPY_M * CPY_K</code>个外层位置。每次循环取出一个rank-1 <code>CPY</code> fragment，进入<code>Copy_Atom::call()</code>，最后落到<code>cp.async</code>、<code>ldmatrix</code>或其他CopyOperation。</p>
+<p>如果直接调用不带policy的<code>copy(src, dst)</code>，CuTe会根据静态Layout、共同连续区间和对齐信息尝试自动向量化；无法向量化时则退回逐元素copy。显式传入Copy Atom的价值是把要使用的硬件指令及其TV映射固定下来，而不是让通用copy自行选择。</p>
+<p>边界tile还可以使用<code>copy_if</code>配合predicate Tensor。需要注意，predicate不只是host侧少启动几个block：它必须和每个线程实际访问的逻辑元素对应。<code>cp.async</code>另有zero-fill Traits，可以让predicate为false的source不被读取，并把对应shared-memory目标补零。完整的边界处理取决于kernel如何构造identity Tensor和predicate，将在GEMM walk through中再展开。</p>
+<h1 id="gmem到smem">GMEM到SMEM<a hidden class="anchor" aria-hidden="true" href="#gmem到smem">#</a></h1>
+<p>现在把前面的层次放回实际GEMM。host侧或kernel模板配置中先定义Copy Atom和CTA级TiledCopy：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">TiledCopy</span> <span class="n">copyA</span> <span class="o">=</span> <span class="n">make_tiled_copy</span><span class="p">(</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl">    <span class="n">Copy_Atom</span><span class="o">&lt;</span><span class="n">SM80_CP_ASYNC_CACHEALWAYS</span><span class="o">&lt;</span><span class="n">uint128_t</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">half_t</span><span class="o">&gt;</span><span class="p">{},</span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl">    <span class="n">Layout</span><span class="o">&lt;</span><span class="n">Shape</span><span class="o">&lt;</span><span class="n">_16</span><span class="p">,</span><span class="n">_8</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">Stride</span><span class="o">&lt;</span><span class="n">_8</span><span class="p">,</span><span class="n">_1</span><span class="o">&gt;&gt;</span><span class="p">{},</span>
+</span></span><span class="line"><span class="ln">4</span><span class="cl">    <span class="n">Layout</span><span class="o">&lt;</span><span class="n">Shape</span><span class="o">&lt;</span> <span class="n">_1</span><span class="p">,</span><span class="n">_8</span><span class="o">&gt;&gt;</span><span class="p">{});</span>
+</span></span></code></pre></div><p>进入kernel后，<code>gA</code>和<code>sA</code>分别是global-memory CTA tile与shared-memory pipeline Tensor：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">ThrCopy</span> <span class="n">thr_copy_a</span> <span class="o">=</span> <span class="n">copyA</span><span class="p">.</span><span class="n">get_slice</span><span class="p">(</span><span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="n">Tensor</span> <span class="n">tAgA</span> <span class="o">=</span> <span class="n">thr_copy_a</span><span class="p">.</span><span class="n">partition_S</span><span class="p">(</span><span class="n">gA</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="n">Tensor</span> <span class="n">tAsA</span> <span class="o">=</span> <span class="n">thr_copy_a</span><span class="p">.</span><span class="n">partition_D</span><span class="p">(</span><span class="n">sA</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">4</span><span class="cl">
+</span></span><span class="line"><span class="ln">5</span><span class="cl"><span class="n">copy</span><span class="p">(</span><span class="n">copyA</span><span class="p">,</span>
+</span></span><span class="line"><span class="ln">6</span><span class="cl">     <span class="n">tAgA</span><span class="p">(</span><span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">k_tile_next</span><span class="p">),</span>
+</span></span><span class="line"><span class="ln">7</span><span class="cl">     <span class="n">tAsA</span><span class="p">(</span><span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">smem_pipe_write</span><span class="p">));</span>
+</span></span><span class="line"><span class="ln">8</span><span class="cl"><span class="n">cp_async_fence</span><span class="p">();</span>
+</span></span></code></pre></div><p>这段代码的层次可以读成：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plain" data-lang="plain"><span class="line"><span class="ln">1</span><span class="cl">Copy Atom:      每条指令搬8个half
+</span></span><span class="line"><span class="ln">2</span><span class="cl">TiledCopy:      128个线程协作覆盖16x64
+</span></span><span class="line"><span class="ln">3</span><span class="cl">ThrCopy:        固定当前thread id并切出其视图
+</span></span><span class="line"><span class="ln">4</span><span class="cl">Tensor slicing: 固定当前global K tile和SMEM pipeline stage
+</span></span><span class="line"><span class="ln">5</span><span class="cl">cute::copy:     沿外层mode循环并发出cp.async
+</span></span></code></pre></div><h2 id="shared-memory-swizzle">Shared Memory Swizzle<a hidden class="anchor" aria-hidden="true" href="#shared-memory-swizzle">#</a></h2>
+<p>为了让GMEM侧保持连续的128-bit访问，同时减少后续<code>ldmatrix</code>读取shared memory时的bank conflict，实际GEMM通常不会为<code>sA/sB</code>使用简单的线性Layout，而会加入swizzle：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="ln">1</span><span class="cl"><span class="k">auto</span> <span class="n">swizzle_atom</span> <span class="o">=</span> <span class="n">composition</span><span class="p">(</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl">    <span class="n">Swizzle</span><span class="o">&lt;</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="o">&gt;</span><span class="p">{},</span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl">    <span class="n">Layout</span><span class="o">&lt;</span><span class="n">Shape</span> <span class="o">&lt;</span><span class="n">_8</span><span class="p">,</span><span class="n">Shape</span> <span class="o">&lt;</span><span class="n">_8</span><span class="p">,</span><span class="n">_8</span><span class="o">&gt;&gt;</span><span class="p">,</span>
+</span></span><span class="line"><span class="ln">4</span><span class="cl">           <span class="n">Stride</span><span class="o">&lt;</span><span class="n">_8</span><span class="p">,</span><span class="n">Stride</span><span class="o">&lt;</span><span class="n">_1</span><span class="p">,</span><span class="n">_64</span><span class="o">&gt;&gt;&gt;</span><span class="p">{});</span>
+</span></span><span class="line"><span class="ln">5</span><span class="cl">
+</span></span><span class="line"><span class="ln">6</span><span class="cl"><span class="k">auto</span> <span class="n">sA_layout</span> <span class="o">=</span> <span class="n">tile_to_shape</span><span class="p">(</span>
+</span></span><span class="line"><span class="ln">7</span><span class="cl">    <span class="n">swizzle_atom</span><span class="p">,</span> <span class="n">make_shape</span><span class="p">(</span><span class="n">_128</span><span class="p">{},</span> <span class="n">_64</span><span class="p">{},</span> <span class="n">_3</span><span class="p">{}));</span>
+</span></span><span class="line"><span class="ln">8</span><span class="cl"><span class="k">auto</span> <span class="n">sB_layout</span> <span class="o">=</span> <span class="n">tile_to_shape</span><span class="p">(</span>
+</span></span><span class="line"><span class="ln">9</span><span class="cl">    <span class="n">swizzle_atom</span><span class="p">,</span> <span class="n">make_shape</span><span class="p">(</span><span class="n">_128</span><span class="p">{},</span> <span class="n">_64</span><span class="p">{},</span> <span class="n">_3</span><span class="p">{}));</span>
+</span></span></code></pre></div><p>Swizzle改变的是逻辑坐标到shared-memory offset的映射，不改变Tensor的逻辑shape。<code>partition_D(sA)</code>会在这套swizzled Layout上计算每个线程的目标地址；之后<code>partition_S(sA)</code>又会为<code>ldmatrix</code>计算相应的source地址。因此两级copy仍然通过同一个逻辑<code>(M,K)</code>坐标衔接，不需要程序员手写异或地址公式。</p>
+<p>这里不能只看到“swizzle可以消除bank conflict”就机械套用同一组参数。swizzle必须同时满足GMEM vector width、shared-memory对齐、LDSM寻址方式和目标MMA tile。上面的配置适用于本文后续使用的K-major half tile，换数据类型或tile shape时需要重新验证。</p>
+<h1 id="smem到rmem">SMEM到RMEM<a hidden class="anchor" aria-hidden="true" href="#smem到rmem">#</a></h1>
+<p>SMEM到RMEM时，我们已经有一个<code>TiledMMA</code>，也已经用<code>ThrMMA</code>创建了MMA所需的register fragment。此时最重要的约束不是重新设计一个任意copy tile，而是让LDSM的结果与MMA fragment完全一致。因此CuTe提供了<code>make_tiled_copy_A/B</code>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">Copy_Atom</span><span class="o">&lt;</span><span class="n">SM75_U32x4_LDSM_N</span><span class="p">,</span> <span class="n">half_t</span><span class="o">&gt;</span> <span class="n">s2r_atom_a</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl">
+</span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="n">TiledCopy</span> <span class="n">s2r_copy_a</span> <span class="o">=</span> <span class="n">make_tiled_copy_A</span><span class="p">(</span><span class="n">s2r_atom_a</span><span class="p">,</span> <span class="n">mma</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">4</span><span class="cl"><span class="n">ThrCopy</span> <span class="n">s2r_thr_copy_a</span> <span class="o">=</span> <span class="n">s2r_copy_a</span><span class="p">.</span><span class="n">get_slice</span><span class="p">(</span><span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">5</span><span class="cl">
+</span></span><span class="line"><span class="ln">6</span><span class="cl"><span class="n">Tensor</span> <span class="n">tXsA</span> <span class="o">=</span> <span class="n">s2r_thr_copy_a</span><span class="p">.</span><span class="n">partition_S</span><span class="p">(</span><span class="n">sA</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">7</span><span class="cl"><span class="n">Tensor</span> <span class="n">tXrA</span> <span class="o">=</span> <span class="n">s2r_thr_copy_a</span><span class="p">.</span><span class="n">retile_D</span><span class="p">(</span><span class="n">tCrA</span><span class="p">);</span>
+</span></span></code></pre></div><p><code>make_tiled_copy_A</code>直接取<code>mma.get_layoutA_TV()</code>作为TiledCopy的参考TV映射，并使用MMA的M/K tile shape作为tiler。B侧则使用<code>mma.get_layoutB_TV()</code>和N/K shape。这样构造出来的copy不是“看起来与MMA大小相同”，而是在类型层面沿用MMA operand的Thread-Value覆盖关系。</p>
+<p>真正加载一个K block时：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">copy</span><span class="p">(</span><span class="n">s2r_atom_a</span><span class="p">,</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl">     <span class="n">tXsA</span><span class="p">(</span><span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">k_block</span><span class="p">),</span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl">     <span class="n">tXrA</span><span class="p">(</span><span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">k_block</span><span class="p">));</span>
+</span></span></code></pre></div><p>每个warp中的lane共同执行<code>ldmatrix.x4</code>。shared-memory source侧由LDSM Traits选出需要提供的地址，destination侧写入<code>tXrA</code>指向的register。随后的MMA从<code>tCrA</code>读取同一批register：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">gemm</span><span class="p">(</span><span class="n">mma</span><span class="p">,</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl">     <span class="n">tCrA</span><span class="p">(</span><span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">k_block</span><span class="p">),</span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl">     <span class="n">tCrB</span><span class="p">(</span><span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">k_block</span><span class="p">),</span>
+</span></span><span class="line"><span class="ln">4</span><span class="cl">     <span class="n">tCrC</span><span class="p">);</span>
+</span></span></code></pre></div><p>于是整个数据流中，以下操作会真正移动或计算数据：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plain" data-lang="plain"><span class="line"><span class="ln">1</span><span class="cl">copy(copyA, ...)       GMEM -&gt; SMEM，发出cp.async
+</span></span><span class="line"><span class="ln">2</span><span class="cl">copy(s2r_atom_a, ...)  SMEM -&gt; RMEM，执行ldmatrix
+</span></span><span class="line"><span class="ln">3</span><span class="cl">gemm(mma, ...)         RMEM -&gt; accumulator，执行mma.sync
+</span></span></code></pre></div><p>而下面这些都只创建或改变Tensor视图：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plain" data-lang="plain"><span class="line"><span class="ln">1</span><span class="cl">get_slice
+</span></span><span class="line"><span class="ln">2</span><span class="cl">partition_S / partition_D
+</span></span><span class="line"><span class="ln">3</span><span class="cl">retile_S / retile_D
+</span></span><span class="line"><span class="ln">4</span><span class="cl">Tensor的operator()切片
+</span></span></code></pre></div><p>区分“Layout变换”和“真实数据搬运”，是阅读CuTe GEMM代码最重要的习惯之一。</p>
+<h1 id="wrap-up">Wrap up<a hidden class="anchor" aria-hidden="true" href="#wrap-up">#</a></h1>
+<p>CuTe Copy体系解决的并不只是把一个赋值循环包装成<code>copy()</code>。它把硬件指令的寄存器接口、source/destination两侧不同的Thread-Value映射、CTA协作tile、线程私有视图以及最终dispatch统一在一套类型系统中。</p>
+<p>本文最重要的几个结论是：</p>
+<ol>
+<li><code>CopyOperation</code>包装实际指令，<code>Copy_Traits</code>用bit级Layout描述指令语义，<code>Copy_Atom</code>再把它解释为逻辑元素。</li>
+<li><code>TiledCopy</code>描述多个线程如何覆盖更大的copy tile，<code>ThrCopy</code>只负责为某个线程partition或retile Tensor。</li>
+<li><code>get_slice</code>、<code>partition_*</code>和<code>retile_*</code>都不搬数据，<code>cute::copy</code>才会最终调用底层CopyOperation。</li>
+<li><code>cp.async</code>是一线程一次4/8/16-byte的GMEM到SMEM异步copy；<code>L2::128B</code>只是prefetch hint。</li>
+<li><code>ldmatrix</code>是warp级collective load，source地址提供方式和destination fragment分发方式不同，所以Copy Atom必须区分SrcLayout和DstLayout。</li>
+<li><code>make_tiled_copy_A/B</code>和<code>retile_D</code>把LDSM Copy映射与已有MMA fragment衔接起来，但不会制造额外的数据重排。</li>
+</ol>
+<p>下一篇将以一个完整的SM80 HGEMM为例，把Tensor、Layout Algebra、MMA Atom和本文的Copy Atom串起来，逐层追踪数据如何经过GMEM、SMEM和RMEM，最终进入Tensor Core。</p>
+<h1 id="reference">Reference<a hidden class="anchor" aria-hidden="true" href="#reference">#</a></h1>
+<p><a href="https://docs.nvidia.com/cutlass/latest/media/docs/cpp/cute/0x_gemm_tutorial.html">https://docs.nvidia.com/cutlass/latest/media/docs/cpp/cute/0x_gemm_tutorial.html</a></p>
+<p><a href="https://docs.nvidia.com/cuda/parallel-thread-execution/#warp-level-matrix-instructions-ldmatrix">https://docs.nvidia.com/cuda/parallel-thread-execution/#warp-level-matrix-instructions-ldmatrix</a></p>
+<p><a href="https://docs.nvidia.com/cuda/parallel-thread-execution/#data-movement-and-conversion-instructions-cp-async">https://docs.nvidia.com/cuda/parallel-thread-execution/#data-movement-and-conversion-instructions-cp-async</a></p>
 
 
   </div>
 
   <footer class="post-footer">
     <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/cute/">CuTe</a></li>
+      <li><a href="http://localhost:1313/tags/copy-atom/">Copy Atom</a></li>
+      <li><a href="http://localhost:1313/tags/cuda/">CUDA</a></li>
     </ul>
   </footer>
 </article>
     </main>
     
 <footer class="footer">
-        <span>&copy; 2026 <a href="http://localhost:13131/">鲤鱼爱的神秘小屋</a></span> · 
+        <span>&copy; 2026 <a href="http://localhost:1313/">鲤鱼爱的神秘小屋</a></span> · 
 
     
     

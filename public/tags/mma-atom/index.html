@@ -173,18 +173,12 @@
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
     <h2 class="entry-hint-parent">CuTe学习4-MMA Atom
-      <span class="entry-hint" title="Draft">
-        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
-          <path
-            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
-        </svg>
-      </span>
     </h2>
   </header>
   <div class="entry-content">
     <p>MMA Hierarchy CuTe对MMA的抽象是自底向上的,大概可以分为三层。最底层是硬件指令层，包裹了架构特化的MMA PTX指令和从PTX提取的类型信息和fragment布局。中间层是逻辑抽象层，将矩阵形状映射到指令形状上，并为线程分工。顶层是gemm接口，处理循环调度和调用PTX指令。整体层次大概如下：
 Source from https://zhuanlan.zhihu.com/p/663092747
-MMAOperation：最底层的硬件指令包装，定义寄存器数量和真正的PTX指令调用。 MMA_Traits&lt;MMAOperation&gt;：类型萃取层，告诉CuTe这个MMA指令的输入输出类型、M/N/K形状、线程和值的布局。 MMA_Atom：给定硬件架构下的一次最小MMA计算单元。 TiledMMA：把一个MMA_Atom映射到更大的M/N/K tile，并描述线程如何覆盖这个大tile。 ThrMMA：某一个具体线程看到的MMA视图，负责切出该线程自己的A/B/C fragment。 cute::gemm：最终执行入口，根据Tensor rank逐层dispatch，最后落到mma_atom.call()。 本文使用Ampere的SM80_16x8x16_F32F16F16F32_TN作为主例子介绍CuTe MMA各抽象层级，使用Ampere架构介绍是因为其相对简单直接，而且兼容Ampere架构的卡相对好找(RTX 30及之后，A100，L40 etc.)，后面会有文章介绍Hopper上的GMMA和Blackwell上的UMMA。
+MMAOperation：最底层的硬件指令包装，定义寄存器数量和真正的PTX指令调用。 MMA_Traits&lt;MMAOperation&gt;：类型萃取层，告诉CuTe这个MMA指令的输入输出类型、M/N/K形状、线程和值的布局。 MMA_Atom：给定硬件架构下的一次最小MMA计算单元。 TiledMMA：把一个MMA_Atom映射到更大的M/N/K tile，并描述线程如何覆盖这个大tile。 ThrMMA：某一个具体线程看到的MMA视图，负责切出该线程自己的A/B/C fragment。 cute::gemm：最终执行入口，根据Tensor rank逐层dispatch，最后落到mma_atom.call()。 本文使用Ampere的SM80_16x8x16_F32F16F16F32_TN作为主例子介绍CuTe MMA各抽象层级，使用Ampere架构介绍是因为其相对简单直接，而且兼容Ampere架构的卡相对好找(RTX 30系及之后，A100，L40，etc.)，后面会有文章介绍Hopper和Blackwell。
 MMAOperation MMAOperation是最靠近硬件的一层。它包装了特定架构上的一条或一组底层MMA PTX指令。
 1// source from include/cute/arch/mma_sm80.hpp 2struct SM80_16x8x8_F32F16F16F32_TN 3{ 4 using DRegisters = float[4]; 5 using ARegisters = uint32_t[2]; 6 using BRegisters = uint32_t[1]; 7 using CRegisters = float[4]; 8 9 CUTE_HOST_DEVICE static void 10 fma(float &amp; d0, float &amp; d1, float &amp; d2, float &amp; d3, 11 uint32_t const&amp; a0, uint32_t const&amp; a1, 12 uint32_t const&amp; b0, 13 float const &amp; c0, float const &amp; c1, float const &amp; c2, float const &amp; c3) 14 { 15#if defined(CUTE_ARCH_MMA_SM80_ENABLED) 16 asm volatile( 17 &#34;mma.sync.aligned.m16n8k8.row.col.f32.f16.f16.f32 &#34; 18 &#34;{%0, %1, %2, %3},&#34; 19 &#34;{%4, %5},&#34; 20 &#34;{%6},&#34; 21 &#34;{%7, %8, %9, %10};\n&#34; 22 : &#34;=f&#34;(d0), &#34;=f&#34;(d1), &#34;=f&#34;(d2), &#34;=f&#34;(d3) 23 : &#34;r&#34;(a0), &#34;r&#34;(a1), 24 &#34;r&#34;(b0), 25 &#34;f&#34;(c0), &#34;f&#34;(c1), &#34;f&#34;(c2), &#34;f&#34;(c3)); 26#endif 27 } 28}; CuTe MMA_Atom Visualization MMAOperation内部包含了两个信息：需要的的寄存器数量，和执行计算的PTX指令。
 ...</p>
