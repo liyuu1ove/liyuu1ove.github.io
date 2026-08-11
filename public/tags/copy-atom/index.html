@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" dir="auto" data-theme="light">
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=13131&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
@@ -9,17 +9,17 @@
 <meta name="keywords" content="">
 <meta name="description" content="个人主页、论文、技术博客与随笔">
 <meta name="author" content="鲤鱼爱">
-<link rel="canonical" href="http://localhost:1313/tags/copy-atom/">
+<link rel="canonical" href="http://localhost:13131/tags/copy-atom/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.26e9583fb0cf555b3a58a7936237486984fe70640f533bf97fa925e2c19cd09d.css" integrity="sha256-JulYP7DPVVs6WKeTYjdIaYT&#43;cGQPUzv5f6kl4sGc0J0=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:13131/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:13131/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:13131/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:13131/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:13131/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/tags/copy-atom/index.xml" title="rss">
-<link rel="alternate" hreflang="zh" href="http://localhost:1313/tags/copy-atom/">
+<link rel="alternate" type="application/rss+xml" href="http://localhost:13131/tags/copy-atom/index.xml" title="rss">
+<link rel="alternate" hreflang="zh" href="http://localhost:13131/tags/copy-atom/">
 <noscript>
     <style>
         #theme-toggle,
@@ -77,7 +77,7 @@
       "Noto Sans Mono CJK SC", monospace;
   }
 </style>
-<meta property="og:url" content="http://localhost:1313/tags/copy-atom/">
+<meta property="og:url" content="http://localhost:13131/tags/copy-atom/">
   <meta property="og:site_name" content="鲤鱼爱的神秘小屋">
   <meta property="og:title" content="Copy Atom">
   <meta property="og:description" content="个人主页、论文、技术博客与随笔">
@@ -173,12 +173,6 @@
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
     <h2 class="entry-hint-parent">CuTe学习5-Copy Atom
-      <span class="entry-hint" title="Draft">
-        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
-          <path
-            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
-        </svg>
-      </span>
     </h2>
   </header>
   <div class="entry-content">
@@ -186,18 +180,18 @@
 CuTe Copy Hierarchy CopyOperation：包装一条具体的copy指令，声明指令的source/destination寄存器接口。 Copy_Traits：描述该指令需要多少线程，以及source和destination两侧的bit级Thread-Value Layout。 Copy_Atom：把bit级Traits重解释为指定逻辑元素类型，形成一次最小copy操作。 TiledCopy：把Copy Atom铺到更大的逻辑tile上，描述多个线程分别负责哪些value。 ThrCopy：固定当前thread id，并用partition_S/D切出该线程的source/destination视图。 cute::copy：沿Tensor的外层mode循环，最终调用Copy Atom中的底层指令。 本文使用两条Ampere GEMM中常见的路径作为主例子：
 1GMEM --cp.async--&gt; SMEM --ldmatrix--&gt; RMEM --mma.sync--&gt; Tensor Core cp.async解决global memory到shared memory的异步、向量化搬运；ldmatrix解决shared memory中的矩阵tile如何按照Tensor Core需要的fragment布局进入每个lane的寄存器。理解这两种完全不同的指令之后，Copy_Atom为什么需要同时描述source和destination映射也就比较直观了。
 CopyOperation CopyOperation是最靠近硬件的一层。和MMAOperation类似，它声明了PTX需要用到的寄存器数量和包装了PTX指令。
-ldmatrix Tensor Core的MMA指令中，lane必须按照PTX规定的fragment格式持有A/B operand。Turing开始提供的ldmatrix正是为这个过程设计的：一个warp协作地从shared memory读取若干个8 x 8、元素宽度为16-bit的矩阵，并把结果分发到32个lane的寄存器中。
+ldmatrix Tensor Core的MMA指令中，每个lane必须按照PTX规定的fragment格式持有A/B operand。Turing开始提供的ldmatrix正是为这个过程设计的，一个warp协作地从shared memory读取若干个8 x 8、元素宽度为16-bit的矩阵，并把结果分发到32个lane的寄存器中。
 CuTe对ldmatrix.sync.aligned.x1.m8n8.shared.b16的包装如下：
-1// Source from include/cute/arch/copy_sm75.hpp 2struct SM75_U32x1_LDSM_N 3{ 4 using SRegisters = uint128_t[1]; 5 using DRegisters = uint32_t[1]; 6 7 CUTE_HOST_DEVICE static void 8 copy(uint128_t const&amp; smem_src, 9 uint32_t&amp; dst) 10 { 11#if defined(CUTE_ARCH_LDSM_SM75_ACTIVATED) 12 uint32_t smem_int_ptr = cast_smem_ptr_to_uint(&amp;smem_src); 13 asm volatile(&#34;ldmatrix.sync.aligned.x1.m8n8.shared.b16 {%0}, [%1];\n&#34; 14 : &#34;=r&#34;(dst) 15 : &#34;r&#34;(smem_int_ptr)); 16#endif 17 } 18}; 这里的x1表示整个warp读取一个8 x 8矩阵。矩阵一共有8 * 8 * 16 bit = 1024 bit = 128 byte。结果平均分给32个lane，因此每个lane得到一个32-bit寄存器，也就是两个16-bit元素。
+1// Source from include/cute/arch/copy_sm75.hpp 2struct SM75_U32x1_LDSM_N 3{ 4 using SRegisters = uint128_t[1]; 5 using DRegisters = uint32_t[1]; 6 7 CUTE_HOST_DEVICE static void 8 copy(uint128_t const&amp; smem_src, 9 uint32_t&amp; dst) 10 { 11#if defined(CUTE_ARCH_LDSM_SM75_ACTIVATED) 12 uint32_t smem_int_ptr = cast_smem_ptr_to_uint(&amp;smem_src); 13 asm volatile(&#34;ldmatrix.sync.aligned.x1.m8n8.shared.b16 {%0}, [%1];\n&#34; 14 : &#34;=r&#34;(dst) 15 : &#34;r&#34;(smem_int_ptr)); 16#endif 17 } 18}; 这条指令含义如下：
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2026-07-29 14:21:13 +0800 CST'>2026年7月29日</span>&nbsp;·&nbsp;<span>阅读此文大概需要30分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
-  <a class="entry-link" aria-label="post link to CuTe学习5-Copy Atom" href="http://localhost:1313/technical-blog/cute-starter-5/"></a>
+  <footer class="entry-footer"><span title='2026-07-10 14:21:13 +0800 CST'>2026年7月10日</span>&nbsp;·&nbsp;<span>阅读此文大概需要30分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
+  <a class="entry-link" aria-label="post link to CuTe学习5-Copy Atom" href="http://localhost:13131/technical-blog/cute-starter-5/"></a>
 </article>
     </main>
     
 <footer class="footer">
-        <span>&copy; 2026 <a href="http://localhost:1313/">鲤鱼爱的神秘小屋</a></span> · 
+        <span>&copy; 2026 <a href="http://localhost:13131/">鲤鱼爱的神秘小屋</a></span> · 
 
     
     

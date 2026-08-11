@@ -2,7 +2,7 @@
 title = 'CuTe学习4-MmaAtom'
 date = '2026-07-07T16:27:26+08:00'
 draft = false
-description = '介绍CuTe中MmaAtom的层次化结构'
+description = '自底向上介绍CuTe中MmaAtom的层次化结构'
 readingTimeText = '阅读此文大概需要32分钟'
 tags = ['CuTe','MmaAtom']
 categories = ['Technical Blog']

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" dir="auto" data-theme="light">
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=13131&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
@@ -9,17 +9,17 @@
 <meta name="keywords" content="">
 <meta name="description" content="个人主页、论文、技术博客与随笔">
 <meta name="author" content="鲤鱼爱">
-<link rel="canonical" href="http://localhost:1313/tags/gemm/">
+<link rel="canonical" href="http://localhost:13131/tags/gemm/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.26e9583fb0cf555b3a58a7936237486984fe70640f533bf97fa925e2c19cd09d.css" integrity="sha256-JulYP7DPVVs6WKeTYjdIaYT&#43;cGQPUzv5f6kl4sGc0J0=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:13131/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:13131/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:13131/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:13131/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:13131/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/tags/gemm/index.xml" title="rss">
-<link rel="alternate" hreflang="zh" href="http://localhost:1313/tags/gemm/">
+<link rel="alternate" type="application/rss+xml" href="http://localhost:13131/tags/gemm/index.xml" title="rss">
+<link rel="alternate" hreflang="zh" href="http://localhost:13131/tags/gemm/">
 <noscript>
     <style>
         #theme-toggle,
@@ -77,7 +77,7 @@
       "Noto Sans Mono CJK SC", monospace;
   }
 </style>
-<meta property="og:url" content="http://localhost:1313/tags/gemm/">
+<meta property="og:url" content="http://localhost:13131/tags/gemm/">
   <meta property="og:site_name" content="鲤鱼爱的神秘小屋">
   <meta property="og:title" content="GEMM">
   <meta property="og:description" content="个人主页、论文、技术博客与随笔">
@@ -183,22 +183,21 @@
   </header>
   <div class="entry-content">
     <p>Overview 本文分析基于Ampere架构的dense HGEMM。
-从流程上来讲，使用CuTe编写的代码和Raw CUDA进行的HGEMM没有本质区别，也没有用到全新的优化方式，仍然是SM80优化的那一套。CuTe把曾经几乎没有可读性的，复杂的坐标计算重构为了CuTe的Tensor分块和切片，操作tensor的每个函数都有易于理解的语义。本文会重点解释参与运算的矩阵是如何被TiledMMA和TiledCopy重新组织，分块和切片的。而不是讲解如何在SM80上面优化一个HGEMM，较为基础的优化部分本文会略过。本文代码基于CuTe官方教程，略有一些修改，完整代码在github上。
-本文会按照代码数据流向的顺序进行讲解。
-1GMEM-&gt;SMEM-&gt;RMEM-&gt;TENSOR CORE //TODO github连接
-GMEM-&gt;SMEM 1TiledCopy copyA = make_tiled_copy( 2 Copy_Atom&lt;SM80_CP_ASYNC_CACHEALWAYS&lt;uint128_t&gt;, half_t&gt;{}, 3 Layout&lt;Shape&lt;_16,_8&gt;,Stride&lt;_8,_1&gt;&gt;{}, 4 Layout&lt;Shape&lt; _1,_8&gt;&gt;{}); Copy Atom：每次执行128-bit的cp.async，即8个half； Thread Layout：128个线程排成逻辑16 x 8； Value Layout：每线程负责逻辑1 x 8个value。 Thread Layout和Value Layout共同覆盖一个16 x 64的copy tile：
-1M/N方向：16 threads * 1 value = 16 2K方向： 8 threads * 8 values = 64 一次协同copy搬运：
-1128 threads * 16 bytes = 2048 bytes 216 * 64 half = 2048 bytes CTA的A tile是128 x 64，所以这个copy tile还要沿M方向重复8次。B同理沿N方向重复8次。
-TiledMMA 1TiledMMA mmaC = make_tiled_mma( 2 SM80_16x8x16_F16F16F16F16_TN{}, 3 Layout&lt;Shape&lt;_2,_2&gt;&gt;{}, 4 Tile&lt;_32,_32,_16&gt;{}); 最底层MMA Atom的shape是16 x 8 x 16，由一个32线程warp执行。Layout&lt;Shape&lt;_2,_2&gt;&gt;把warp在M/N方向各重复2次，因此共有4个warp，也就是128个线程。
+GEMM Hierarchy Source from CUTLASS, modify applied
+从流程上来讲，使用CuTe编写的代码和Raw CUDA进行的HGEMM没有本质区别，也没有用到全新的优化方式，仍然是SM80优化的那一套。CuTe把曾经几乎没有可读性的，复杂的坐标计算重构为了CuTe的Tensor分块和切片，操作tensor的每个函数都有明确的语义。本文会重点解释参与运算的矩阵是如何被TiledMMA和TiledCopy重新组织，分块和切片的，而不是讲解如何在SM80上面优化一个HGEMM，较为基础的优化部分本文会略过。本文代码基于CuTe Tutorial。
+本文会按照GEMM tiling的顺序进行讲解。本文会使用d表示动态整数，s表示静态整数。
+function calling structure 1int main(){//初始化参数，parsing，profiling 2 gemm_tn(){// warpper，实例化TiledMMA，TiledCopy等，并且launch kernel 3 gemm_device() // device kernel，处理核心逻辑（Tiling，Copy，Compute） 4 } 5} 我们在行文时会用gemm_tn()和 gemm_device()来区分代码处在的层级。
+gemm_device() signature 1template &lt;class ProblemShape, class CtaTiler, 2 class TA, class AStride, class ASmemLayout, class TiledCopyA, class S2RAtomA, 3 class TB, class BStride, class BSmemLayout, class TiledCopyB, class S2RAtomB, 4 class TC, class CStride, class CSmemLayout, class TiledMma, 5 class Alpha, class Beta&gt; 6__global__ static 7__launch_bounds__(decltype(size(TiledMma{}))::value) 8void 9gemm_device(ProblemShape shape_MNK, CtaTiler cta_tiler, 10 TA const* A, AStride dA, ASmemLayout sA_layout, TiledCopyA copy_a, S2RAtomA s2r_atom_a, 11 TB const* B, BStride dB, BSmemLayout sB_layout, TiledCopyB copy_b, S2RAtomB s2r_atom_b, 12 TC * C, CStride dC, CSmemLayout , TiledMma mma, 13 Alpha alpha, Beta beta) 其中一些参数的含义和类型如下：
+ProblemShape 矩阵乘法的形状，直接使用make_shape(m,n,k)封装了三个dynamic int。本文使用d5120，d5120，d4096
 ...</p>
   </div>
   <footer class="entry-footer"><span title='2026-07-13 17:29:09 +0800 CST'>2026年7月13日</span>&nbsp;·&nbsp;<span>阅读此文大概需要38分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
-  <a class="entry-link" aria-label="post link to CuTe学习6-SM80 CuTe GEMM Walk Through" href="http://localhost:1313/technical-blog/cute-starter-6/"></a>
+  <a class="entry-link" aria-label="post link to CuTe学习6-SM80 CuTe GEMM Walk Through" href="http://localhost:13131/technical-blog/cute-starter-6/"></a>
 </article>
     </main>
     
 <footer class="footer">
-        <span>&copy; 2026 <a href="http://localhost:1313/">鲤鱼爱的神秘小屋</a></span> · 
+        <span>&copy; 2026 <a href="http://localhost:13131/">鲤鱼爱的神秘小屋</a></span> · 
 
     
     
