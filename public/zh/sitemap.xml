@@ -2,34 +2,8 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/technical-blog/</loc>
-    <lastmod>2026-08-27T10:29:37+08:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-us"
-                href="http://localhost:1313/en/technical-blog/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-cn"
-                href="http://localhost:1313/technical-blog/"
-                />
-  </url><url>
-    <loc>http://localhost:1313/</loc>
-    <lastmod>2026-08-27T10:29:37+08:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-us"
-                href="http://localhost:1313/en/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-cn"
-                href="http://localhost:1313/"
-                />
-  </url><url>
     <loc>http://localhost:1313/categories/</loc>
-    <lastmod>2026-07-10T14:21:13+08:00</lastmod>
+    <lastmod>2026-08-11T16:17:16+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-us"
@@ -41,20 +15,17 @@
                 href="http://localhost:1313/categories/"
                 />
   </url><url>
-    <loc>http://localhost:1313/tags/copy-atom/</loc>
-    <lastmod>2026-07-10T14:21:13+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/cuda/</loc>
-    <lastmod>2026-07-10T14:21:13+08:00</lastmod>
-  </url><url>
     <loc>http://localhost:1313/tags/cute/</loc>
-    <lastmod>2026-07-10T14:21:13+08:00</lastmod>
+    <lastmod>2026-08-11T16:17:16+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/technical-blog/cute-starter-5/</loc>
-    <lastmod>2026-07-10T14:21:13+08:00</lastmod>
+    <loc>http://localhost:1313/technical-blog/cute-starter-7/</loc>
+    <lastmod>2026-08-11T16:17:16+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/mbarrier/</loc>
+    <lastmod>2026-08-11T16:17:16+08:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/</loc>
-    <lastmod>2026-07-10T14:21:13+08:00</lastmod>
+    <lastmod>2026-08-11T16:17:16+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-us"
@@ -67,6 +38,50 @@
                 />
   </url><url>
     <loc>http://localhost:1313/categories/technical-blog/</loc>
+    <lastmod>2026-08-11T16:17:16+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/tma/</loc>
+    <lastmod>2026-08-11T16:17:16+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/technical-blog/</loc>
+    <lastmod>2026-08-11T16:17:16+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-us"
+                href="http://localhost:1313/en/technical-blog/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="http://localhost:1313/technical-blog/"
+                />
+  </url><url>
+    <loc>http://localhost:1313/</loc>
+    <lastmod>2026-08-11T16:17:16+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-us"
+                href="http://localhost:1313/en/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="http://localhost:1313/"
+                />
+  </url><url>
+    <loc>http://localhost:1313/tags/cuda/</loc>
+    <lastmod>2026-07-13T17:29:09+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/technical-blog/cute-starter-6/</loc>
+    <lastmod>2026-07-13T17:29:09+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/gemm/</loc>
+    <lastmod>2026-07-13T17:29:09+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/copy-atom/</loc>
+    <lastmod>2026-07-10T14:21:13+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/technical-blog/cute-starter-5/</loc>
     <lastmod>2026-07-10T14:21:13+08:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/technical-blog/cute-starter-4/</loc>

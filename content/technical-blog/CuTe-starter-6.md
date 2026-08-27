@@ -1,7 +1,7 @@
 +++
 title = 'CuTe学习6-SM80 CuTe GEMM Walk Through'
 date = '2026-07-13T17:29:09+08:00'
-draft = true
+draft = false
 description = '以SM80 HGEMM为例，详细介绍CuTe GEMM中的层次化结构'
 readingTimeText = '阅读此文大概需要38分钟'
 tags = ['CuTe','GEMM','CUDA']

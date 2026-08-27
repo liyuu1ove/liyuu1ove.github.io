@@ -1,7 +1,7 @@
 +++
 title = 'CuTe学习7-SM90 TMA and mbarrier'
 date = '2026-08-11T16:17:16+08:00'
-draft = true
+draft = false
 description = '基于CuTe封装讲解SM90 TMA and mbarrier'
 readingTimeText = '阅读此文大概需要好几分钟'
 tags = ['CuTe','TMA','mbarrier']

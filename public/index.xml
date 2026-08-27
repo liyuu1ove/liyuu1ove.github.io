@@ -6,8 +6,22 @@
     <description>Recent content on 鲤鱼爱的神秘小屋</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 10 Jul 2026 14:21:13 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 11 Aug 2026 16:17:16 +0800</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CuTe学习7-SM90 TMA and mbarrier</title>
+      <link>http://localhost:1313/technical-blog/cute-starter-7/</link>
+      <pubDate>Tue, 11 Aug 2026 16:17:16 +0800</pubDate>
+      <guid>http://localhost:1313/technical-blog/cute-starter-7/</guid>
+      <description>基于CuTe封装讲解SM90 TMA and mbarrier</description>
+    </item>
+    <item>
+      <title>CuTe学习6-SM80 CuTe GEMM Walk Through</title>
+      <link>http://localhost:1313/technical-blog/cute-starter-6/</link>
+      <pubDate>Mon, 13 Jul 2026 17:29:09 +0800</pubDate>
+      <guid>http://localhost:1313/technical-blog/cute-starter-6/</guid>
+      <description>以SM80 HGEMM为例，详细介绍CuTe GEMM中的层次化结构</description>
+    </item>
     <item>
       <title>CuTe学习5-Copy Atom</title>
       <link>http://localhost:1313/technical-blog/cute-starter-5/</link>

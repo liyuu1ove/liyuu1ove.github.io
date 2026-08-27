@@ -172,6 +172,25 @@
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">CuTe学习6-SM80 CuTe GEMM Walk Through
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Overview 本文分析基于Ampere架构的dense HGEMM。
+GEMM Hierarchy Source from CUTLASS, modify applied
+从流程上来讲，使用CuTe编写的代码和Raw CUDA进行的HGEMM没有本质区别，也没有用到全新的优化方式，仍然是SM80优化的那一套。CuTe把曾经几乎没有可读性的，复杂的坐标计算重构为了CuTe的Tensor分块和切片，操作tensor的每个函数都有明确的语义。本文会重点解释参与运算的矩阵是如何被TiledMMA和TiledCopy重新组织，分块和切片的，而不是讲解如何在SM80上面优化一个HGEMM，较为基础的优化部分本文会略过。本文代码基于CuTe Tutorial。
+本文会按照GEMM tiling的顺序进行讲解。本文会使用d表示动态整数，s表示静态整数。
+function calling structure 1int main(){//初始化参数，parsing，profiling 2 gemm_tn(){// warpper，实例化TiledMMA，TiledCopy等，并且launch kernel 3 gemm_device() // device kernel，处理核心逻辑（Tiling，Copy，Compute） 4 } 5} 我们在行文时会用gemm_tn()和 gemm_device()来区分代码处在的层级。
+gemm_device() signature 1template &lt;class ProblemShape, class CtaTiler, 2 class TA, class AStride, class ASmemLayout, class TiledCopyA, class S2RAtomA, 3 class TB, class BStride, class BSmemLayout, class TiledCopyB, class S2RAtomB, 4 class TC, class CStride, class CSmemLayout, class TiledMma, 5 class Alpha, class Beta&gt; 6__global__ static 7__launch_bounds__(decltype(size(TiledMma{}))::value) 8void 9gemm_device(ProblemShape shape_MNK, CtaTiler cta_tiler, 10 TA const* A, AStride dA, ASmemLayout sA_layout, TiledCopyA copy_a, S2RAtomA s2r_atom_a, 11 TB const* B, BStride dB, BSmemLayout sB_layout, TiledCopyB copy_b, S2RAtomB s2r_atom_b, 12 TC * C, CStride dC, CSmemLayout , TiledMma mma, 13 Alpha alpha, Beta beta) 其中一些参数的含义和类型如下：
+ProblemShape 矩阵乘法的形状，直接使用make_shape(m,n,k)封装了三个dynamic int。本文使用d5120，d5120，d4096
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-07-13 17:29:09 +0800 CST'>2026年7月13日</span>&nbsp;·&nbsp;<span>阅读此文大概需要38分钟</span>&nbsp;·&nbsp;<span>liyuu1ove_</span></footer>
+  <a class="entry-link" aria-label="post link to CuTe学习6-SM80 CuTe GEMM Walk Through" href="http://localhost:1313/technical-blog/cute-starter-6/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">CuTe学习5-Copy Atom
     </h2>
   </header>

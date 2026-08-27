@@ -106,14 +106,14 @@ defaultContentLanguageInSubdir = false
   [languages.en.params]
     env = 'production'
     description = 'Personal homepage, publications, technical blog, and essays.'
-    author = 'Liyu'
+    author = 'liyuu1ove_'
 
     [languages.en.params.homepage]
-      name = 'Liyu'
-      affiliation = 'Xidian University'
-      shortBio = 'Undergraduate student in Computer Science, focusing on Efficient AI, multimodal models, and world models.'
+      name = 'Fangyao Zhao'
+      affiliation = 'Institute of Science Tokyo'
+      shortBio = 'graduate student works on HPC and ML system'
       photo = '/images/profile-placeholder.svg'
-      photoAlt = 'Photo of Liyu'
+      photoAlt = 'Photo'
 
       [languages.en.params.homepage.text]
         about = 'About Me'
@@ -126,66 +126,30 @@ defaultContentLanguageInSubdir = false
         technicalBlog = 'Technical Blog'
         essays = 'Essays'
 
-      introParagraphs = [
-        'Hi! I am an undergraduate student in Computer Science. I am interested in building reliable systems and exploring emerging AI research directions.',
-        'My research interests include **Efficient AI**, **Multimodal Models**, **World Model** and other computer science topics. I enjoy turning vague ideas into working prototypes and writing down what I learn.',
-        'I am currently seeking research internship opportunities and future graduate study positions. Feel free to reach out if you are interested in collaboration or potential opportunities.'
-      ]
-
       [[languages.en.params.homepage.contacts]]
-        icon = '📍'
-        label = "Xi'an, Shaanxi, China"
-        url = 'https://www.openstreetmap.org/search?query=Xi%27an'
+        iconSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M12 21s6-5.33 6-11a6 6 0 1 0-12 0c0 5.67 6 11 6 11Z"/><circle cx="12" cy="10" r="2.3"/></svg>'
+        label = "Tokyo, Japan"
+        url = 'https://maps.app.goo.gl/CGVaeTNRcZwSVNrq7'
       [[languages.en.params.homepage.contacts]]
-        icon = '✉'
+        iconSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>'
         label = 'Email'
-        url = 'mailto:your.email@example.com'
+        url = 'mailto:fyzhao0614@outlook.com'
       [[languages.en.params.homepage.contacts]]
-        icon = '◉'
+        iconSvg = '<svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.58.1.79-.25.79-.56 0-.28-.01-1.19-.02-2.16-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.75 1.18 1.75 1.18 1.02 1.75 2.68 1.25 3.34.96.1-.74.4-1.25.72-1.54-2.56-.29-5.25-1.28-5.25-5.68 0-1.25.45-2.27 1.17-3.07-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.17a10.94 10.94 0 0 1 5.73 0c2.19-1.48 3.15-1.17 3.15-1.17.62 1.58.23 2.75.11 3.04.73.8 1.17 1.82 1.17 3.07 0 4.41-2.69 5.39-5.26 5.67.41.36.78 1.05.78 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.8.55A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg>'
         label = 'Github'
-        url = 'https://github.com/your-github'
+        url = 'https://github.com/liyuu1ove'
       [[languages.en.params.homepage.contacts]]
-        icon = '▣'
-        label = 'Google Scholar'
-        url = 'https://scholar.google.com/'
-      [[languages.en.params.homepage.contacts]]
-        icon = '☷'
-        label = 'WeChat'
-        url = '#'
-      [[languages.en.params.homepage.contacts]]
-        icon = '▮'
+        iconSvg = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="20" height="20" rx="5" fill="#ff2442"/><path d="M7.4 8.2h3.1M7.4 12h3.9m-3.9 3.8h5.2m2-7.7c1.7 0 2.9 1 2.9 2.5 0 1.2-.7 2.1-2 2.7l2.1 2.5h-2.5l-1.7-2.1h-1.2v2.1h-2V8.1h4.4Zm-2.4 1.8v2.1h2c.9 0 1.4-.4 1.4-1.1 0-.6-.5-1-1.4-1h-2Z" fill="#fff" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width=".35"/></svg>'
         label = 'Rednote'
-        url = '#'
+        url = 'https://xhslink.cn/m/62M9tIbIpOM'
 
       [[languages.en.params.homepage.news]]
         date = '2026.03'
-        text = 'One paper submitted to ACL 2026. Final decision pending.'
-      [[languages.en.params.homepage.news]]
-        date = '2026.02'
-        text = 'One paper accepted to CVPR 2026. Camera-ready version coming soon.'
-      [[languages.en.params.homepage.news]]
-        date = '2026.01'
-        text = 'I begin my internship at a research lab.'
-      [[languages.en.params.homepage.news]]
-        date = '2025.08'
-        text = 'One paper accepted to PRCV 2025.'
-      [[languages.en.params.homepage.news]]
-        date = '2025.07'
-        text = 'One paper accepted to ICCV 2025.'
-      [[languages.en.params.homepage.news]]
-        date = '2024.10'
-        text = 'I joined a university AI lab as a Research Intern.'
+        text = 'Start internship @Xingyun IC'
 
       [[languages.en.params.homepage.honors]]
         date = '2026'
-        text = 'Academic award or scholarship placeholder.'
-      [[languages.en.params.homepage.honors]]
-        date = '2025'
-        text = 'Competition award placeholder.'
-
-      [[languages.en.params.homepage.talks]]
-        date = '2026'
-        text = 'Invited talk placeholder, topic to be updated.'
+        text = 'No honor yet.'
 
   [[languages.en.menus.main]]
     name = 'Homepage'
@@ -204,6 +168,6 @@ defaultContentLanguageInSubdir = false
     url = 'technical-blog/'
     weight = 30
   [[languages.en.menus.main]]
-    name = 'Essays'
+    name = 'Life'
     url = 'essays/'
     weight = 40
