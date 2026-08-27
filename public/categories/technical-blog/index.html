@@ -172,6 +172,48 @@
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">CuTe学习7-SM90 Wgmma
+      <span class="entry-hint" title="Draft">
+        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
+          <path
+            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+        </svg>
+      </span>
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>WGMMA WGMMA（Warp-Group Matrix Multiply-Accumulate，线程束组矩阵乘加）是 NVIDIA 在 Hopper 架构中引入的第四代Tensor Core核心PTX指令。其新特性为更大的计算尺寸，异步计算和内存通路优化。
+前代Ampere通常使用以一个Warp32个线程为单位的 mma.sync 指令。而 WGMMA 引入了 Warp Group 概念，由 4 个连续 Warp（共 128 个线程） 共同组成一个执行单元，跨 128 个线程协同调用 Tensor Core 发起矩阵乘加计算。
+Direct SMEM-to-Tensor Core stmatrix</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-08-27 10:29:37 +0800 CST'>2026年8月27日</span>&nbsp;·&nbsp;<span>阅读此文大概需要 分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
+  <a class="entry-link" aria-label="post link to CuTe学习7-SM90 Wgmma" href="http://localhost:13131/technical-blog/cute-starter-8/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">CuTe学习7-SM90 TMA and mbarrier
+      <span class="entry-hint" title="Draft">
+        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
+          <path
+            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+        </svg>
+      </span>
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>TMA Source from ServeTheHome
+TMA（Tensor Memory Accelerator）是Hopper架构中引入的异步内存搬运专用硬件。具体来讲，TMA完全接手了本该由线程处理的地址计算和越界检查，同时可以执行硬件级别的swizzle。TMA还支持cluster内multicast，cluster内SM单元shared memory通信这类cluster内通信特性。TMA还引入了硬件级别的同步原语mbarrier，可以提供更细粒度的同步机制。接下来笔者将结合CuTe封装讲解TMA的特性和用法。
+CUtensorMap TMA依赖于host中创建的descriptor来计算目标内存的地址，该描述符在cuda中被封装为128字节(byte)的结构体，该结构体在硬件层面编码了描述一个张量及其切片模式所需要的所有元数据，目前nvidia仍未公布该结构体内具体成员。我们在host通过cuda api创建CUtensorMap。
+1CUtensorMap tma_desc; 2uint64_t globalDim[2] = {1024, 2048}; // 全局矩阵尺寸 1024x2048 3uint64_t globalStrides[1] = {2048 * sizeof(half)}; // 跨度 4uint32_t boxDim[2] = {64, 128}; // 每次 TMA 搬运 64x128 的 Tile 5 6cuTensorMapEncodeTiled( 7 &amp;tma_desc, // 输出的描述符指针 8 CU_TENSOR_MAP_DATA_TYPE_FLOAT16,// 数据类型 9 2, // 维度数 (2D) 10 globalAddr, // Global Memory 指针 11 globalDim, globalStrides, 12 boxDim, 13 elementStrides, 14 CU_TENSOR_MAP_INTERLEAVE_NONE, 15 CU_TENSOR_MAP_SWIZZLE_128B, // 写入 Shared Memory 时的自动 Swizzle 模式 16 CU_TENSOR_MAP_L2_PROMOTION_L2_128B, 17 CU_TENSOR_MAP_FLOAT_OOB_FILL_NONE 18); 然后我们将desc按值传递给device函数，就可以在核函数中调用
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-08-11 16:17:16 +0800 CST'>2026年8月11日</span>&nbsp;·&nbsp;<span>阅读此文大概需要好几分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
+  <a class="entry-link" aria-label="post link to CuTe学习7-SM90 TMA and mbarrier" href="http://localhost:13131/technical-blog/cute-starter-7/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">CuTe学习6-SM80 CuTe GEMM Walk Through
       <span class="entry-hint" title="Draft">
         <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
@@ -340,44 +382,6 @@ Strong Scaling指固定问题规模，增加计算资源，观察总耗时是否
   </div>
   <footer class="entry-footer"><span title='2026-06-11 16:26:55 +0800 CST'>2026年6月11日</span>&nbsp;·&nbsp;<span>阅读此文大概需要24分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
   <a class="entry-link" aria-label="post link to 集合通讯学习0-分布式计算与硬件网络" href="http://localhost:13131/technical-blog/collective-communication-starter-0/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">CuTe学习1-Layout
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>写在前面-张量的形式化表达 计算机中的内存是连续的一维空间，而在BLAS或者深度学习中我们需要二维、甚至更高维的张量描述。探究如何高效便捷的将逻辑张量映射到内存中经历了多个阶段。
-BLAS的row/col-major &#43; leading dimension描述阶段。这一阶段对现代硬件和BLAS库产生了深远影响，比如wmma::row_major等指令。 Tensor单调描述阶段。即使用shape &#43; stride描述Tensor。PyTorch ATensor 就用的是这种设计模式。这种设计模式的问题是底层的储存是且必须是扁平且致密的，这个特性就不适应现代机器学习的张量形状。 Tensor层次化描述阶段。Hierarchy Tensor是在2023年，在Graphene这篇论文中提出的。Hierarchy Tensor是指非致密的、多层级嵌套的张量结构。在普通Tensor里，矩阵的每个元素必须是一个标量（e.g. a float）。而在 Hierarchy Tensor 逻辑中，张量的某个元素本身可能又是一个完整的张量(e.g. (2,3))，且各元素的储存在内存中不必连续。 CuTe利用Hierarchy Tensor进行Tensor描述和计算。阅读Graphene原文有助于理解CuTe Layout Algebra。
-本文遵循CuTe的notation。使用带下划线的数字(e.g. _3)表示静态整数，不带下划线的数字(e.g. 3)表示动态整数，使用Shape:Stride表示Layout，使用嵌套的括号表示Tuple的层级(e.g. (2,(3,4)) )。本文的张量并不特指CuTe中的Tensor，绝大多数指layout描述形状对应的张量。
-CuTe 类型与概念 静态整型 CuTe的绝大多数逻辑都建立在静态整型上面(Static integers or “compile-time integers”)。注意，这里使用了整型而不是整数，CuTe的Int&lt;&gt;是一个类模板，是cute::integral_constant&lt;int, N&gt;的别名。Int&lt;1&gt;的是这个类模板的特化类型，而不是一个整数，它的本质是一个类型标签，用于模板参数传递、类型推导或者函数签名中。而如果需要作为函数参数传入，则需要将其实例化，实例化的语法是Int&lt;1&gt;{}。同时CuTe为类模板重载了强制类型转换运算符与()运算符，使类模板对象也可以参与整数计算。再一次把实现的代码贴在这里，理解其写法有助于巩固TMP的语法和理解类模板和对象的区别。
-include/cute/numeric/integral_constant.hpp
-1// A constant value: short name and type-deduction for fast compilation 2template &lt;auto v&gt; 3struct C { 4 using type = C&lt;v&gt;; 5 static constexpr auto value = v; 6 using value_type = decltype(v); 7 CUTE_HOST_DEVICE constexpr operator value_type() const noexcept { return value; } 8 CUTE_HOST_DEVICE constexpr value_type operator()() const noexcept { return value; } 9}; 10// alias 11template &lt;int v&gt; 12using Int = C&lt;v&gt;; 13 14using _0 = Int&lt;0&gt;; 与静态整型相对的是动态整型，int、size_t、uint16_t等被std::is_integral&lt;T&gt;接受的均在CuTe中被当作动态整型。这里有一个十分经典的疑问。
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2026-05-29 12:00:00 +0800 CST'>2026年5月29日</span>&nbsp;·&nbsp;<span>阅读此文大概需要21分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
-  <a class="entry-link" aria-label="post link to CuTe学习1-Layout" href="http://localhost:13131/technical-blog/cute-starter-1/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">CuTe学习0-CuTe简介
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>CuTe CuTe（CUDA Templates）是NVIDIA从CUTLASS 3.0版本开始推出的一个C&#43;&#43;模板库。和传统意义上的矩阵库不同，CuTe并不是简单地提供一个gemm()接口，然后让用户快乐地把A、B、C丢进去等结果。它更像是一套用于描述GPU程序的元语言。我们用它描述数据如何排布，线程如何访问数据，数据如何在不同内存层级之间流动，最后如何映射到硬件矩阵乘法指令。
-如果说CUDA C&#43;&#43;给了我们操控GPU庞大数量运算单元的能力，那么CuTe试图回答的是另一个问题：如何把一个高性能kernel里那些重复、复杂、容易写错的索引和搬运逻辑，抽象成可以组合、可以检查、可以在编译期优化掉的组件。
-博主认为，CuTe主要作用在如下三个方面，本文将按此顺序介绍CuTe的抽象。
-提供数据从内存排布到逻辑索引的映射原语 提供数据在各内存层级之间的搬运原语 提供数据做矩阵乘法的计算原语 本文对CuTe中的概念均浅尝辄止，目的是提供一个总览，而不是具体的深度到某个函数的用法。具体的用法和逻辑会在后面的文章中进一步介绍。
-WHY CuTe? 在学习CuTe之前，我们先看一下一个简单的GEMM kernel。
-1// C = A * B 2for (int m = 0; m &lt; M; &#43;&#43;m) { 3 for (int n = 0; n &lt; N; &#43;&#43;n) { 4 float acc = 0.0f; 5 for (int k = 0; k &lt; K; &#43;&#43;k) { 6 acc &#43;= A[m * K &#43; k] * B[k * N &#43; n]; 7 } 8 C[m * N &#43; n] = acc; 9 } 10} 从数学角度看，这段代码已经可以正确完成矩阵运算了。但是从GPU性能角度看，这段代码几乎什么都没说清楚。
-A[m * K &#43; k] 是行主序还是列主序？有没有padding？ 一个CTA算C矩阵的哪一块？一个warp算哪一块？一个thread算哪几个元素？ 全局内存读取是否合并访存？shared memory中是否会出现bank conflict？ 数据从global memory到shared memory，再到register，该由哪些线程搬？每个线程搬几个元素？ 最后的乘加是普通FMA，还是Tensor Core上的MMA指令？ 手写CUDA kernel时，这些问题通常会变成一大堆threadIdx.x、blockIdx.x、魔法数字、位运算和手算偏移。它们看起来很硬核，实际也确实很硬核，但是也很脆弱。改一个tile size，可能十几个地方都要跟着改；换一个数据布局，可能整个kernel的索引逻辑都得重写；想从SIMT FMA换成Tensor Core MMA，则又要重新组织线程和寄存器片段。
-1// instead of raw cuda... 2int offset = (blockIdx.x * 128 &#43; threadIdx.x / 4) * lda &#43; (threadIdx.x % 4) * 8; 3 4// We can use CuTe! 5auto layout1 = make_layout(make_shape(_2{}, _4{}), make_stride(_1{}, _2{})); 6int offset = layout1(make_coord(1, 3)); CuTe要解决的核心问题，就是把这些索引和搬运从手写整数表达式中抽出来，用类型系统和模板元编程来描述。这就是CuTe和普通工具库最大的区别。CuTe并不只是帮你少写几行代码，它希望你把索引计算分解为逻辑形状和内存排布的组合。然后这些组合在编译期被实例化，最终生成没有抽象开销的CUDA代码。
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2026-05-28 16:29:15 +0800 CST'>2026年5月28日</span>&nbsp;·&nbsp;<span>阅读此文大概需要38分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
-  <a class="entry-link" aria-label="post link to CuTe学习0-CuTe简介" href="http://localhost:13131/technical-blog/cute-starter-0/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

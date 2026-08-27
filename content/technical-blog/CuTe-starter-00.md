@@ -64,12 +64,8 @@ int main(){
 ``` C++ {hl_lines=[12]}
 template<int N>
 struct Factorial {
-    static constexpr int value = N * Factorial<N - 1>::value;
-};
-
-template<>
-struct Factorial<1> {
-    static constexpr int value = 1;
+    if constexpr(N==1) static constexpr int value = 1;
+    else static constexpr int value = N * Factorial<N - 1>::value;
 };
 
 int main(){

@@ -5,11 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Categories | 鲤鱼爱的神秘小屋</title>
+<title>Mbarrier | 鲤鱼爱的神秘小屋</title>
 <meta name="keywords" content="">
 <meta name="description" content="个人主页、论文、技术博客与随笔">
 <meta name="author" content="鲤鱼爱">
-<link rel="canonical" href="http://localhost:13131/categories/">
+<link rel="canonical" href="http://localhost:13131/tags/mbarrier/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.26e9583fb0cf555b3a58a7936237486984fe70640f533bf97fa925e2c19cd09d.css" integrity="sha256-JulYP7DPVVs6WKeTYjdIaYT&#43;cGQPUzv5f6kl4sGc0J0=" rel="preload stylesheet" as="style">
 <link rel="icon" href="http://localhost:13131/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="http://localhost:13131/favicon-16x16.png">
@@ -18,9 +18,8 @@
 <link rel="mask-icon" href="http://localhost:13131/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="http://localhost:13131/categories/index.xml" title="rss">
-<link rel="alternate" hreflang="zh" href="http://localhost:13131/categories/">
-<link rel="alternate" hreflang="en" href="http://localhost:13131/en/categories/">
+<link rel="alternate" type="application/rss+xml" href="http://localhost:13131/tags/mbarrier/index.xml" title="rss">
+<link rel="alternate" hreflang="zh" href="http://localhost:13131/tags/mbarrier/">
 <noscript>
     <style>
         #theme-toggle,
@@ -78,15 +77,15 @@
       "Noto Sans Mono CJK SC", monospace;
   }
 </style>
-<meta property="og:url" content="http://localhost:13131/categories/">
+<meta property="og:url" content="http://localhost:13131/tags/mbarrier/">
   <meta property="og:site_name" content="鲤鱼爱的神秘小屋">
-  <meta property="og:title" content="Categories">
+  <meta property="og:title" content="Mbarrier">
   <meta property="og:description" content="个人主页、论文、技术博客与随笔">
   <meta property="og:locale" content="zh_cn">
   <meta property="og:type" content="website">
 
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Categories">
+  <meta name="twitter:title" content="Mbarrier">
   <meta name="twitter:description" content="个人主页、论文、技术博客与随笔">
 
 </head>
@@ -164,19 +163,34 @@
     </form>
   </nav>
 </header>
-<main class="main">
+<main class="main"> 
 <header class="page-header">
-    <h1>Categories</h1>
+  <h1>
+    Mbarrier
+  </h1>
 </header>
 
-<ul class="terms-tags">
-            <li>
-                <a href="http://localhost:13131/categories/essays/">Essays <sup><strong><sup>2</sup></strong></sup> </a>
-            </li>
-            <li>
-                <a href="http://localhost:13131/categories/technical-blog/">Technical Blog <sup><strong><sup>13</sup></strong></sup> </a>
-            </li>
-</ul>
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">CuTe学习7-SM90 TMA and mbarrier
+      <span class="entry-hint" title="Draft">
+        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
+          <path
+            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+        </svg>
+      </span>
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>TMA Source from ServeTheHome
+TMA（Tensor Memory Accelerator）是Hopper架构中引入的异步内存搬运专用硬件。具体来讲，TMA完全接手了本该由线程处理的地址计算和越界检查，同时可以执行硬件级别的swizzle。TMA还支持cluster内multicast，cluster内SM单元shared memory通信这类cluster内通信特性。TMA还引入了硬件级别的同步原语mbarrier，可以提供更细粒度的同步机制。接下来笔者将结合CuTe封装讲解TMA的特性和用法。
+CUtensorMap TMA依赖于host中创建的descriptor来计算目标内存的地址，该描述符在cuda中被封装为128字节(byte)的结构体，该结构体在硬件层面编码了描述一个张量及其切片模式所需要的所有元数据，目前nvidia仍未公布该结构体内具体成员。我们在host通过cuda api创建CUtensorMap。
+1CUtensorMap tma_desc; 2uint64_t globalDim[2] = {1024, 2048}; // 全局矩阵尺寸 1024x2048 3uint64_t globalStrides[1] = {2048 * sizeof(half)}; // 跨度 4uint32_t boxDim[2] = {64, 128}; // 每次 TMA 搬运 64x128 的 Tile 5 6cuTensorMapEncodeTiled( 7 &amp;tma_desc, // 输出的描述符指针 8 CU_TENSOR_MAP_DATA_TYPE_FLOAT16,// 数据类型 9 2, // 维度数 (2D) 10 globalAddr, // Global Memory 指针 11 globalDim, globalStrides, 12 boxDim, 13 elementStrides, 14 CU_TENSOR_MAP_INTERLEAVE_NONE, 15 CU_TENSOR_MAP_SWIZZLE_128B, // 写入 Shared Memory 时的自动 Swizzle 模式 16 CU_TENSOR_MAP_L2_PROMOTION_L2_128B, 17 CU_TENSOR_MAP_FLOAT_OOB_FILL_NONE 18); 然后我们将desc按值传递给device函数，就可以在核函数中调用
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-08-11 16:17:16 +0800 CST'>2026年8月11日</span>&nbsp;·&nbsp;<span>阅读此文大概需要好几分钟</span>&nbsp;·&nbsp;<span>鲤鱼爱</span></footer>
+  <a class="entry-link" aria-label="post link to CuTe学习7-SM90 TMA and mbarrier" href="http://localhost:13131/technical-blog/cute-starter-7/"></a>
+</article>
     </main>
     
 <footer class="footer">
