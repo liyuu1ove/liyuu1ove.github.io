@@ -296,6 +296,39 @@
 .searchResults li {
   border-radius: 0;
   background: transparent;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.search-result-copy {
+  min-width: 0;
+  flex: 1;
+}
+
+.search-result-title {
+  color: var(--primary);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.search-result-preview {
+  margin: 5px 0 0;
+  color: var(--secondary);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.search-result-preview mark {
+  padding: 0 2px;
+  background: rgba(244, 196, 48, 0.28);
+  color: var(--primary);
+}
+
+.searchResults li > svg {
+  flex: 0 0 auto;
+  margin-top: 1px;
 }
 
 .academic-home {

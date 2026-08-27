@@ -2,136 +2,115 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Tags on 鲤鱼爱的神秘小屋</title>
-    <link>http://localhost:13131/tags/</link>
+    <link>http://localhost:1313/tags/</link>
     <description>Recent content in Tags on 鲤鱼爱的神秘小屋</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 11 Aug 2026 16:17:16 +0800</lastBuildDate>
-    <atom:link href="http://localhost:13131/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 10 Jul 2026 14:21:13 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>CuTe</title>
-      <link>http://localhost:13131/tags/cute/</link>
-      <pubDate>Tue, 11 Aug 2026 16:17:16 +0800</pubDate>
-      <guid>http://localhost:13131/tags/cute/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Mbarrier</title>
-      <link>http://localhost:13131/tags/mbarrier/</link>
-      <pubDate>Tue, 11 Aug 2026 16:17:16 +0800</pubDate>
-      <guid>http://localhost:13131/tags/mbarrier/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>TMA</title>
-      <link>http://localhost:13131/tags/tma/</link>
-      <pubDate>Tue, 11 Aug 2026 16:17:16 +0800</pubDate>
-      <guid>http://localhost:13131/tags/tma/</guid>
+      <title>Copy Atom</title>
+      <link>http://localhost:1313/tags/copy-atom/</link>
+      <pubDate>Fri, 10 Jul 2026 14:21:13 +0800</pubDate>
+      <guid>http://localhost:1313/tags/copy-atom/</guid>
       <description></description>
     </item>
     <item>
       <title>CUDA</title>
-      <link>http://localhost:13131/tags/cuda/</link>
-      <pubDate>Mon, 13 Jul 2026 17:29:09 +0800</pubDate>
-      <guid>http://localhost:13131/tags/cuda/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>GEMM</title>
-      <link>http://localhost:13131/tags/gemm/</link>
-      <pubDate>Mon, 13 Jul 2026 17:29:09 +0800</pubDate>
-      <guid>http://localhost:13131/tags/gemm/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Copy Atom</title>
-      <link>http://localhost:13131/tags/copy-atom/</link>
+      <link>http://localhost:1313/tags/cuda/</link>
       <pubDate>Fri, 10 Jul 2026 14:21:13 +0800</pubDate>
-      <guid>http://localhost:13131/tags/copy-atom/</guid>
+      <guid>http://localhost:1313/tags/cuda/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>CuTe</title>
+      <link>http://localhost:1313/tags/cute/</link>
+      <pubDate>Fri, 10 Jul 2026 14:21:13 +0800</pubDate>
+      <guid>http://localhost:1313/tags/cute/</guid>
       <description></description>
     </item>
     <item>
       <title>MmaAtom</title>
-      <link>http://localhost:13131/tags/mmaatom/</link>
+      <link>http://localhost:1313/tags/mmaatom/</link>
       <pubDate>Tue, 07 Jul 2026 16:27:26 +0800</pubDate>
-      <guid>http://localhost:13131/tags/mmaatom/</guid>
+      <guid>http://localhost:1313/tags/mmaatom/</guid>
       <description></description>
     </item>
     <item>
       <title>Tensor</title>
-      <link>http://localhost:13131/tags/tensor/</link>
+      <link>http://localhost:1313/tags/tensor/</link>
       <pubDate>Fri, 03 Jul 2026 17:00:38 +0800</pubDate>
-      <guid>http://localhost:13131/tags/tensor/</guid>
+      <guid>http://localhost:1313/tags/tensor/</guid>
       <description></description>
     </item>
     <item>
       <title>Layout</title>
-      <link>http://localhost:13131/tags/layout/</link>
+      <link>http://localhost:1313/tags/layout/</link>
       <pubDate>Thu, 25 Jun 2026 16:35:03 +0800</pubDate>
-      <guid>http://localhost:13131/tags/layout/</guid>
+      <guid>http://localhost:1313/tags/layout/</guid>
       <description></description>
     </item>
     <item>
       <title>Collective Communication</title>
-      <link>http://localhost:13131/tags/collective-communication/</link>
+      <link>http://localhost:1313/tags/collective-communication/</link>
       <pubDate>Mon, 15 Jun 2026 16:39:20 +0800</pubDate>
-      <guid>http://localhost:13131/tags/collective-communication/</guid>
+      <guid>http://localhost:1313/tags/collective-communication/</guid>
       <description></description>
     </item>
     <item>
       <title>Distributed Training</title>
-      <link>http://localhost:13131/tags/distributed-training/</link>
+      <link>http://localhost:1313/tags/distributed-training/</link>
       <pubDate>Mon, 15 Jun 2026 16:39:20 +0800</pubDate>
-      <guid>http://localhost:13131/tags/distributed-training/</guid>
+      <guid>http://localhost:1313/tags/distributed-training/</guid>
       <description></description>
     </item>
     <item>
       <title>NCCL</title>
-      <link>http://localhost:13131/tags/nccl/</link>
+      <link>http://localhost:1313/tags/nccl/</link>
       <pubDate>Mon, 15 Jun 2026 16:39:20 +0800</pubDate>
-      <guid>http://localhost:13131/tags/nccl/</guid>
+      <guid>http://localhost:1313/tags/nccl/</guid>
       <description></description>
     </item>
     <item>
       <title>Distributed System</title>
-      <link>http://localhost:13131/tags/distributed-system/</link>
+      <link>http://localhost:1313/tags/distributed-system/</link>
       <pubDate>Thu, 11 Jun 2026 16:26:55 +0800</pubDate>
-      <guid>http://localhost:13131/tags/distributed-system/</guid>
+      <guid>http://localhost:1313/tags/distributed-system/</guid>
       <description></description>
     </item>
     <item>
       <title>IB</title>
-      <link>http://localhost:13131/tags/ib/</link>
+      <link>http://localhost:1313/tags/ib/</link>
       <pubDate>Thu, 11 Jun 2026 16:26:55 +0800</pubDate>
-      <guid>http://localhost:13131/tags/ib/</guid>
+      <guid>http://localhost:1313/tags/ib/</guid>
       <description></description>
     </item>
     <item>
       <title>NVLink</title>
-      <link>http://localhost:13131/tags/nvlink/</link>
+      <link>http://localhost:1313/tags/nvlink/</link>
       <pubDate>Thu, 11 Jun 2026 16:26:55 +0800</pubDate>
-      <guid>http://localhost:13131/tags/nvlink/</guid>
+      <guid>http://localhost:1313/tags/nvlink/</guid>
       <description></description>
     </item>
     <item>
       <title>RoCE</title>
-      <link>http://localhost:13131/tags/roce/</link>
+      <link>http://localhost:1313/tags/roce/</link>
       <pubDate>Thu, 11 Jun 2026 16:26:55 +0800</pubDate>
-      <guid>http://localhost:13131/tags/roce/</guid>
+      <guid>http://localhost:1313/tags/roce/</guid>
       <description></description>
     </item>
     <item>
       <title>Modern C&#43;&#43;</title>
-      <link>http://localhost:13131/tags/modern-c&#43;&#43;/</link>
+      <link>http://localhost:1313/tags/modern-c&#43;&#43;/</link>
       <pubDate>Mon, 25 May 2026 12:00:00 +0800</pubDate>
-      <guid>http://localhost:13131/tags/modern-c&#43;&#43;/</guid>
+      <guid>http://localhost:1313/tags/modern-c&#43;&#43;/</guid>
       <description></description>
     </item>
     <item>
       <title>TMP</title>
-      <link>http://localhost:13131/tags/tmp/</link>
+      <link>http://localhost:1313/tags/tmp/</link>
       <pubDate>Mon, 25 May 2026 12:00:00 +0800</pubDate>
-      <guid>http://localhost:13131/tags/tmp/</guid>
+      <guid>http://localhost:1313/tags/tmp/</guid>
       <description></description>
     </item>
   </channel>

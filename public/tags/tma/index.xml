@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>TMA on 鲤鱼爱的神秘小屋</title>
-    <link>http://localhost:13131/tags/tma/</link>
+    <link>http://localhost:1313/tags/tma/</link>
     <description>Recent content in TMA on 鲤鱼爱的神秘小屋</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
     <lastBuildDate>Tue, 11 Aug 2026 16:17:16 +0800</lastBuildDate>
-    <atom:link href="http://localhost:13131/tags/tma/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/tma/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>CuTe学习7-SM90 TMA and mbarrier</title>
-      <link>http://localhost:13131/technical-blog/cute-starter-7/</link>
+      <link>http://localhost:1313/technical-blog/cute-starter-7/</link>
       <pubDate>Tue, 11 Aug 2026 16:17:16 +0800</pubDate>
-      <guid>http://localhost:13131/technical-blog/cute-starter-7/</guid>
+      <guid>http://localhost:1313/technical-blog/cute-starter-7/</guid>
       <description>基于CuTe封装讲解SM90 TMA and mbarrier</description>
     </item>
   </channel>

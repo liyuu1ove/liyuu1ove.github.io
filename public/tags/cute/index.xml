@@ -2,73 +2,59 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>CuTe on 鲤鱼爱的神秘小屋</title>
-    <link>http://localhost:13131/tags/cute/</link>
+    <link>http://localhost:1313/tags/cute/</link>
     <description>Recent content in CuTe on 鲤鱼爱的神秘小屋</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 11 Aug 2026 16:17:16 +0800</lastBuildDate>
-    <atom:link href="http://localhost:13131/tags/cute/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>CuTe学习7-SM90 TMA and mbarrier</title>
-      <link>http://localhost:13131/technical-blog/cute-starter-7/</link>
-      <pubDate>Tue, 11 Aug 2026 16:17:16 +0800</pubDate>
-      <guid>http://localhost:13131/technical-blog/cute-starter-7/</guid>
-      <description>基于CuTe封装讲解SM90 TMA and mbarrier</description>
-    </item>
-    <item>
-      <title>CuTe学习6-SM80 CuTe GEMM Walk Through</title>
-      <link>http://localhost:13131/technical-blog/cute-starter-6/</link>
-      <pubDate>Mon, 13 Jul 2026 17:29:09 +0800</pubDate>
-      <guid>http://localhost:13131/technical-blog/cute-starter-6/</guid>
-      <description>以SM80 HGEMM为例，详细介绍CuTe GEMM中的层次化结构</description>
-    </item>
+    <lastBuildDate>Fri, 10 Jul 2026 14:21:13 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/cute/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>CuTe学习5-Copy Atom</title>
-      <link>http://localhost:13131/technical-blog/cute-starter-5/</link>
+      <link>http://localhost:1313/technical-blog/cute-starter-5/</link>
       <pubDate>Fri, 10 Jul 2026 14:21:13 +0800</pubDate>
-      <guid>http://localhost:13131/technical-blog/cute-starter-5/</guid>
+      <guid>http://localhost:1313/technical-blog/cute-starter-5/</guid>
       <description>自底向上介绍CuTe中Copy Atom的层次化结构</description>
     </item>
     <item>
       <title>CuTe学习4-MmaAtom</title>
-      <link>http://localhost:13131/technical-blog/cute-starter-4/</link>
+      <link>http://localhost:1313/technical-blog/cute-starter-4/</link>
       <pubDate>Tue, 07 Jul 2026 16:27:26 +0800</pubDate>
-      <guid>http://localhost:13131/technical-blog/cute-starter-4/</guid>
+      <guid>http://localhost:1313/technical-blog/cute-starter-4/</guid>
       <description>自底向上介绍CuTe中MmaAtom的层次化结构</description>
     </item>
     <item>
       <title>CuTe学习3-Tensor</title>
-      <link>http://localhost:13131/technical-blog/cute-starter-3/</link>
+      <link>http://localhost:1313/technical-blog/cute-starter-3/</link>
       <pubDate>Fri, 03 Jul 2026 17:00:38 +0800</pubDate>
-      <guid>http://localhost:13131/technical-blog/cute-starter-3/</guid>
+      <guid>http://localhost:1313/technical-blog/cute-starter-3/</guid>
       <description>介绍CuTe Tensor模板类</description>
     </item>
     <item>
       <title>CuTe学习2-Layout Algebra</title>
-      <link>http://localhost:13131/technical-blog/cute-starter-2/</link>
+      <link>http://localhost:1313/technical-blog/cute-starter-2/</link>
       <pubDate>Thu, 25 Jun 2026 16:35:03 +0800</pubDate>
-      <guid>http://localhost:13131/technical-blog/cute-starter-2/</guid>
+      <guid>http://localhost:1313/technical-blog/cute-starter-2/</guid>
       <description>介绍定义在CuTe Layout的代数运算及其使用场景</description>
     </item>
     <item>
       <title>CuTe学习1-Layout</title>
-      <link>http://localhost:13131/technical-blog/cute-starter-1/</link>
+      <link>http://localhost:1313/technical-blog/cute-starter-1/</link>
       <pubDate>Fri, 29 May 2026 12:00:00 +0800</pubDate>
-      <guid>http://localhost:13131/technical-blog/cute-starter-1/</guid>
+      <guid>http://localhost:1313/technical-blog/cute-starter-1/</guid>
       <description>介绍CuTe的layout模板类</description>
     </item>
     <item>
       <title>CuTe学习0-CuTe简介</title>
-      <link>http://localhost:13131/technical-blog/cute-starter-0/</link>
+      <link>http://localhost:1313/technical-blog/cute-starter-0/</link>
       <pubDate>Thu, 28 May 2026 16:29:15 +0800</pubDate>
-      <guid>http://localhost:13131/technical-blog/cute-starter-0/</guid>
+      <guid>http://localhost:1313/technical-blog/cute-starter-0/</guid>
       <description>简单介绍CuTe抽象</description>
     </item>
     <item>
       <title>CuTe学习00-模板元编程</title>
-      <link>http://localhost:13131/technical-blog/cute-starter-00/</link>
+      <link>http://localhost:1313/technical-blog/cute-starter-00/</link>
       <pubDate>Mon, 25 May 2026 12:00:00 +0800</pubDate>
-      <guid>http://localhost:13131/technical-blog/cute-starter-00/</guid>
+      <guid>http://localhost:1313/technical-blog/cute-starter-00/</guid>
       <description>简单介绍C&#43;&#43;模板元编程</description>
     </item>
   </channel>

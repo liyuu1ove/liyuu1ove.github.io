@@ -2,105 +2,73 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Technical Blog on 鲤鱼爱的神秘小屋</title>
-    <link>http://localhost:13131/categories/technical-blog/</link>
+    <link>http://localhost:1313/categories/technical-blog/</link>
     <description>Recent content in Technical Blog on 鲤鱼爱的神秘小屋</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 27 Aug 2026 10:29:37 +0800</lastBuildDate>
-    <atom:link href="http://localhost:13131/categories/technical-blog/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>CuTe学习7-SM90 Wgmma</title>
-      <link>http://localhost:13131/technical-blog/cute-starter-8/</link>
-      <pubDate>Thu, 27 Aug 2026 10:29:37 +0800</pubDate>
-      <guid>http://localhost:13131/technical-blog/cute-starter-8/</guid>
-      <description>&lt;h1 id=&#34;wgmma&#34;&gt;WGMMA&lt;/h1&gt;
-&lt;p&gt;WGMMA（Warp-Group Matrix Multiply-Accumulate，线程束组矩阵乘加）是 NVIDIA 在 Hopper 架构中引入的第四代Tensor Core核心PTX指令。其新特性为更大的计算尺寸，异步计算和内存通路优化。&lt;/p&gt;
-&lt;p&gt;前代Ampere通常使用以一个Warp32个线程为单位的 mma.sync 指令。而 WGMMA 引入了 Warp Group 概念，由 4 个连续 Warp（共 128 个线程） 共同组成一个执行单元，跨 128 个线程协同调用 Tensor Core 发起矩阵乘加计算。&lt;/p&gt;
-&lt;h2 id=&#34;direct-smem-to-tensor-core&#34;&gt;Direct SMEM-to-Tensor Core&lt;/h2&gt;
-&lt;h2 id=&#34;stmatrix&#34;&gt;stmatrix&lt;/h2&gt;</description>
-    </item>
-    <item>
-      <title>CuTe学习7-SM90 TMA and mbarrier</title>
-      <link>http://localhost:13131/technical-blog/cute-starter-7/</link>
-      <pubDate>Tue, 11 Aug 2026 16:17:16 +0800</pubDate>
-      <guid>http://localhost:13131/technical-blog/cute-starter-7/</guid>
-      <description>基于CuTe封装讲解SM90 TMA and mbarrier</description>
-    </item>
-    <item>
-      <title>CuTe学习6-SM80 CuTe GEMM Walk Through</title>
-      <link>http://localhost:13131/technical-blog/cute-starter-6/</link>
-      <pubDate>Mon, 13 Jul 2026 17:29:09 +0800</pubDate>
-      <guid>http://localhost:13131/technical-blog/cute-starter-6/</guid>
-      <description>以SM80 HGEMM为例，详细介绍CuTe GEMM中的层次化结构</description>
-    </item>
+    <lastBuildDate>Fri, 10 Jul 2026 14:21:13 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/technical-blog/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>CuTe学习5-Copy Atom</title>
-      <link>http://localhost:13131/technical-blog/cute-starter-5/</link>
+      <link>http://localhost:1313/technical-blog/cute-starter-5/</link>
       <pubDate>Fri, 10 Jul 2026 14:21:13 +0800</pubDate>
-      <guid>http://localhost:13131/technical-blog/cute-starter-5/</guid>
+      <guid>http://localhost:1313/technical-blog/cute-starter-5/</guid>
       <description>自底向上介绍CuTe中Copy Atom的层次化结构</description>
     </item>
     <item>
       <title>CuTe学习4-MmaAtom</title>
-      <link>http://localhost:13131/technical-blog/cute-starter-4/</link>
+      <link>http://localhost:1313/technical-blog/cute-starter-4/</link>
       <pubDate>Tue, 07 Jul 2026 16:27:26 +0800</pubDate>
-      <guid>http://localhost:13131/technical-blog/cute-starter-4/</guid>
+      <guid>http://localhost:1313/technical-blog/cute-starter-4/</guid>
       <description>自底向上介绍CuTe中MmaAtom的层次化结构</description>
     </item>
     <item>
       <title>CuTe学习3-Tensor</title>
-      <link>http://localhost:13131/technical-blog/cute-starter-3/</link>
+      <link>http://localhost:1313/technical-blog/cute-starter-3/</link>
       <pubDate>Fri, 03 Jul 2026 17:00:38 +0800</pubDate>
-      <guid>http://localhost:13131/technical-blog/cute-starter-3/</guid>
+      <guid>http://localhost:1313/technical-blog/cute-starter-3/</guid>
       <description>介绍CuTe Tensor模板类</description>
     </item>
     <item>
-      <title>CuTe学习2特别篇-Divide&amp;Product</title>
-      <link>http://localhost:13131/technical-blog/cute-starter-2-aside/</link>
-      <pubDate>Thu, 02 Jul 2026 15:02:51 +0800</pubDate>
-      <guid>http://localhost:13131/technical-blog/cute-starter-2-aside/</guid>
-      <description>介绍 Zipped, Tiled and Flat Divides和Blocked and Raked Products</description>
-    </item>
-    <item>
       <title>CuTe学习2-Layout Algebra</title>
-      <link>http://localhost:13131/technical-blog/cute-starter-2/</link>
+      <link>http://localhost:1313/technical-blog/cute-starter-2/</link>
       <pubDate>Thu, 25 Jun 2026 16:35:03 +0800</pubDate>
-      <guid>http://localhost:13131/technical-blog/cute-starter-2/</guid>
+      <guid>http://localhost:1313/technical-blog/cute-starter-2/</guid>
       <description>介绍定义在CuTe Layout的代数运算及其使用场景</description>
     </item>
     <item>
       <title>集合通讯学习1-NCCL与集合通讯原语</title>
-      <link>http://localhost:13131/technical-blog/collective-communication-starter-1/</link>
+      <link>http://localhost:1313/technical-blog/collective-communication-starter-1/</link>
       <pubDate>Mon, 15 Jun 2026 16:39:20 +0800</pubDate>
-      <guid>http://localhost:13131/technical-blog/collective-communication-starter-1/</guid>
+      <guid>http://localhost:1313/technical-blog/collective-communication-starter-1/</guid>
       <description>介绍NCCL API和集合通讯原语</description>
     </item>
     <item>
       <title>集合通讯学习0-分布式计算与硬件网络</title>
-      <link>http://localhost:13131/technical-blog/collective-communication-starter-0/</link>
+      <link>http://localhost:1313/technical-blog/collective-communication-starter-0/</link>
       <pubDate>Thu, 11 Jun 2026 16:26:55 +0800</pubDate>
-      <guid>http://localhost:13131/technical-blog/collective-communication-starter-0/</guid>
+      <guid>http://localhost:1313/technical-blog/collective-communication-starter-0/</guid>
       <description>简单介绍分布式计算的概念和现代数据中心硬件网络</description>
     </item>
     <item>
       <title>CuTe学习1-Layout</title>
-      <link>http://localhost:13131/technical-blog/cute-starter-1/</link>
+      <link>http://localhost:1313/technical-blog/cute-starter-1/</link>
       <pubDate>Fri, 29 May 2026 12:00:00 +0800</pubDate>
-      <guid>http://localhost:13131/technical-blog/cute-starter-1/</guid>
+      <guid>http://localhost:1313/technical-blog/cute-starter-1/</guid>
       <description>介绍CuTe的layout模板类</description>
     </item>
     <item>
       <title>CuTe学习0-CuTe简介</title>
-      <link>http://localhost:13131/technical-blog/cute-starter-0/</link>
+      <link>http://localhost:1313/technical-blog/cute-starter-0/</link>
       <pubDate>Thu, 28 May 2026 16:29:15 +0800</pubDate>
-      <guid>http://localhost:13131/technical-blog/cute-starter-0/</guid>
+      <guid>http://localhost:1313/technical-blog/cute-starter-0/</guid>
       <description>简单介绍CuTe抽象</description>
     </item>
     <item>
       <title>CuTe学习00-模板元编程</title>
-      <link>http://localhost:13131/technical-blog/cute-starter-00/</link>
+      <link>http://localhost:1313/technical-blog/cute-starter-00/</link>
       <pubDate>Mon, 25 May 2026 12:00:00 +0800</pubDate>
-      <guid>http://localhost:13131/technical-blog/cute-starter-00/</guid>
+      <guid>http://localhost:1313/technical-blog/cute-starter-00/</guid>
       <description>简单介绍C&#43;&#43;模板元编程</description>
     </item>
   </channel>

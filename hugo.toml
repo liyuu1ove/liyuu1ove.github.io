@@ -29,12 +29,12 @@ defaultContentLanguageInSubdir = false
   [languages.zh.params]
     env = 'production'
     description = '个人主页、论文、技术博客与随笔'
-    author = '鲤鱼爱'
+    author = 'liyuu1ove_'
 
     [languages.zh.params.homepage]
       name = '赵昉曜'
       affiliation = 'Science Tokyo'
-      shortBio = '算子特战队十年老兵'
+      shortBio = 'HPC and ML system'
       photo = '/images/profile-placeholder.svg'
       photoAlt = '鲤鱼的照片'
 
@@ -46,11 +46,12 @@ defaultContentLanguageInSubdir = false
         internships = '实习经历'
         honors = '荣誉奖项'
         technicalBlog = '技术博客'
-        essays = '随笔'
+        essays = '科研之外'
 
       [[languages.zh.params.homepage.contacts]]
         iconSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M12 21s6-5.33 6-11a6 6 0 1 0-12 0c0 5.67 6 11 6 11Z"/><circle cx="12" cy="10" r="2.3"/></svg>'
-        label = "Shanghai, China"
+        label = "Tokyo, Japan"
+        url = 'https://maps.app.goo.gl/CGVaeTNRcZwSVNrq7'
       [[languages.zh.params.homepage.contacts]]
         iconSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>'
         label = 'Email'
@@ -62,18 +63,17 @@ defaultContentLanguageInSubdir = false
       [[languages.zh.params.homepage.contacts]]
         iconSvg = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="20" height="20" rx="5" fill="#ff2442"/><path d="M7.4 8.2h3.1M7.4 12h3.9m-3.9 3.8h5.2m2-7.7c1.7 0 2.9 1 2.9 2.5 0 1.2-.7 2.1-2 2.7l2.1 2.5h-2.5l-1.7-2.1h-1.2v2.1h-2V8.1h4.4Zm-2.4 1.8v2.1h2c.9 0 1.4-.4 1.4-1.1 0-.6-.5-1-1.4-1h-2Z" fill="#fff" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width=".35"/></svg>'
         label = '小红书'
-        url = '#'
+        url = 'https://xhslink.cn/m/62M9tIbIpOM'
 
       [[languages.zh.params.homepage.news]]
         date = '2026.03'
         text = '实习 北京行云集成电路 算子开发'
+      
 
-      [[languages.zh.params.homepage.honors]]
-        date = '2026'
-        text = '学术奖项或奖学金占位。'
-      [[languages.zh.params.homepage.honors]]
-        date = '2025'
-        text = '竞赛奖项占位。'
+#      [[languages.zh.params.homepage.honors]]
+#        date = '2026'
+#        text = '学术奖项或奖学金占位。'
+
 
   [[languages.zh.menus.main]]
     name = '主页'
@@ -92,7 +92,7 @@ defaultContentLanguageInSubdir = false
     url = 'technical-blog/'
     weight = 30
   [[languages.zh.menus.main]]
-    name = '随笔'
+    name = '科研之外'
     url = 'essays/'
     weight = 40
 
