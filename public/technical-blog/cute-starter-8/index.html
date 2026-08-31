@@ -8,9 +8,9 @@
 <title>CuTe学习7-SM90 WGMMA | 鲤鱼爱的神秘小屋</title>
 <meta name="keywords" content="">
 <meta name="description" content="基于CuTe封装讲解SM90 WGMMA">
-<meta name="author" content="赵昉曜">
+<meta name="author" content="liyuu1ove_">
 <link rel="canonical" href="http://localhost:1313/technical-blog/cute-starter-8/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.26e9583fb0cf555b3a58a7936237486984fe70640f533bf97fa925e2c19cd09d.css" integrity="sha256-JulYP7DPVVs6WKeTYjdIaYT&#43;cGQPUzv5f6kl4sGc0J0=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.7f4a0b4bd8adefea2d8acdf9bcbadf0c42953f91b6cc04e5f46ac9858979100f.css" integrity="sha256-f0oLS9it7&#43;otis35vLrfDEKVP5G2zATl9GrJhYl5EA8=" rel="preload stylesheet" as="style">
 <link rel="icon" href="http://localhost:1313/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
@@ -121,14 +121,14 @@
   "keywords": [
     
   ],
-  "articleBody": "WGMMA WGMMA（Warp-Group Matrix Multiply-Accumulate，线程束组矩阵乘加是NVIDIA在Hopper架构中引入的第四代Tensor Core核心PTX指令。其新特性为更大的矩阵尺寸，异步计算和Shared Memory操作数。\nWarp Group and Larger Tile 前代Ampere通常使用以一个Warp32个线程为单位的 mma.sync 指令。而 WGMMA 引入了 Warp Group 概念，由 4 个连续 Warp（共 128 个线程） 共同组成一个执行单元，跨 128 个线程协同调用 Tensor Core 发起矩阵乘加计算。\nWarp Specialize and Warp Group Async pipeline stmatrix ",
+  "articleBody": "WGMMA WGMMA（Warp-Group Matrix Multiply-Accumulate，线程束组矩阵乘加是NVIDIA在Hopper架构中引入的第四代Tensor Core核心PTX指令。其新特性为更宽的指令形状，Shared Memory操作数和异步计算。\nSM90_64x64x16_F16F16F16_SS 我们观察wgmma PTX的新形态和其在CuTe中的命名。\n1SM90_64x64x16_F16F16F16_SS 2wgmma.mma_async.sync.aligned.m64n192k16.f16.f16.f16 一条wgmma指令可以处理64x64x16的tile SS代表矩阵A和B从SMEM直接读取 mma_async表示这是一条异步指令，指令在发出之后立即退休，不阻塞后续指令 下面我们将分别介绍这三个wgmma新特性。\nWarp Group and Larger Tile 前代Ampere通常使用以一个Warp32个线程为单位的 mma.sync 指令。而Hopper引入了Warp Group概念，由4个Warp（共128个线程）共同issue指令并执行MMA。PTX中的sync.aligned标志要求该128个线程必须到达相同的代码执行点，并以相同的参数同时发射该指令。\n由128个线程共同协作带来了诸多好处。 Ampere架构上FP16最宽指令只有16*8*16，即使是四个MMA沿M方向排列，也只有16*32*16,远远小于Hopper 首先是减少了SMEM的读取次数\nWarp Specialize and Warp Group Async pipeline Shared Memory Operand stmatrix ",
   "wordCount" : "38",
   "inLanguage": "zh",
   "datePublished": "2026-08-27T10:29:37+08:00",
   "dateModified": "2026-08-27T10:29:37+08:00",
   "author":{
     "@type": "Person",
-    "name": "赵昉曜"
+    "name": "liyuu1ove_"
   },
   "mainEntityOfPage": {
     "@type": "WebPage",
@@ -236,16 +236,34 @@
     <div class="post-description">
       基于CuTe封装讲解SM90 WGMMA
     </div>
-    <div class="post-meta"><span title='2026-08-27 10:29:37 +0800 CST'>2026年8月27日</span>&nbsp;·&nbsp;<span>阅读此文大概需要 分钟</span>&nbsp;·&nbsp;<span>赵昉曜</span>
+    <div class="post-meta"><span title='2026-08-27 10:29:37 +0800 CST'>2026年8月27日</span>&nbsp;·&nbsp;<span>阅读此文大概需要 分钟</span>&nbsp;·&nbsp;<span>liyuu1ove_</span>
 
 </div>
   </header> 
   <div class="post-content md-content"><h1 id="wgmma">WGMMA<a hidden class="anchor" aria-hidden="true" href="#wgmma">#</a></h1>
-<p>WGMMA（Warp-Group Matrix Multiply-Accumulate，线程束组矩阵乘加是NVIDIA在Hopper架构中引入的第四代Tensor Core核心PTX指令。其新特性为更大的矩阵尺寸，异步计算和Shared Memory操作数。</p>
+<p>WGMMA（Warp-Group Matrix Multiply-Accumulate，线程束组矩阵乘加是NVIDIA在Hopper架构中引入的第四代Tensor Core核心PTX指令。其新特性为更宽的指令形状，Shared Memory操作数和异步计算。</p>
+<figure class="post-image" style="width: 100%; max-width: 500px; margin-left: auto; margin-right: auto;">
+  <img src="wgmma.png" alt="wgmma" loading="lazy" decoding="async" style="display: block; width: 100%; height: auto;">
+  <figcaption>SM90_64x64x16_F16F16F16_SS</figcaption>
+</figure>
+
+<p>我们观察wgmma PTX的新形态和其在CuTe中的命名。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-CPP" data-lang="CPP"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">SM90_64x64x16_F16F16F16_SS</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="n">wgmma</span><span class="p">.</span><span class="n">mma_async</span><span class="p">.</span><span class="n">sync</span><span class="p">.</span><span class="n">aligned</span><span class="p">.</span><span class="n">m64n192k16</span><span class="p">.</span><span class="n">f16</span><span class="p">.</span><span class="n">f16</span><span class="p">.</span><span class="n">f16</span>
+</span></span></code></pre></div><ul>
+<li>一条wgmma指令可以处理<code>64x64x16</code>的tile</li>
+<li><code>SS</code>代表矩阵A和B从SMEM直接读取</li>
+<li><code>mma_async</code>表示这是一条异步指令，指令在发出之后立即退休，不阻塞后续指令</li>
+</ul>
+<p>下面我们将分别介绍这三个wgmma新特性。</p>
 <h2 id="warp-group-and-larger-tile">Warp Group and Larger Tile<a hidden class="anchor" aria-hidden="true" href="#warp-group-and-larger-tile">#</a></h2>
-<p>前代Ampere通常使用以一个Warp32个线程为单位的 mma.sync 指令。而 WGMMA 引入了 Warp Group 概念，由 4 个连续 Warp（共 128 个线程） 共同组成一个执行单元，跨 128 个线程协同调用 Tensor Core 发起矩阵乘加计算。</p>
+<p>前代Ampere通常使用以一个Warp32个线程为单位的 mma.sync 指令。而Hopper引入了Warp Group概念，由4个Warp（共128个线程）共同issue指令并执行MMA。PTX中的<code>sync.aligned</code>标志要求该128个线程必须到达相同的代码执行点，并以相同的参数同时发射该指令。</p>
+<p>由128个线程共同协作带来了诸多好处。
+Ampere架构上FP16最宽指令只有16*8*16，即使是四个MMA沿M方向排列，也只有16*32*16,远远小于Hopper
+首先是减少了SMEM的读取次数</p>
 <h3 id="warp-specialize-and-warp-group">Warp Specialize and Warp Group<a hidden class="anchor" aria-hidden="true" href="#warp-specialize-and-warp-group">#</a></h3>
 <h2 id="async-pipeline">Async pipeline<a hidden class="anchor" aria-hidden="true" href="#async-pipeline">#</a></h2>
+<h2 id="shared-memory-operand">Shared Memory Operand<a hidden class="anchor" aria-hidden="true" href="#shared-memory-operand">#</a></h2>
 <h2 id="stmatrix">stmatrix<a hidden class="anchor" aria-hidden="true" href="#stmatrix">#</a></h2>
 
 

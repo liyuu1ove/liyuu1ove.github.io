@@ -6,27 +6,48 @@
     <description>Recent content in Tags on 鲤鱼爱的神秘小屋</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 10 Jul 2026 14:21:13 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 11 Aug 2026 16:17:16 +0800</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Copy Atom</title>
-      <link>http://localhost:1313/tags/copy-atom/</link>
-      <pubDate>Fri, 10 Jul 2026 14:21:13 +0800</pubDate>
-      <guid>http://localhost:1313/tags/copy-atom/</guid>
+      <title>CuTe</title>
+      <link>http://localhost:1313/tags/cute/</link>
+      <pubDate>Tue, 11 Aug 2026 16:17:16 +0800</pubDate>
+      <guid>http://localhost:1313/tags/cute/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Mbarrier</title>
+      <link>http://localhost:1313/tags/mbarrier/</link>
+      <pubDate>Tue, 11 Aug 2026 16:17:16 +0800</pubDate>
+      <guid>http://localhost:1313/tags/mbarrier/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>TMA</title>
+      <link>http://localhost:1313/tags/tma/</link>
+      <pubDate>Tue, 11 Aug 2026 16:17:16 +0800</pubDate>
+      <guid>http://localhost:1313/tags/tma/</guid>
       <description></description>
     </item>
     <item>
       <title>CUDA</title>
       <link>http://localhost:1313/tags/cuda/</link>
-      <pubDate>Fri, 10 Jul 2026 14:21:13 +0800</pubDate>
+      <pubDate>Mon, 13 Jul 2026 17:29:09 +0800</pubDate>
       <guid>http://localhost:1313/tags/cuda/</guid>
       <description></description>
     </item>
     <item>
-      <title>CuTe</title>
-      <link>http://localhost:1313/tags/cute/</link>
+      <title>GEMM</title>
+      <link>http://localhost:1313/tags/gemm/</link>
+      <pubDate>Mon, 13 Jul 2026 17:29:09 +0800</pubDate>
+      <guid>http://localhost:1313/tags/gemm/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Copy Atom</title>
+      <link>http://localhost:1313/tags/copy-atom/</link>
       <pubDate>Fri, 10 Jul 2026 14:21:13 +0800</pubDate>
-      <guid>http://localhost:1313/tags/cute/</guid>
+      <guid>http://localhost:1313/tags/copy-atom/</guid>
       <description></description>
     </item>
     <item>
