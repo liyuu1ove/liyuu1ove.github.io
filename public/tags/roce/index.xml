@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>RoCE on 鲤鱼爱的神秘小屋</title>
-    <link>http://localhost:1313/tags/roce/</link>
+    <link>http://localhost:13131/tags/roce/</link>
     <description>Recent content in RoCE on 鲤鱼爱的神秘小屋</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
     <lastBuildDate>Thu, 11 Jun 2026 16:26:55 +0800</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/roce/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:13131/tags/roce/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>集合通讯学习0-分布式计算与硬件网络</title>
-      <link>http://localhost:1313/technical-blog/collective-communication-starter-0/</link>
+      <link>http://localhost:13131/technical-blog/collective-communication-starter-0/</link>
       <pubDate>Thu, 11 Jun 2026 16:26:55 +0800</pubDate>
-      <guid>http://localhost:1313/technical-blog/collective-communication-starter-0/</guid>
+      <guid>http://localhost:13131/technical-blog/collective-communication-starter-0/</guid>
       <description>简单介绍分布式计算的概念和现代数据中心硬件网络</description>
     </item>
   </channel>

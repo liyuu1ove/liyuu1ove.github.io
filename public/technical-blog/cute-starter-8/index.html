@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="zh" dir="auto" data-theme="light">
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=13131&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>CuTe学习7-SM90 WGMMA | 鲤鱼爱的神秘小屋</title>
-<meta name="keywords" content="">
+<title>CuTe学习8-SM90 WGMMA | 鲤鱼爱的神秘小屋</title>
+<meta name="keywords" content="CuTe, WGMMA, SM90">
 <meta name="description" content="基于CuTe封装讲解SM90 WGMMA">
 <meta name="author" content="liyuu1ove_">
-<link rel="canonical" href="http://localhost:1313/technical-blog/cute-starter-8/">
+<link rel="canonical" href="http://localhost:13131/technical-blog/cute-starter-8/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.7f4a0b4bd8adefea2d8acdf9bcbadf0c42953f91b6cc04e5f46ac9858979100f.css" integrity="sha256-f0oLS9it7&#43;otis35vLrfDEKVP5G2zATl9GrJhYl5EA8=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:13131/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:13131/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:13131/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:13131/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:13131/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="zh" href="http://localhost:1313/technical-blog/cute-starter-8/">
+<link rel="alternate" hreflang="zh" href="http://localhost:13131/technical-blog/cute-starter-8/">
 <noscript>
     <style>
         #theme-toggle,
@@ -76,18 +76,21 @@
       "Noto Sans Mono CJK SC", monospace;
   }
 </style>
-<meta property="og:url" content="http://localhost:1313/technical-blog/cute-starter-8/">
+<meta property="og:url" content="http://localhost:13131/technical-blog/cute-starter-8/">
   <meta property="og:site_name" content="鲤鱼爱的神秘小屋">
-  <meta property="og:title" content="CuTe学习7-SM90 WGMMA">
+  <meta property="og:title" content="CuTe学习8-SM90 WGMMA">
   <meta property="og:description" content="基于CuTe封装讲解SM90 WGMMA">
   <meta property="og:locale" content="zh_cn">
   <meta property="og:type" content="article">
     <meta property="article:section" content="technical-blog">
     <meta property="article:published_time" content="2026-08-27T10:29:37+08:00">
     <meta property="article:modified_time" content="2026-08-27T10:29:37+08:00">
+    <meta property="article:tag" content="CuTe">
+    <meta property="article:tag" content="WGMMA">
+    <meta property="article:tag" content="SM90">
 
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="CuTe学习7-SM90 WGMMA">
+  <meta name="twitter:title" content="CuTe学习8-SM90 WGMMA">
   <meta name="twitter:description" content="基于CuTe封装讲解SM90 WGMMA">
 
 
@@ -100,13 +103,13 @@
       "@type": "ListItem",
       "position":  1 ,
       "name": "技术博客",
-      "item": "http://localhost:1313/technical-blog/"
+      "item": "http://localhost:13131/technical-blog/"
     }, 
     {
       "@type": "ListItem",
       "position":  2 ,
-      "name": "CuTe学习7-SM90 WGMMA",
-      "item": "http://localhost:1313/technical-blog/cute-starter-8/"
+      "name": "CuTe学习8-SM90 WGMMA",
+      "item": "http://localhost:13131/technical-blog/cute-starter-8/"
     }
   ]
 }
@@ -115,14 +118,14 @@
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "CuTe学习7-SM90 WGMMA",
-  "name": "CuTe学习7-SM90 WGMMA",
+  "headline": "CuTe学习8-SM90 WGMMA",
+  "name": "CuTe学习8-SM90 WGMMA",
   "description": "基于CuTe封装讲解SM90 WGMMA",
   "keywords": [
-    
+    "CuTe", "WGMMA", "SM90"
   ],
-  "articleBody": "WGMMA WGMMA（Warp-Group Matrix Multiply-Accumulate，线程束组矩阵乘加是NVIDIA在Hopper架构中引入的第四代Tensor Core核心PTX指令。其新特性为更宽的指令形状，Shared Memory操作数和异步计算。\nSM90_64x64x16_F16F16F16_SS 我们观察wgmma PTX的新形态和其在CuTe中的命名。\n1SM90_64x64x16_F16F16F16_SS 2wgmma.mma_async.sync.aligned.m64n192k16.f16.f16.f16 一条wgmma指令可以处理64x64x16的tile SS代表矩阵A和B从SMEM直接读取 mma_async表示这是一条异步指令，指令在发出之后立即退休，不阻塞后续指令 下面我们将分别介绍这三个wgmma新特性。\nWarp Group and Larger Tile 前代Ampere通常使用以一个Warp32个线程为单位的 mma.sync 指令。而Hopper引入了Warp Group概念，由4个Warp（共128个线程）共同issue指令并执行MMA。PTX中的sync.aligned标志要求该128个线程必须到达相同的代码执行点，并以相同的参数同时发射该指令。\n由128个线程共同协作带来了诸多好处。 Ampere架构上FP16最宽指令只有16*8*16，即使是四个MMA沿M方向排列，也只有16*32*16,远远小于Hopper 首先是减少了SMEM的读取次数\nWarp Specialize and Warp Group Async pipeline Shared Memory Operand stmatrix ",
-  "wordCount" : "38",
+  "articleBody": "WGMMA WGMMA（Warp-Group Matrix Multiply-Accumulate）是NVIDIA Hopper引入的Tensor Core指令族。它把参与一次矩阵乘加的协作单位从一个 Warp 扩展为一个 Warp Group。\nSM90_64x64x16_F16F16F16_SS 我们先观察一条指令及其在 CuTe 中的封装：\n1SM90_64x64x16_F16F16F16_SS 2wgmma.mma_async.sync.aligned.m64n64k16.f16.f16.f16 m64n64k16 表示本条指令覆盖 64x64x16 的 MMA tile。 SS 表示 A、B 都通过 64-bit shared-memory descriptor 访问，直接从Shared Memory中取数。CuTe也封装了 RS 等形态，允许其中一个操作数来自寄存器。 mma_async 表示指令提交到异步队列，指令发射后即退休。 sync.aligned 仍然要求整个 128-thread warp group 在相同控制流位置、以相同参数发射指令。async 不等于四个 Warp 可以各自独立调用。 WGMMA新特性主要在支持更大的矩阵形状、从 Shared Memory 直接读取操作数，以及异步发射和完成通知。\nWarp Group 与更大的 Tile Ampere 的 mma.sync 通常以一个 Warp 为协作单位，FP16 常见的单条指令形状是 m16n8k16。如果要计算更大的输出 tile，就需要排列很多条 MMA，并在指令之间安排寄存器搬运和同步。Hopper 的 WGMMA 由 128 个线程共同完成，一条指令可以覆盖 m64n64k16 到 m64n256k16 等更宽的输出形状，减少了指令和元数据开销。\n更大的 tile 首先提高了数据复用。例如计算C1和C3的时候，小的Tile需要读取两次B1，而计算一个大Tile只需要读取一次。\n更大的 MMA tile 可以提高 B tile 的复用 其次，Dispatch Unit 不再需要频繁发射大量小 MMA。指令数量减少后，地址计算、谓词和流水线控制所占的发射带宽也随之下降。Ampere时代的MMA tile小，周期数少，所以就需要不断发射MMA以让Tensor Core保持运算。但是kernel内部计算地址搬运内存的指令同样需要发射，所以在Ampere上需要更精致的软件流水线(e.g. ping-pong buffer)以达到更好的性能。但wgmma一条指令可以计算数十倍于Ampere的MMA tile，这就减少了很多指令发射。同时wgmma一条指令会占用数十甚至上百个cycle，这使保持Tensor Core计算变得相对容易。\nWGMMA 的异步完成模型也减少了计算阶段对线程级同步的依赖。Ampere时代的mma必须显式syncthreads以保证所有线程都不再需要SMEM里面的数据。wgmma得益于其WarpGroup的合作形态，其同步模型粒度更小，只需要WarpGroup与自身和ConsumerWarp的TMA进行同步，这减少了流水线空泡。\n寄存器压力 大 tile 的代价是累加寄存器显著增加。对于 F32 accumulator，单个线程需要保存的 32-bit 寄存器数量为：\n1D regs/thread = M * N / 128 因为一个 warp group 有 128 个线程，每个 F32 占用一个 32-bit 寄存器。以 m64n256k16 为例，64 * 64 / 128 = 128 个寄存器/线程。如果没有CuTe封装的话，手写PTX将难以处理如此多寄存器。\n1struct MMA_64x256x16_F32F16F16_SS 2{ 3 using DRegisters = void; 4 using ARegisters = uint64_t[1]; 5 using BRegisters = uint64_t[1]; 6 using CRegisters = float[128]; 7 8 CUTE_HOST_DEVICE static void 9 fma(uint64_t const\u0026 desc_a, 10 uint64_t const\u0026 desc_b, 11 float \u0026 d000, float \u0026 d001, float \u0026 d002, float \u0026 d003, 12 ... 13 float \u0026 d124, float \u0026 d125, float \u0026 d126, float \u0026 d127, 14 GMMA::ScaleOut const scale_D = GMMA::ScaleOut::One) 15 { 16#if defined(CUTE_ARCH_MMA_SM90A_ENABLED) 17 cutlass::arch::synclog_emit_wgmma_smem_smem(__LINE__, desc_a, desc_b); 18 asm volatile( 19 \"{\\n\" 20 \".reg .pred p;\\n\" 21 \"setp.ne.b32 p, %130, 0;\\n\" 22 \"wgmma.mma_async.sync.aligned.m64n256k16.f32.f16.f16 \" 23 \"{%0, %1, %2, %3, %4, %5, %6, %7, \" 24 \"...\" 25 \" %120, %121, %122, %123, %124, %125, %126, %127},\" 26 \" %128,\" 27 \" %129,\" 28 \" p, %131, %132, %133, %134;\\n\" 29 \"}\\n\" 30 : \"+f\"(d000), \"+f\"(d001), \"+f\"(d002), \"+f\"(d003), 31 ... 32 \"+f\"(d124), \"+f\"(d125), \"+f\"(d126), \"+f\"(d127) 33 : \"l\"(desc_a), 34 \"l\"(desc_b), 35 \"r\"(int32_t(scale_D)), \"n\"(int32_t(scaleA)), \"n\"(int32_t(scaleB)), \"n\"(int32_t(tnspA)), \"n\"(int32_t(tnspB))); 36#endif 37 } 38}; Shape D regs/thread 占 thread 寄存器上限 (255) 比例 m64n64k16 32 13% m64n128k16 64 25% m64n192k16 96 38% m64n256k16 128 50% 这还没有计算地址、TMA 坐标、临时向量和 epilogue 所需的寄存器。FA3 一类 attention kernel 还要保存 P、logits、LSE 等中间状态，通常选择 m64n64 或 m64n128。GEMM 的中间状态较少，才有空间使用更宽的 N tile。\nWarp Specialize 与 Warp Group 我们在介绍TMA的时候也简单提到了Warp Specialize这一新编程范式，现在详细讲一下一个CTA中角色到底是如何分配的。\nTMA 只需一个线程发射指令，而 WGMMA 必须由 4 个 Warp 同时发射。ConsumerWarp和ProducerWarp需要的硬件资源明显是不对等的。虽然 160 线程（1 个 TMA Warp + 1 个 WGMMA WG）可行，但在真实的深度学习算子中，最推荐的BlockSize依然是 128、256、384、512等128的整数倍。SM内部的4个Sub-SM是对称划分的，按128线程对齐能让 SM 在调度、SMEM 分配上达到最佳硬件效率。\n在 CUTLASS 的 SM90 warp-specialized GEMM 中，CTA中的384线程会划分为 Producer（负责 TMA、SMEM stage 管理和地址计算）、Consumer（组成一个或多个 warp group，负责 WGMMA 和 accumulator），以及可选的 Epilogue 角色：\n1enum class WarpGroupRole { 2 Producer = 0, 3 Consumer0 = 1, 4 Consumer1 = 2 5}; 6 7enum class ProducerWarpRole { 8 Mainloop = 0, 9 Warp1 = 1, 10 Epilogue = 2, 11 MainloopAux = 3 12}; 可以看到，这个kernel为ProducerWarp分配了一整个WarpGroup，ProducerWarp内部又进行了细分，这就避免了TMA单独占用过多空转线程。\nShared Memory Operand WGMMA 可以直接从 SMEM 读取矩阵操作数，避免先把完整 A/B tile 搬进寄存器。PTX 操作数是一个编码了 SMEM 起始地址、leading dimension、stride 和 swizzle 的 64-bit descriptor。descriptor 描述了A/B矩阵视图。\nshared memory descriptor 字段在CuTe中的封装如下\n1// Bitfield implementation avoids the need for shifts in assignment 2struct { 3 // start_address, bit [0,14), 4LSB not included 4 uint16_t start_address_ : 14, : 2; // 14 bits [0,14), 2 bits unused 5 // leading dimension byte offset, bit [16,30), 4LSB not included 6 // For N: This is the stride from the first col to the second col of the 8x2 brick in INTERLEAVED 7 // Unused for all SWIZZLE_* layouts (and assumed to be 1) 8 // For T: This is the stride from the first 8 rows to the next 8 rows. 9 uint16_t leading_byte_offset_ : 14, : 2; // 14 bits [0,14), 2 bits unused 10 // stride dimension byte offset, bit [32,46), 4LSB not included 11 // For N: This is the stride from the first 8 rows to the next 8 rows. 12 // For T: This is the stride fro mthe first 8 cols to the next 8 cols. 13 uint16_t stride_byte_offset_ : 14, : 2; // 14 bits [0,14), 2 bits unused 14 // base_offset, bit [49,52) 15 // Valid only for SWIZZLE_128B and SWIZZLE_64B 16 uint8_t : 1, base_offset_ : 3, : 4; // 1 bit unused, 3 bits [1,4), 4 bits unused 17 // layout type, bit [62,64) 18 // SWIZZLE_NONE = 0, SWIZZLE_32B = 3, SWIZZLE_64B = 2, SWIZZLE_128B = 1 19 uint8_t : 6, layout_type_ : 2; // 6 bits unused, 2 bits [6,8) 20} bitfield; 这里使用的swizzle和TMA的硬件swizzle是对应的，CuTe将矩阵的元信息封装进了模板。\n1TiledMMA tiled_mma = make_tiled_mma(SM90_64x64x16_F16F16F16_SS\u003cGMMA::Major::MN,GMMA::Major::MN\u003e{}); 而swizzle信息来自于TMA\n1auto sA = tile_to_shape(GMMA::Layout_MN_SW128_Atom\u003cTA\u003e{}, make_shape(bM,bK,bP)); 2auto sB = tile_to_shape(GMMA::Layout_MN_SW128_Atom\u003cTB\u003e{}, make_shape(bN,bK,bP)); 3Copy_Atom tmaA = make_tma_atom(SM90_TMA_LOAD{}, mA, sA(_,_,0), make_shape(bM,bK)); 4Copy_Atom tmaB = make_tma_atom(SM90_TMA_LOAD{}, mB, sB(_,_,0), make_shape(bN,bK)); Async Pipeline WGMMA是一条异步MMA指令，异步语义意味着指令退休不代表D寄存器可读。和Ampere类似，Hopper wgmma也有commit_group和wait_group两条同步指令，但其仅对当前WarpGroup可见，而且仅对MMA有效，Ampere的主要是做cp.async的内存操作同步。在ConsumerWarp内部，为了掩盖Tensor Core的计算延迟，通常会连续发射2-4个WGMMA指令填充pipeline，这些wgmma之间的同步就要依靠前文两条同步指令。CuTe为我们提供了如下的封装\n1// Wait until N batch on the fly 2template \u003cint N\u003e 3CUTE_HOST_DEVICE 4void 5warpgroup_wait() 6{ 7 static_assert(N \u003e= 0 \u0026\u0026 N \u003c= 7, \"WGMMA wait: N must be in range [0, 7]\"); 8#if defined(CUTE_ARCH_MMA_SM90A_ENABLED) 9 cutlass::arch::synclog_emit_warpgroup_wait(__LINE__, N); 10 asm volatile(\"wgmma.wait_group.sync.aligned %0;\\n\" :: \"n\"(N) : \"memory\"); 11#endif 12} 13 14// Marks the commit point for one or more sized batch of warpgroup MMAs. 15CUTE_HOST_DEVICE 16void 17warpgroup_commit_batch() 18{ 19#if defined(CUTE_ARCH_MMA_SM90A_ENABLED) 20 cutlass::arch::synclog_emit_warpgroup_commit_batch(__LINE__); 21 asm volatile(\"wgmma.commit_group.sync.aligned;\\n\" ::: \"memory\"); 22#endif 23} Generic Proxy 与 Async Proxy Hopper 将普通 CUDA 执行路径和异步引擎视为不同的 proxy。Generic proxy 包括 CUDA Core 的 ALU、普通 ld/st、LDS/STS 等；async proxy 包括 TMA、WGMMA 和 mbarrier 相关操作。两个 proxy 各自维护顺序，因此跨 proxy 访问同一地址时不能依赖代码顺序来推断可见性。\n其中，TMA 写入完成由 mbarrier 的 transaction count 同步，WGMMA 计算完成则由 async group 表示。两者在Hopper上面的同步路径不同意，但这个问题在Blackwell上得到了解决，此为后话。\nWarp Up 我们在GPU的架构演进中看到了前所未有的异步性（Attack of the asynchronous machines），Turing上一切都是同步的，Ampere引入了异步搬运cp.async，Hopper又引入了TMA和WGMMA，至此数据搬运和计算全部都是异步的。异步当然带来了极大的性能提升，但其对程序员编程的心智模型也带来了巨大冲击。随着GPU计算性能的飞跃，为了充分释放 Tensor Core 的峰值算力，开发者必须构建极其精致且复杂的软件流水线。这使得现代 Kernel 开发超越了传统 BLAS 时代的算法实现逻辑，转向高效算法、异步系统与体系结构三位一体的工程范式。 Hopper async pipeline *Source from NVIDIA GTC 2023\n在下一篇博客当中我们会使用CuTe写Hopper上面的使用Warp Specialised的GEMM kernel。\n",
+  "wordCount" : "851",
   "inLanguage": "zh",
   "datePublished": "2026-08-27T10:29:37+08:00",
   "dateModified": "2026-08-27T10:29:37+08:00",
@@ -132,14 +135,14 @@
   },
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "http://localhost:1313/technical-blog/cute-starter-8/"
+    "@id": "http://localhost:13131/technical-blog/cute-starter-8/"
   },
   "publisher": {
     "@type": "Organization",
     "name": "鲤鱼爱的神秘小屋",
     "logo": {
       "@type": "ImageObject",
-      "url": "http://localhost:1313/favicon.ico"
+      "url": "http://localhost:13131/favicon.ico"
     }
   }
 }
@@ -225,59 +228,216 @@
   <header class="post-header">
     
     <h1 class="post-title entry-hint-parent">
-      CuTe学习7-SM90 WGMMA
-      <span class="entry-hint" title="Draft">
-        <svg xmlns="http://www.w3.org/2000/svg" height="35" viewBox="0 -960 960 960" fill="currentColor">
-          <path
-            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
-        </svg>
-      </span>
+      CuTe学习8-SM90 WGMMA
     </h1>
     <div class="post-description">
       基于CuTe封装讲解SM90 WGMMA
     </div>
-    <div class="post-meta"><span title='2026-08-27 10:29:37 +0800 CST'>2026年8月27日</span>&nbsp;·&nbsp;<span>阅读此文大概需要 分钟</span>&nbsp;·&nbsp;<span>liyuu1ove_</span>
+    <div class="post-meta"><span title='2026-08-27 10:29:37 +0800 CST'>2026年8月27日</span>&nbsp;·&nbsp;<span>阅读此文大概需要15分钟</span>&nbsp;·&nbsp;<span>liyuu1ove_</span>
 
 </div>
   </header> 
   <div class="post-content md-content"><h1 id="wgmma">WGMMA<a hidden class="anchor" aria-hidden="true" href="#wgmma">#</a></h1>
-<p>WGMMA（Warp-Group Matrix Multiply-Accumulate，线程束组矩阵乘加是NVIDIA在Hopper架构中引入的第四代Tensor Core核心PTX指令。其新特性为更宽的指令形状，Shared Memory操作数和异步计算。</p>
+<p>WGMMA（Warp-Group Matrix Multiply-Accumulate）是NVIDIA Hopper引入的Tensor Core指令族。它把参与一次矩阵乘加的协作单位从一个 Warp 扩展为一个 Warp Group。</p>
 <figure class="post-image" style="width: 100%; max-width: 500px; margin-left: auto; margin-right: auto;">
   <img src="wgmma.png" alt="wgmma" loading="lazy" decoding="async" style="display: block; width: 100%; height: auto;">
   <figcaption>SM90_64x64x16_F16F16F16_SS</figcaption>
 </figure>
 
-<p>我们观察wgmma PTX的新形态和其在CuTe中的命名。</p>
+<p>我们先观察一条指令及其在 CuTe 中的封装：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-CPP" data-lang="CPP"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">SM90_64x64x16_F16F16F16_SS</span>
-</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="n">wgmma</span><span class="p">.</span><span class="n">mma_async</span><span class="p">.</span><span class="n">sync</span><span class="p">.</span><span class="n">aligned</span><span class="p">.</span><span class="n">m64n192k16</span><span class="p">.</span><span class="n">f16</span><span class="p">.</span><span class="n">f16</span><span class="p">.</span><span class="n">f16</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="n">wgmma</span><span class="p">.</span><span class="n">mma_async</span><span class="p">.</span><span class="n">sync</span><span class="p">.</span><span class="n">aligned</span><span class="p">.</span><span class="n">m64n64k16</span><span class="p">.</span><span class="n">f16</span><span class="p">.</span><span class="n">f16</span><span class="p">.</span><span class="n">f16</span>
 </span></span></code></pre></div><ul>
-<li>一条wgmma指令可以处理<code>64x64x16</code>的tile</li>
-<li><code>SS</code>代表矩阵A和B从SMEM直接读取</li>
-<li><code>mma_async</code>表示这是一条异步指令，指令在发出之后立即退休，不阻塞后续指令</li>
+<li><code>m64n64k16</code> 表示本条指令覆盖 <code>64x64x16</code> 的 MMA tile。</li>
+<li><code>SS</code> 表示 A、B 都通过 64-bit shared-memory descriptor 访问，直接从Shared Memory中取数。CuTe也封装了 <code>RS</code> 等形态，允许其中一个操作数来自寄存器。</li>
+<li><code>mma_async</code> 表示指令提交到异步队列，指令发射后即退休。</li>
+<li><code>sync.aligned</code> 仍然要求整个 128-thread warp group 在相同控制流位置、以相同参数发射指令。<code>async</code> 不等于四个 Warp 可以各自独立调用。</li>
 </ul>
-<p>下面我们将分别介绍这三个wgmma新特性。</p>
-<h2 id="warp-group-and-larger-tile">Warp Group and Larger Tile<a hidden class="anchor" aria-hidden="true" href="#warp-group-and-larger-tile">#</a></h2>
-<p>前代Ampere通常使用以一个Warp32个线程为单位的 mma.sync 指令。而Hopper引入了Warp Group概念，由4个Warp（共128个线程）共同issue指令并执行MMA。PTX中的<code>sync.aligned</code>标志要求该128个线程必须到达相同的代码执行点，并以相同的参数同时发射该指令。</p>
-<p>由128个线程共同协作带来了诸多好处。
-Ampere架构上FP16最宽指令只有16*8*16，即使是四个MMA沿M方向排列，也只有16*32*16,远远小于Hopper
-首先是减少了SMEM的读取次数</p>
-<h3 id="warp-specialize-and-warp-group">Warp Specialize and Warp Group<a hidden class="anchor" aria-hidden="true" href="#warp-specialize-and-warp-group">#</a></h3>
-<h2 id="async-pipeline">Async pipeline<a hidden class="anchor" aria-hidden="true" href="#async-pipeline">#</a></h2>
+<p>WGMMA新特性主要在支持更大的矩阵形状、从 Shared Memory 直接读取操作数，以及异步发射和完成通知。</p>
+<h2 id="warp-group-与更大的-tile">Warp Group 与更大的 Tile<a hidden class="anchor" aria-hidden="true" href="#warp-group-与更大的-tile">#</a></h2>
+<p>Ampere 的 <code>mma.sync</code> 通常以一个 Warp 为协作单位，FP16 常见的单条指令形状是 <code>m16n8k16</code>。如果要计算更大的输出 tile，就需要排列很多条 MMA，并在指令之间安排寄存器搬运和同步。Hopper 的 WGMMA 由 128 个线程共同完成，一条指令可以覆盖 <code>m64n64k16</code> 到 <code>m64n256k16</code> 等更宽的输出形状，减少了指令和元数据开销。</p>
+<p>更大的 tile 首先提高了数据复用。例如计算C1和C3的时候，小的Tile需要读取两次B1，而计算一个大Tile只需要读取一次。</p>
+<figure class="post-image" style="width: 100%; max-width: 500px; margin-left: auto; margin-right: auto;">
+  <img src="reuse.png" alt="reuse" loading="lazy" decoding="async" style="display: block; width: 100%; height: auto;">
+  <figcaption>更大的 MMA tile 可以提高 B tile 的复用</figcaption>
+</figure>
+
+<p>其次，Dispatch Unit 不再需要频繁发射大量小 MMA。指令数量减少后，地址计算、谓词和流水线控制所占的发射带宽也随之下降。Ampere时代的MMA tile小，周期数少，所以就需要不断发射MMA以让Tensor Core保持运算。但是kernel内部计算地址搬运内存的指令同样需要发射，所以在Ampere上需要更精致的软件流水线(e.g. ping-pong buffer)以达到更好的性能。但wgmma一条指令可以计算数十倍于Ampere的MMA tile，这就减少了很多指令发射。同时wgmma一条指令会占用数十甚至上百个cycle，这使保持Tensor Core计算变得相对容易。</p>
+<p>WGMMA 的异步完成模型也减少了计算阶段对线程级同步的依赖。Ampere时代的mma必须显式syncthreads以保证所有线程都不再需要SMEM里面的数据。wgmma得益于其WarpGroup的合作形态，其同步模型粒度更小，只需要WarpGroup与自身和ConsumerWarp的TMA进行同步，这减少了流水线空泡。</p>
+<h3 id="寄存器压力">寄存器压力<a hidden class="anchor" aria-hidden="true" href="#寄存器压力">#</a></h3>
+<p>大 tile 的代价是累加寄存器显著增加。对于 F32 accumulator，单个线程需要保存的 32-bit 寄存器数量为：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="ln">1</span><span class="cl">D regs/thread = M * N / 128
+</span></span></code></pre></div><p>因为一个 warp group 有 128 个线程，每个 F32 占用一个 32-bit 寄存器。以 <code>m64n256k16</code> 为例，<code>64 * 64 / 128 = 128</code> 个寄存器/线程。如果没有CuTe封装的话，手写PTX将难以处理如此多寄存器。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-CPP" data-lang="CPP"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">struct</span> <span class="nc">MMA_64x256x16_F32F16F16_SS</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="k">using</span> <span class="n">DRegisters</span> <span class="o">=</span> <span class="kt">void</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="k">using</span> <span class="n">ARegisters</span> <span class="o">=</span> <span class="kt">uint64_t</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="k">using</span> <span class="n">BRegisters</span> <span class="o">=</span> <span class="kt">uint64_t</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  <span class="k">using</span> <span class="n">CRegisters</span> <span class="o">=</span> <span class="kt">float</span><span class="p">[</span><span class="mi">128</span><span class="p">];</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="n">CUTE_HOST_DEVICE</span> <span class="k">static</span> <span class="kt">void</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="nf">fma</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="k">const</span><span class="o">&amp;</span> <span class="n">desc_a</span><span class="p">,</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl">      <span class="kt">uint64_t</span> <span class="k">const</span><span class="o">&amp;</span> <span class="n">desc_b</span><span class="p">,</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl">      <span class="kt">float</span>         <span class="o">&amp;</span> <span class="n">d000</span><span class="p">,</span> <span class="kt">float</span>         <span class="o">&amp;</span> <span class="n">d001</span><span class="p">,</span> <span class="kt">float</span>         <span class="o">&amp;</span> <span class="n">d002</span><span class="p">,</span> <span class="kt">float</span>         <span class="o">&amp;</span> <span class="n">d003</span><span class="p">,</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl">      <span class="p">...</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl">      <span class="kt">float</span>         <span class="o">&amp;</span> <span class="n">d124</span><span class="p">,</span> <span class="kt">float</span>         <span class="o">&amp;</span> <span class="n">d125</span><span class="p">,</span> <span class="kt">float</span>         <span class="o">&amp;</span> <span class="n">d126</span><span class="p">,</span> <span class="kt">float</span>         <span class="o">&amp;</span> <span class="n">d127</span><span class="p">,</span>
+</span></span><span class="line"><span class="ln">14</span><span class="cl">      <span class="n">GMMA</span><span class="o">::</span><span class="n">ScaleOut</span> <span class="k">const</span> <span class="n">scale_D</span> <span class="o">=</span> <span class="n">GMMA</span><span class="o">::</span><span class="n">ScaleOut</span><span class="o">::</span><span class="n">One</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">15</span><span class="cl">  <span class="p">{</span>
+</span></span><span class="line"><span class="ln">16</span><span class="cl"><span class="cp">#if defined(CUTE_ARCH_MMA_SM90A_ENABLED)
+</span></span></span><span class="line"><span class="ln">17</span><span class="cl"><span class="cp"></span>    <span class="n">cutlass</span><span class="o">::</span><span class="n">arch</span><span class="o">::</span><span class="n">synclog_emit_wgmma_smem_smem</span><span class="p">(</span><span class="n">__LINE__</span><span class="p">,</span> <span class="n">desc_a</span><span class="p">,</span> <span class="n">desc_b</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">18</span><span class="cl">    <span class="k">asm</span> <span class="k">volatile</span><span class="p">(</span>
+</span></span><span class="line"><span class="ln">19</span><span class="cl">    <span class="s">&#34;{</span><span class="se">\n</span><span class="s">&#34;</span>
+</span></span><span class="line"><span class="ln">20</span><span class="cl">      <span class="s">&#34;.reg .pred p;</span><span class="se">\n</span><span class="s">&#34;</span>
+</span></span><span class="line"><span class="ln">21</span><span class="cl">      <span class="s">&#34;setp.ne.b32 p, %130, 0;</span><span class="se">\n</span><span class="s">&#34;</span>
+</span></span><span class="line"><span class="ln">22</span><span class="cl">      <span class="s">&#34;wgmma.mma_async.sync.aligned.m64n256k16.f32.f16.f16 &#34;</span>
+</span></span><span class="line"><span class="ln">23</span><span class="cl">      <span class="s">&#34;{%0,   %1,   %2,   %3,   %4,   %5,   %6,   %7,   &#34;</span>
+</span></span><span class="line"><span class="ln">24</span><span class="cl">      <span class="s">&#34;...&#34;</span>
+</span></span><span class="line"><span class="ln">25</span><span class="cl">      <span class="s">&#34; %120, %121, %122, %123, %124, %125, %126, %127},&#34;</span>
+</span></span><span class="line"><span class="ln">26</span><span class="cl">      <span class="s">&#34; %128,&#34;</span>
+</span></span><span class="line"><span class="ln">27</span><span class="cl">      <span class="s">&#34; %129,&#34;</span>
+</span></span><span class="line"><span class="ln">28</span><span class="cl">      <span class="s">&#34; p,    %131, %132, %133, %134;</span><span class="se">\n</span><span class="s">&#34;</span>
+</span></span><span class="line"><span class="ln">29</span><span class="cl">    <span class="s">&#34;}</span><span class="se">\n</span><span class="s">&#34;</span>
+</span></span><span class="line"><span class="ln">30</span><span class="cl">      <span class="o">:</span> <span class="s">&#34;+f&#34;</span><span class="p">(</span><span class="n">d000</span><span class="p">),</span> <span class="s">&#34;+f&#34;</span><span class="p">(</span><span class="n">d001</span><span class="p">),</span> <span class="s">&#34;+f&#34;</span><span class="p">(</span><span class="n">d002</span><span class="p">),</span> <span class="s">&#34;+f&#34;</span><span class="p">(</span><span class="n">d003</span><span class="p">),</span>
+</span></span><span class="line"><span class="ln">31</span><span class="cl">        <span class="p">...</span>
+</span></span><span class="line"><span class="ln">32</span><span class="cl">        <span class="s">&#34;+f&#34;</span><span class="p">(</span><span class="n">d124</span><span class="p">),</span> <span class="s">&#34;+f&#34;</span><span class="p">(</span><span class="n">d125</span><span class="p">),</span> <span class="s">&#34;+f&#34;</span><span class="p">(</span><span class="n">d126</span><span class="p">),</span> <span class="s">&#34;+f&#34;</span><span class="p">(</span><span class="n">d127</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">33</span><span class="cl">      <span class="o">:</span>  <span class="s">&#34;l&#34;</span><span class="p">(</span><span class="n">desc_a</span><span class="p">),</span>
+</span></span><span class="line"><span class="ln">34</span><span class="cl">         <span class="s">&#34;l&#34;</span><span class="p">(</span><span class="n">desc_b</span><span class="p">),</span>
+</span></span><span class="line"><span class="ln">35</span><span class="cl">         <span class="s">&#34;r&#34;</span><span class="p">(</span><span class="kt">int32_t</span><span class="p">(</span><span class="n">scale_D</span><span class="p">)),</span> <span class="s">&#34;n&#34;</span><span class="p">(</span><span class="kt">int32_t</span><span class="p">(</span><span class="n">scaleA</span><span class="p">)),</span> <span class="s">&#34;n&#34;</span><span class="p">(</span><span class="kt">int32_t</span><span class="p">(</span><span class="n">scaleB</span><span class="p">)),</span> <span class="s">&#34;n&#34;</span><span class="p">(</span><span class="kt">int32_t</span><span class="p">(</span><span class="n">tnspA</span><span class="p">)),</span> <span class="s">&#34;n&#34;</span><span class="p">(</span><span class="kt">int32_t</span><span class="p">(</span><span class="n">tnspB</span><span class="p">)));</span>
+</span></span><span class="line"><span class="ln">36</span><span class="cl"><span class="cp">#endif
+</span></span></span><span class="line"><span class="ln">37</span><span class="cl"><span class="cp"></span>  <span class="p">}</span>
+</span></span><span class="line"><span class="ln">38</span><span class="cl"><span class="p">};</span>
+</span></span></code></pre></div><table>
+  <thead>
+      <tr>
+          <th>Shape</th>
+          <th style="text-align: right">D regs/thread</th>
+          <th style="text-align: right">占 thread 寄存器上限 (255) 比例</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>m64n64k16</td>
+          <td style="text-align: right">32</td>
+          <td style="text-align: right">13%</td>
+      </tr>
+      <tr>
+          <td>m64n128k16</td>
+          <td style="text-align: right">64</td>
+          <td style="text-align: right">25%</td>
+      </tr>
+      <tr>
+          <td>m64n192k16</td>
+          <td style="text-align: right">96</td>
+          <td style="text-align: right">38%</td>
+      </tr>
+      <tr>
+          <td>m64n256k16</td>
+          <td style="text-align: right">128</td>
+          <td style="text-align: right">50%</td>
+      </tr>
+  </tbody>
+</table>
+<p>这还没有计算地址、TMA 坐标、临时向量和 epilogue 所需的寄存器。FA3 一类 attention kernel 还要保存 P、logits、LSE 等中间状态，通常选择 <code>m64n64</code> 或 <code>m64n128</code>。GEMM 的中间状态较少，才有空间使用更宽的 N tile。</p>
+<h3 id="warp-specialize-与-warp-group">Warp Specialize 与 Warp Group<a hidden class="anchor" aria-hidden="true" href="#warp-specialize-与-warp-group">#</a></h3>
+<p>我们在介绍TMA的时候也简单提到了Warp Specialize这一新编程范式，现在详细讲一下一个CTA中角色到底是如何分配的。</p>
+<p>TMA 只需一个线程发射指令，而 WGMMA 必须由 4 个 Warp 同时发射。ConsumerWarp和ProducerWarp需要的硬件资源明显是不对等的。虽然 160 线程（1 个 TMA Warp + 1 个 WGMMA WG）可行，但在真实的深度学习算子中，最推荐的BlockSize依然是 128、256、384、512等128的整数倍。SM内部的4个Sub-SM是对称划分的，按128线程对齐能让 SM 在调度、SMEM 分配上达到最佳硬件效率。</p>
+<p>在 CUTLASS 的 SM90 warp-specialized GEMM 中，CTA中的384线程会划分为 Producer（负责 TMA、SMEM stage 管理和地址计算）、Consumer（组成一个或多个 warp group，负责 WGMMA 和 accumulator），以及可选的 Epilogue 角色：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-CPP" data-lang="CPP"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">enum</span> <span class="k">class</span> <span class="nc">WarpGroupRole</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl">  <span class="n">Producer</span>  <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">Consumer0</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="n">Consumer1</span> <span class="o">=</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="k">enum</span> <span class="k">class</span> <span class="nc">ProducerWarpRole</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="n">Mainloop</span>    <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="n">Warp1</span>       <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="n">Epilogue</span>    <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="n">MainloopAux</span> <span class="o">=</span> <span class="mi">3</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="p">};</span>
+</span></span></code></pre></div><p>可以看到，这个kernel为ProducerWarp分配了一整个WarpGroup，ProducerWarp内部又进行了细分，这就避免了TMA单独占用过多空转线程。</p>
 <h2 id="shared-memory-operand">Shared Memory Operand<a hidden class="anchor" aria-hidden="true" href="#shared-memory-operand">#</a></h2>
-<h2 id="stmatrix">stmatrix<a hidden class="anchor" aria-hidden="true" href="#stmatrix">#</a></h2>
+<p>WGMMA 可以直接从 SMEM 读取矩阵操作数，避免先把完整 A/B tile 搬进寄存器。PTX 操作数是一个编码了 SMEM 起始地址、leading dimension、stride 和 swizzle 的 64-bit descriptor。descriptor 描述了A/B矩阵视图。</p>
+<p>shared memory descriptor 字段在CuTe中的封装如下</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-CPP" data-lang="CPP"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="c1">// Bitfield implementation avoids the need for shifts in assignment
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">    <span class="c1">// start_address, bit [0,14), 4LSB not included
+</span></span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="c1"></span>    <span class="kt">uint16_t</span> <span class="nl">start_address_</span> <span class="p">:</span> <span class="mi">14</span><span class="p">,</span> <span class="o">:</span> <span class="mi">2</span><span class="p">;</span>        <span class="c1">// 14 bits [0,14), 2 bits unused
+</span></span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="c1"></span>    <span class="c1">// leading dimension byte offset, bit [16,30), 4LSB not included
+</span></span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="c1"></span>    <span class="c1">// For N: This is the stride from the first col to the second col of the 8x2 brick in INTERLEAVED
+</span></span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="c1"></span>    <span class="c1">//   Unused for all SWIZZLE_* layouts (and assumed to be 1)
+</span></span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="c1"></span>    <span class="c1">// For T: This is the stride from the first 8 rows to the next 8 rows.
+</span></span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="c1"></span>    <span class="kt">uint16_t</span> <span class="nl">leading_byte_offset_</span> <span class="p">:</span> <span class="mi">14</span><span class="p">,</span> <span class="o">:</span> <span class="mi">2</span><span class="p">;</span>  <span class="c1">// 14 bits [0,14), 2 bits unused
+</span></span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="c1"></span>    <span class="c1">// stride dimension byte offset, bit [32,46), 4LSB not included
+</span></span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="c1"></span>    <span class="c1">// For N: This is the stride from the first 8 rows to the next 8 rows.
+</span></span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="c1"></span>    <span class="c1">// For T: This is the stride fro mthe first 8 cols to the next 8 cols.
+</span></span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="c1"></span>    <span class="kt">uint16_t</span> <span class="nl">stride_byte_offset_</span> <span class="p">:</span> <span class="mi">14</span><span class="p">,</span> <span class="o">:</span> <span class="mi">2</span><span class="p">;</span>   <span class="c1">// 14 bits [0,14), 2 bits unused
+</span></span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="c1"></span>    <span class="c1">// base_offset, bit [49,52)
+</span></span></span><span class="line"><span class="ln">15</span><span class="cl"><span class="c1"></span>    <span class="c1">// Valid only for SWIZZLE_128B and SWIZZLE_64B
+</span></span></span><span class="line"><span class="ln">16</span><span class="cl"><span class="c1"></span>    <span class="kt">uint8_t</span> <span class="o">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nl">base_offset_</span> <span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="o">:</span> <span class="mi">4</span><span class="p">;</span>       <span class="c1">// 1 bit unused, 3 bits [1,4), 4 bits unused
+</span></span></span><span class="line"><span class="ln">17</span><span class="cl"><span class="c1"></span>    <span class="c1">// layout type, bit [62,64)
+</span></span></span><span class="line"><span class="ln">18</span><span class="cl"><span class="c1"></span>    <span class="c1">// SWIZZLE_NONE = 0, SWIZZLE_32B = 3, SWIZZLE_64B = 2, SWIZZLE_128B = 1
+</span></span></span><span class="line"><span class="ln">19</span><span class="cl"><span class="c1"></span>    <span class="kt">uint8_t</span> <span class="o">:</span> <span class="mi">6</span><span class="p">,</span> <span class="nl">layout_type_</span> <span class="p">:</span> <span class="mi">2</span><span class="p">;</span>            <span class="c1">// 6 bits unused, 2 bits [6,8)
+</span></span></span><span class="line"><span class="ln">20</span><span class="cl"><span class="c1"></span><span class="p">}</span> <span class="n">bitfield</span><span class="p">;</span>
+</span></span></code></pre></div><p>这里使用的swizzle和TMA的硬件swizzle是对应的，CuTe将矩阵的元信息封装进了模板。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-CPP" data-lang="CPP"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">TiledMMA</span> <span class="n">tiled_mma</span> <span class="o">=</span> <span class="n">make_tiled_mma</span><span class="p">(</span><span class="n">SM90_64x64x16_F16F16F16_SS</span><span class="o">&lt;</span><span class="n">GMMA</span><span class="o">::</span><span class="n">Major</span><span class="o">::</span><span class="n">MN</span><span class="p">,</span><span class="n">GMMA</span><span class="o">::</span><span class="n">Major</span><span class="o">::</span><span class="n">MN</span><span class="o">&gt;</span><span class="p">{});</span>
+</span></span></code></pre></div><p>而swizzle信息来自于TMA</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-CPP" data-lang="CPP"><span class="line"><span class="ln">1</span><span class="cl"><span class="k">auto</span> <span class="n">sA</span> <span class="o">=</span> <span class="n">tile_to_shape</span><span class="p">(</span><span class="n">GMMA</span><span class="o">::</span><span class="n">Layout_MN_SW128_Atom</span><span class="o">&lt;</span><span class="n">TA</span><span class="o">&gt;</span><span class="p">{},</span> <span class="n">make_shape</span><span class="p">(</span><span class="n">bM</span><span class="p">,</span><span class="n">bK</span><span class="p">,</span><span class="n">bP</span><span class="p">));</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="k">auto</span> <span class="n">sB</span> <span class="o">=</span> <span class="n">tile_to_shape</span><span class="p">(</span><span class="n">GMMA</span><span class="o">::</span><span class="n">Layout_MN_SW128_Atom</span><span class="o">&lt;</span><span class="n">TB</span><span class="o">&gt;</span><span class="p">{},</span> <span class="n">make_shape</span><span class="p">(</span><span class="n">bN</span><span class="p">,</span><span class="n">bK</span><span class="p">,</span><span class="n">bP</span><span class="p">));</span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="n">Copy_Atom</span> <span class="n">tmaA</span> <span class="o">=</span> <span class="n">make_tma_atom</span><span class="p">(</span><span class="n">SM90_TMA_LOAD</span><span class="p">{},</span> <span class="n">mA</span><span class="p">,</span> <span class="n">sA</span><span class="p">(</span><span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">make_shape</span><span class="p">(</span><span class="n">bM</span><span class="p">,</span><span class="n">bK</span><span class="p">));</span>
+</span></span><span class="line"><span class="ln">4</span><span class="cl"><span class="n">Copy_Atom</span> <span class="n">tmaB</span> <span class="o">=</span> <span class="n">make_tma_atom</span><span class="p">(</span><span class="n">SM90_TMA_LOAD</span><span class="p">{},</span> <span class="n">mB</span><span class="p">,</span> <span class="n">sB</span><span class="p">(</span><span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">make_shape</span><span class="p">(</span><span class="n">bN</span><span class="p">,</span><span class="n">bK</span><span class="p">));</span>
+</span></span></code></pre></div><h2 id="async-pipeline">Async Pipeline<a hidden class="anchor" aria-hidden="true" href="#async-pipeline">#</a></h2>
+<p>WGMMA是一条异步MMA指令，异步语义意味着指令退休不代表D寄存器可读。和Ampere类似，Hopper wgmma也有commit_group和wait_group两条同步指令，但其仅对当前WarpGroup可见，而且仅对MMA有效，Ampere的主要是做cp.async的内存操作同步。在ConsumerWarp内部，为了掩盖Tensor Core的计算延迟，通常会连续发射2-4个WGMMA指令填充pipeline，这些wgmma之间的同步就要依靠前文两条同步指令。CuTe为我们提供了如下的封装</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-CPP" data-lang="CPP"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="c1">// Wait until N batch on the fly
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="c1"></span><span class="k">template</span> <span class="o">&lt;</span><span class="kt">int</span> <span class="n">N</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="n">CUTE_HOST_DEVICE</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="kt">void</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="n">warpgroup_wait</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="k">static_assert</span><span class="p">(</span><span class="n">N</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">N</span> <span class="o">&lt;=</span> <span class="mi">7</span><span class="p">,</span> <span class="s">&#34;WGMMA wait: N must be in range [0, 7]&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="cp">#if defined(CUTE_ARCH_MMA_SM90A_ENABLED)
+</span></span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="cp"></span>  <span class="n">cutlass</span><span class="o">::</span><span class="n">arch</span><span class="o">::</span><span class="n">synclog_emit_warpgroup_wait</span><span class="p">(</span><span class="n">__LINE__</span><span class="p">,</span> <span class="n">N</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="k">asm</span> <span class="k">volatile</span><span class="p">(</span><span class="s">&#34;wgmma.wait_group.sync.aligned %0;</span><span class="se">\n</span><span class="s">&#34;</span> <span class="o">::</span> <span class="s">&#34;n&#34;</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="o">:</span> <span class="s">&#34;memory&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="cp">#endif
+</span></span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="cp"></span><span class="p">}</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl">
+</span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="c1">// Marks the commit point for one or more sized batch of warpgroup MMAs.
+</span></span></span><span class="line"><span class="ln">15</span><span class="cl"><span class="c1"></span><span class="n">CUTE_HOST_DEVICE</span>
+</span></span><span class="line"><span class="ln">16</span><span class="cl"><span class="kt">void</span>
+</span></span><span class="line"><span class="ln">17</span><span class="cl"><span class="nf">warpgroup_commit_batch</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln">18</span><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="ln">19</span><span class="cl"><span class="cp">#if defined(CUTE_ARCH_MMA_SM90A_ENABLED)
+</span></span></span><span class="line"><span class="ln">20</span><span class="cl"><span class="cp"></span>  <span class="n">cutlass</span><span class="o">::</span><span class="n">arch</span><span class="o">::</span><span class="n">synclog_emit_warpgroup_commit_batch</span><span class="p">(</span><span class="n">__LINE__</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">21</span><span class="cl">  <span class="k">asm</span> <span class="k">volatile</span><span class="p">(</span><span class="s">&#34;wgmma.commit_group.sync.aligned;</span><span class="se">\n</span><span class="s">&#34;</span> <span class="o">:::</span> <span class="s">&#34;memory&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">22</span><span class="cl"><span class="cp">#endif
+</span></span></span><span class="line"><span class="ln">23</span><span class="cl"><span class="cp"></span><span class="p">}</span>
+</span></span></code></pre></div><h3 id="generic-proxy-与-async-proxy">Generic Proxy 与 Async Proxy<a hidden class="anchor" aria-hidden="true" href="#generic-proxy-与-async-proxy">#</a></h3>
+<p>Hopper 将普通 CUDA 执行路径和异步引擎视为不同的 proxy。Generic proxy 包括 CUDA Core 的 ALU、普通 <code>ld/st</code>、<code>LDS/STS</code> 等；async proxy 包括 TMA、WGMMA 和 mbarrier 相关操作。两个 proxy 各自维护顺序，因此跨 proxy 访问同一地址时不能依赖代码顺序来推断可见性。</p>
+<p>其中，TMA 写入完成由 mbarrier 的 transaction count 同步，WGMMA 计算完成则由 async group 表示。两者在Hopper上面的同步路径不同意，但这个问题在Blackwell上得到了解决，此为后话。</p>
+<h2 id="warp-up">Warp Up<a hidden class="anchor" aria-hidden="true" href="#warp-up">#</a></h2>
+<p>我们在GPU的架构演进中看到了前所未有的异步性（Attack of the asynchronous machines），Turing上一切都是同步的，Ampere引入了异步搬运cp.async，Hopper又引入了TMA和WGMMA，至此数据搬运和计算全部都是异步的。异步当然带来了极大的性能提升，但其对程序员编程的心智模型也带来了巨大冲击。随着GPU计算性能的飞跃，为了充分释放 Tensor Core 的峰值算力，开发者必须构建极其精致且复杂的软件流水线。这使得现代 Kernel 开发超越了传统 BLAS 时代的算法实现逻辑，转向高效算法、异步系统与体系结构三位一体的工程范式。
+<figure class="post-image" style="width: 100%; max-width: 100%; margin-left: auto; margin-right: auto;">
+  <img src="async.png" alt="async" loading="lazy" decoding="async" style="display: block; width: 100%; height: auto;">
+  <figcaption>Hopper async pipeline</figcaption>
+</figure>
+
+*Source from <a href="https://www.nvidia.com/en-us/on-demand/session/gtcspring23-s51413/">NVIDIA GTC 2023</a></p>
+<p>在下一篇博客当中我们会使用CuTe写Hopper上面的使用Warp Specialised的GEMM kernel。</p>
 
 
   </div>
 
   <footer class="post-footer">
     <ul class="post-tags">
+      <li><a href="http://localhost:13131/tags/cute/">CuTe</a></li>
+      <li><a href="http://localhost:13131/tags/wgmma/">WGMMA</a></li>
+      <li><a href="http://localhost:13131/tags/sm90/">SM90</a></li>
     </ul>
   </footer>
 </article>
     </main>
     
 <footer class="footer">
-        <span>&copy; 2026 <a href="http://localhost:1313/">鲤鱼爱的神秘小屋</a></span> · 
+        <span>&copy; 2026 <a href="http://localhost:13131/">鲤鱼爱的神秘小屋</a></span> · 
 
     
     

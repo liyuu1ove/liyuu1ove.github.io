@@ -98,12 +98,26 @@ export:
 		if [ -z "$$page_slug" ]; then echo "error: invalid page path $$page"; exit 1; fi; \
 		if [ "$$batch" -eq 1 ]; then \
 			out_dir="exports/$$page_slug"; \
+			source_file=$$(find content/technical-blog content/essays -type f -iname "$$page_slug.md" -print -quit 2>/dev/null); \
+			if [ -z "$$source_file" ]; then \
+				echo "error: could not find source content for $$page"; \
+				exit 1; \
+			fi; \
+			source_dir="$${source_file%.md}"; \
+			signature=$$(printf 'theme=%s\nwidth=%s\nheight=%s\n' "$${THEME:-dark}" "$${WIDTH:-$(MOBILE_CARD_WIDTH)}" "$${HEIGHT:-$(MOBILE_CARD_HEIGHT)}"; \
+				sha256sum "$$source_file"; \
+				if [ -d "$$source_dir" ]; then find "$$source_dir" -type f -print | sort | while IFS= read -r resource_file; do sha256sum "$$resource_file"; done; fi) ; \
+			signature=$$(printf '%s' "$$signature" | sha256sum | awk '{print $$1}'); \
 			set -- "$$out_dir"/page-*.png; \
 			if [ -e "$$1" ]; then \
-				echo "==> Skipping $$page (cards already exist in $$out_dir)"; \
-				skipped=$$((skipped + 1)); \
-				continue; \
+				if [ -f "$$out_dir/.export-signature" ] && [ "$$(cat "$$out_dir/.export-signature")" = "$$signature" ]; then \
+					echo "==> Skipping $$page (article unchanged)"; \
+					skipped=$$((skipped + 1)); \
+					continue; \
+				fi; \
+				echo "==> Re-exporting $$page (article changed)"; \
 			fi; \
+			rm -rf "$$out_dir"; \
 		else \
 			out_dir="$${OUT_DIR:-exports/$$page_slug}"; \
 			rm -rf "$$out_dir"; \
@@ -122,6 +136,7 @@ export:
 			card_geometry=$$(identify -format '%wx%h' "$$1"); \
 			mogrify -trim +repage -background 'rgb(29, 30, 32)' -gravity north -splice 0x$(MOBILE_CARD_TOP_SAFE_AREA) -extent "$$card_geometry" "$$out_dir"/page-*.png; \
 		fi; \
+		if [ "$$batch" -eq 1 ]; then printf '%s\n' "$$signature" >"$$out_dir/.export-signature"; fi; \
 		echo "==> Exported $$page to $$out_dir"; \
 		exported=$$((exported + 1)); \
 	done; \
