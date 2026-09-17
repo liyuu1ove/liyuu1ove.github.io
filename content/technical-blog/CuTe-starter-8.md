@@ -105,6 +105,9 @@ struct MMA_64x256x16_F32F16F16_SS
 
 TMA 只需一个线程发射指令，而 WGMMA 必须由 4 个 Warp 同时发射。ConsumerWarp和ProducerWarp需要的硬件资源明显是不对等的。虽然 160 线程（1 个 TMA Warp + 1 个 WGMMA WG）可行，但在真实的深度学习算子中，最推荐的BlockSize依然是 128、256、384、512等128的整数倍。SM内部的4个Sub-SM是对称划分的，按128线程对齐能让 SM 在调度、SMEM 分配上达到最佳硬件效率。
 
+{{< image src="async.png" alt="async" caption="Hopper async pipeline">}}
+*Source from [NVIDIA GTC 2023](https://www.nvidia.com/en-us/on-demand/session/gtcspring23-s51413/)
+
 在 CUTLASS 的 SM90 warp-specialized GEMM 中，CTA中的384线程会划分为 Producer（负责 TMA、SMEM stage 管理和地址计算）、Consumer（组成一个或多个 warp group，负责 WGMMA 和 accumulator），以及可选的 Epilogue 角色：
 
 ```CPP
@@ -202,7 +205,6 @@ Hopper 将普通 CUDA 执行路径和异步引擎视为不同的 proxy。Generic
 ## Warp Up
 
 我们在GPU的架构演进中看到了前所未有的异步性（Attack of the asynchronous machines），Turing上一切都是同步的，Ampere引入了异步搬运cp.async，Hopper又引入了TMA和WGMMA，至此数据搬运和计算全部都是异步的。异步当然带来了极大的性能提升，但其对程序员编程的心智模型也带来了巨大冲击。随着GPU计算性能的飞跃，为了充分释放 Tensor Core 的峰值算力，开发者必须构建极其精致且复杂的软件流水线。这使得现代 Kernel 开发超越了传统 BLAS 时代的算法实现逻辑，转向高效算法、异步系统与体系结构三位一体的工程范式。
-{{< image src="async.png" alt="async" caption="Hopper async pipeline">}}
-*Source from [NVIDIA GTC 2023](https://www.nvidia.com/en-us/on-demand/session/gtcspring23-s51413/)
+
 
 在下一篇博客当中我们会使用CuTe写Hopper上面的使用Warp Specialised的GEMM kernel。

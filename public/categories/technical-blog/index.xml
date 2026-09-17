@@ -6,8 +6,31 @@
     <description>Recent content in Technical Blog on 鲤鱼爱的神秘小屋</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 31 Aug 2026 17:39:08 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 01 Sep 2026 16:38:17 +0800</lastBuildDate>
     <atom:link href="http://localhost:13131/categories/technical-blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Cute Starter 11</title>
+      <link>http://localhost:13131/technical-blog/cute-starter-11/</link>
+      <pubDate>Tue, 01 Sep 2026 16:38:17 +0800</pubDate>
+      <guid>http://localhost:13131/technical-blog/cute-starter-11/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>CuTe学习9-SM100 Tensor Memory and tcgen05</title>
+      <link>http://localhost:13131/technical-blog/cute-starter-10/</link>
+      <pubDate>Tue, 01 Sep 2026 16:38:04 +0800</pubDate>
+      <guid>http://localhost:13131/technical-blog/cute-starter-10/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>CuTe学习7-CuTe swizzle and TMA swizzle</title>
+      <link>http://localhost:13131/technical-blog/cute-starter-7-aside/</link>
+      <pubDate>Tue, 01 Sep 2026 16:12:34 +0800</pubDate>
+      <guid>http://localhost:13131/technical-blog/cute-starter-7-aside/</guid>
+      <description>&lt;h1 id=&#34;shared-memory-and-bank-conflict&#34;&gt;Shared Memory and Bank Conflict&lt;/h1&gt;
+&lt;h1 id=&#34;cute-swizzle-atom&#34;&gt;CuTe swizzle Atom&lt;/h1&gt;
+&lt;h1 id=&#34;tma-swizzle&#34;&gt;TMA swizzle&lt;/h1&gt;</description>
+    </item>
     <item>
       <title>CuTe学习9-SM90 Warp Specialized GEMM WalkThrough</title>
       <link>http://localhost:13131/technical-blog/cute-starter-9/</link>
