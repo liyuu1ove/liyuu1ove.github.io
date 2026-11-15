@@ -1,7 +1,7 @@
 +++
 title = '在出发之前'
 date = '2026-09-03T15:52:49+08:00'
-draft = false
+draft = true
 description = '写一点对如今留学的看法'
 readingTimeText = ''
 tags = []
