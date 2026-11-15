@@ -2,7 +2,7 @@
 title = 'Life in Berkeley'
 date = '2026-05-29T11:21:43+08:00'
 draft = true
-description = ''
+description = '当然，人生是旷野ß'
 readingTimeText = ''
 tags = []
 categories = ['Essays']

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" dir="auto" data-theme="light">
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=13131&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
@@ -9,17 +9,17 @@
 <meta name="keywords" content="">
 <meta name="description" content="个人主页、论文、技术博客与随笔">
 <meta name="author" content="liyuu1ove_">
-<link rel="canonical" href="http://localhost:13131/categories/technical-blog/">
+<link rel="canonical" href="http://localhost:1313/categories/technical-blog/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.7f4a0b4bd8adefea2d8acdf9bcbadf0c42953f91b6cc04e5f46ac9858979100f.css" integrity="sha256-f0oLS9it7&#43;otis35vLrfDEKVP5G2zATl9GrJhYl5EA8=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:13131/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:13131/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:13131/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:13131/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:13131/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="http://localhost:13131/categories/technical-blog/index.xml" title="rss">
-<link rel="alternate" hreflang="zh" href="http://localhost:13131/categories/technical-blog/">
+<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/categories/technical-blog/index.xml" title="rss">
+<link rel="alternate" hreflang="zh" href="http://localhost:1313/categories/technical-blog/">
 <noscript>
     <style>
         #theme-toggle,
@@ -77,7 +77,7 @@
       "Noto Sans Mono CJK SC", monospace;
   }
 </style>
-<meta property="og:url" content="http://localhost:13131/categories/technical-blog/">
+<meta property="og:url" content="http://localhost:1313/categories/technical-blog/">
   <meta property="og:site_name" content="鲤鱼爱的神秘小屋">
   <meta property="og:title" content="Technical Blog">
   <meta property="og:description" content="个人主页、论文、技术博客与随笔">
@@ -184,8 +184,8 @@
   <div class="entry-content">
     <p></p>
   </div>
-  <footer class="entry-footer"><span title='2026-09-01 16:38:17 +0800 CST'>2026年9月1日</span>&nbsp;·&nbsp;<span>阅读此文大概需要 分钟</span>&nbsp;·&nbsp;<span>liyuu1ove_</span></footer>
-  <a class="entry-link" aria-label="post link to Cute Starter 11" href="http://localhost:13131/technical-blog/cute-starter-11/"></a>
+  <footer class="entry-footer"><span title='2026-09-01 16:38:17 +0800 +0800'>2026年9月1日</span>&nbsp;·&nbsp;<span>阅读此文大概需要 分钟</span>&nbsp;·&nbsp;<span>liyuu1ove_</span></footer>
+  <a class="entry-link" aria-label="post link to Cute Starter 11" href="http://localhost:1313/technical-blog/cute-starter-11/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
@@ -202,8 +202,8 @@
   <div class="entry-content">
     <p></p>
   </div>
-  <footer class="entry-footer"><span title='2026-09-01 16:38:04 +0800 CST'>2026年9月1日</span>&nbsp;·&nbsp;<span>阅读此文大概需要 分钟</span>&nbsp;·&nbsp;<span>liyuu1ove_</span></footer>
-  <a class="entry-link" aria-label="post link to CuTe学习9-SM100 Tensor Memory and tcgen05" href="http://localhost:13131/technical-blog/cute-starter-10/"></a>
+  <footer class="entry-footer"><span title='2026-09-01 16:38:04 +0800 +0800'>2026年9月1日</span>&nbsp;·&nbsp;<span>阅读此文大概需要 分钟</span>&nbsp;·&nbsp;<span>liyuu1ove_</span></footer>
+  <a class="entry-link" aria-label="post link to CuTe学习9-SM100 Tensor Memory and tcgen05" href="http://localhost:1313/technical-blog/cute-starter-10/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
@@ -218,10 +218,14 @@
     </h2>
   </header>
   <div class="entry-content">
-    <p>Shared Memory and Bank Conflict CuTe swizzle Atom TMA swizzle</p>
+    <p>Why Swizzle swizzle在算子开发中主要有两层意思，一个是从Global Memory读到Shared Memory时，用于提高L2缓存命中率的优化。另一种是写入/读取Shared Memory时防止出现Bank Conflict的优化，本篇主要介绍后者。
+我们需要Swizzle有两方面原因，首先是要防止出现Bank Conflict，其次是ldmatrix/wgmma/tcgen05从shared Memory取操作数要求特定的排列。这种特定的排列会出现，也是为了防止bank conflict，所以这两个原因本质上是一样的。
+本篇会先介绍bank conflict，然后介绍CuTe
+Shared Memory and Bank Conflict Bank Conflict这节我有点懒得写了，用AI代劳了，后面两节是手搓的。 TODO：介绍Shared Memory Bank物理结构，然后介绍Bank Conflict。
+CuTe swizzle TMA swizzle</p>
   </div>
-  <footer class="entry-footer"><span title='2026-09-01 16:12:34 +0800 CST'>2026年9月1日</span>&nbsp;·&nbsp;<span>阅读此文大概需要 分钟</span>&nbsp;·&nbsp;<span>liyuu1ove_</span></footer>
-  <a class="entry-link" aria-label="post link to CuTe学习7-CuTe swizzle and TMA swizzle" href="http://localhost:13131/technical-blog/cute-starter-7-aside/"></a>
+  <footer class="entry-footer"><span title='2026-09-01 16:12:34 +0800 +0800'>2026年9月1日</span>&nbsp;·&nbsp;<span>阅读此文大概需要 分钟</span>&nbsp;·&nbsp;<span>liyuu1ove_</span></footer>
+  <a class="entry-link" aria-label="post link to CuTe学习7-CuTe swizzle and TMA swizzle" href="http://localhost:1313/technical-blog/cute-starter-7-aside/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
@@ -238,8 +242,8 @@
   <div class="entry-content">
     <p></p>
   </div>
-  <footer class="entry-footer"><span title='2026-08-31 17:39:08 +0800 CST'>2026年8月31日</span>&nbsp;·&nbsp;<span>阅读此文大概需要 分钟</span>&nbsp;·&nbsp;<span>liyuu1ove_</span></footer>
-  <a class="entry-link" aria-label="post link to CuTe学习9-SM90 Warp Specialized GEMM WalkThrough" href="http://localhost:13131/technical-blog/cute-starter-9/"></a>
+  <footer class="entry-footer"><span title='2026-08-31 17:39:08 +0800 +0800'>2026年8月31日</span>&nbsp;·&nbsp;<span>阅读此文大概需要 分钟</span>&nbsp;·&nbsp;<span>liyuu1ove_</span></footer>
+  <a class="entry-link" aria-label="post link to CuTe学习9-SM90 Warp Specialized GEMM WalkThrough" href="http://localhost:1313/technical-blog/cute-starter-9/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
@@ -254,8 +258,8 @@ SM90_64x64x16_F16F16F16_SS 我们先观察一条指令及其在 CuTe 中的封�
 Warp Group 与更大的 Tile Ampere 的 mma.sync 通常以一个 Warp 为协作单位，FP16 常见的单条指令形状是 m16n8k16。如果要计算更大的输出 tile，就需要排列很多条 MMA，并在指令之间安排寄存器搬运和同步。Hopper 的 WGMMA 由 128 个线程共同完成，一条指令可以覆盖 m64n64k16 到 m64n256k16 等更宽的输出形状，减少了指令和元数据开销。
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2026-08-27 10:29:37 +0800 CST'>2026年8月27日</span>&nbsp;·&nbsp;<span>阅读此文大概需要15分钟</span>&nbsp;·&nbsp;<span>liyuu1ove_</span></footer>
-  <a class="entry-link" aria-label="post link to CuTe学习8-SM90 WGMMA" href="http://localhost:13131/technical-blog/cute-starter-8/"></a>
+  <footer class="entry-footer"><span title='2026-08-27 10:29:37 +0800 +0800'>2026年8月27日</span>&nbsp;·&nbsp;<span>阅读此文大概需要15分钟</span>&nbsp;·&nbsp;<span>liyuu1ove_</span></footer>
+  <a class="entry-link" aria-label="post link to CuTe学习8-SM90 WGMMA" href="http://localhost:1313/technical-blog/cute-starter-8/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
@@ -270,8 +274,8 @@ CUtensorMap TMA依赖于host中创建的descriptor来计算目标内存的地址
 1CUtensorMap tma_desc; 2uint64_t globalDim[2] = {1024, 2048}; // 全局矩阵尺寸 1024x2048 3uint64_t globalStrides[1] = {2048 * sizeof(half)}; // 跨度 4uint32_t boxDim[2] = {64, 128}; // 每次 TMA 搬运 64x128 的 Tile 5 6cuTensorMapEncodeTiled( 7 &amp;tma_desc, // 输出的描述符指针 8 CU_TENSOR_MAP_DATA_TYPE_FLOAT16,// 数据类型 9 2, // 维度数 (2D) 10 globalAddr, // Global Memory 指针 11 globalDim, globalStrides, 12 boxDim, 13 elementStrides, 14 CU_TENSOR_MAP_INTERLEAVE_NONE, 15 CU_TENSOR_MAP_SWIZZLE_128B, // 写入 Shared Memory 时的自动 Swizzle 模式 16 CU_TENSOR_MAP_L2_PROMOTION_L2_128B, 17 CU_TENSOR_MAP_FLOAT_OOB_FILL_NONE 18); 然后我们将desc按值传递给device函数，就可以在核函数中调用
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2026-08-11 16:17:16 +0800 CST'>2026年8月11日</span>&nbsp;·&nbsp;<span>阅读此文大概需要好几分钟</span>&nbsp;·&nbsp;<span>liyuu1ove_</span></footer>
-  <a class="entry-link" aria-label="post link to CuTe学习7-SM90 TMA and mbarrier" href="http://localhost:13131/technical-blog/cute-starter-7/"></a>
+  <footer class="entry-footer"><span title='2026-08-11 16:17:16 +0800 +0800'>2026年8月11日</span>&nbsp;·&nbsp;<span>阅读此文大概需要好几分钟</span>&nbsp;·&nbsp;<span>liyuu1ove_</span></footer>
+  <a class="entry-link" aria-label="post link to CuTe学习7-SM90 TMA and mbarrier" href="http://localhost:1313/technical-blog/cute-starter-7/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
@@ -289,8 +293,8 @@ gemm_device() signature 1template &lt;class ProblemShape, class CtaTiler, 2 clas
 ProblemShape 矩阵乘法的形状，直接使用make_shape(m,n,k)封装了三个dynamic int。本文使用d5120，d5120，d4096
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2026-07-13 17:29:09 +0800 CST'>2026年7月13日</span>&nbsp;·&nbsp;<span>阅读此文大概需要38分钟</span>&nbsp;·&nbsp;<span>liyuu1ove_</span></footer>
-  <a class="entry-link" aria-label="post link to CuTe学习6-SM80 CuTe GEMM Walk Through" href="http://localhost:13131/technical-blog/cute-starter-6/"></a>
+  <footer class="entry-footer"><span title='2026-07-13 17:29:09 +0800 +0800'>2026年7月13日</span>&nbsp;·&nbsp;<span>阅读此文大概需要38分钟</span>&nbsp;·&nbsp;<span>liyuu1ove_</span></footer>
+  <a class="entry-link" aria-label="post link to CuTe学习6-SM80 CuTe GEMM Walk Through" href="http://localhost:1313/technical-blog/cute-starter-6/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
@@ -308,8 +312,8 @@ CuTe对ldmatrix.sync.aligned.x1.m8n8.shared.b16的包装如下：
 1// Source from include/cute/arch/copy_sm75.hpp 2struct SM75_U32x1_LDSM_N 3{ 4 using SRegisters = uint128_t[1]; 5 using DRegisters = uint32_t[1]; 6 7 CUTE_HOST_DEVICE static void 8 copy(uint128_t const&amp; smem_src, 9 uint32_t&amp; dst) 10 { 11#if defined(CUTE_ARCH_LDSM_SM75_ACTIVATED) 12 uint32_t smem_int_ptr = cast_smem_ptr_to_uint(&amp;smem_src); 13 asm volatile(&#34;ldmatrix.sync.aligned.x1.m8n8.shared.b16 {%0}, [%1];\n&#34; 14 : &#34;=r&#34;(dst) 15 : &#34;r&#34;(smem_int_ptr)); 16#endif 17 } 18}; 这条指令含义如下：
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2026-07-10 14:21:13 +0800 CST'>2026年7月10日</span>&nbsp;·&nbsp;<span>阅读此文大概需要30分钟</span>&nbsp;·&nbsp;<span>liyuu1ove_</span></footer>
-  <a class="entry-link" aria-label="post link to CuTe学习5-Copy Atom" href="http://localhost:13131/technical-blog/cute-starter-5/"></a>
+  <footer class="entry-footer"><span title='2026-07-10 14:21:13 +0800 +0800'>2026年7月10日</span>&nbsp;·&nbsp;<span>阅读此文大概需要30分钟</span>&nbsp;·&nbsp;<span>liyuu1ove_</span></footer>
+  <a class="entry-link" aria-label="post link to CuTe学习5-Copy Atom" href="http://localhost:1313/technical-blog/cute-starter-5/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
@@ -325,8 +329,8 @@ MMAOperation MMAOperation是最靠近硬件的一层。它包装了特定架构�
 1// source from include/cute/arch/mma_sm80.hpp 2struct SM80_16x8x8_F32F16F16F32_TN 3{ 4 using DRegisters = float[4]; 5 using ARegisters = uint32_t[2]; 6 using BRegisters = uint32_t[1]; 7 using CRegisters = float[4]; 8 9 CUTE_HOST_DEVICE static void 10 fma(float &amp; d0, float &amp; d1, float &amp; d2, float &amp; d3, 11 uint32_t const&amp; a0, uint32_t const&amp; a1, 12 uint32_t const&amp; b0, 13 float const &amp; c0, float const &amp; c1, float const &amp; c2, float const &amp; c3) 14 { 15#if defined(CUTE_ARCH_MMA_SM80_ENABLED) 16 asm volatile( 17 &#34;mma.sync.aligned.m16n8k8.row.col.f32.f16.f16.f32 &#34; 18 &#34;{%0, %1, %2, %3},&#34; 19 &#34;{%4, %5},&#34; 20 &#34;{%6},&#34; 21 &#34;{%7, %8, %9, %10};\n&#34; 22 : &#34;=f&#34;(d0), &#34;=f&#34;(d1), &#34;=f&#34;(d2), &#34;=f&#34;(d3) 23 : &#34;r&#34;(a0), &#34;r&#34;(a1), 24 &#34;r&#34;(b0), 25 &#34;f&#34;(c0), &#34;f&#34;(c1), &#34;f&#34;(c2), &#34;f&#34;(c3)); 26#endif 27 } 28}; CuTe MMA_Atom Visualization MMAOperation内部包含了两个信息：需要的的寄存器数量，和执行计算的PTX指令。
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2026-07-07 16:27:26 +0800 CST'>2026年7月7日</span>&nbsp;·&nbsp;<span>阅读此文大概需要32分钟</span>&nbsp;·&nbsp;<span>liyuu1ove_</span></footer>
-  <a class="entry-link" aria-label="post link to CuTe学习4-MmaAtom" href="http://localhost:13131/technical-blog/cute-starter-4/"></a>
+  <footer class="entry-footer"><span title='2026-07-07 16:27:26 +0800 +0800'>2026年7月7日</span>&nbsp;·&nbsp;<span>阅读此文大概需要32分钟</span>&nbsp;·&nbsp;<span>liyuu1ove_</span></footer>
+  <a class="entry-link" aria-label="post link to CuTe学习4-MmaAtom" href="http://localhost:1313/technical-blog/cute-starter-4/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
@@ -344,19 +348,19 @@ ArrayEngine ArrayEngine 是持有数据的 Engine。它把数据作为 Tensor �
 array_aligned&lt;T, N&gt;：用于 sizeof_bits&lt;T&gt; 是 8 的倍数的类型，例如 float、half、int8_t 等。 array_subbyte&lt;T, N&gt;：用于 sub-byte 类型，例如 FP4、INT4 这类不足8-bit/1-byte的元素。 1template &lt;class T, size_t N&gt; 2struct ArrayEngine 3{ 4 using Storage = typename conditional&lt;(sizeof_bits&lt;T&gt;::value % 8 == 0), 5 array_aligned&lt;T,N&gt;, 6 array_subbyte&lt;T,N&gt;&gt;::type; 7 using iterator = typename Storage::iterator; 8 using reference = typename iterator_traits&lt;iterator&gt;::reference; 9 using element_type = typename iterator_traits&lt;iterator&gt;::element_type; 10 using value_type = typename iterator_traits&lt;iterator&gt;::value_type; 11 Storage storage_; 12 13 CUTE_HOST_DEVICE constexpr auto begin() const { return storage_.begin(); } 14 CUTE_HOST_DEVICE constexpr auto begin() { return storage_.begin(); } 15}; ViewEngine &amp; ConstViewEngine 这两种是不持有数据的 Engine，类似于 std::span 或 std::string_view。它们只保存一个迭代器，不管理迭代器背后的内存生命周期。
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2026-07-03 17:00:38 +0800 CST'>2026年7月3日</span>&nbsp;·&nbsp;<span>阅读此文大概需要27分钟</span>&nbsp;·&nbsp;<span>liyuu1ove_</span></footer>
-  <a class="entry-link" aria-label="post link to CuTe学习3-Tensor" href="http://localhost:13131/technical-blog/cute-starter-3/"></a>
+  <footer class="entry-footer"><span title='2026-07-03 17:00:38 +0800 +0800'>2026年7月3日</span>&nbsp;·&nbsp;<span>阅读此文大概需要27分钟</span>&nbsp;·&nbsp;<span>liyuu1ove_</span></footer>
+  <a class="entry-link" aria-label="post link to CuTe学习3-Tensor" href="http://localhost:1313/technical-blog/cute-starter-3/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
-    <a class="next" href="http://localhost:13131/categories/technical-blog/page/2/">下一页&nbsp;&nbsp;»
+    <a class="next" href="http://localhost:1313/categories/technical-blog/page/2/">下一页&nbsp;&nbsp;»
     </a>
   </nav>
 </footer>
     </main>
     
 <footer class="footer">
-        <span>&copy; 2026 <a href="http://localhost:13131/">鲤鱼爱的神秘小屋</a></span> · 
+        <span>&copy; 2026 <a href="http://localhost:1313/">鲤鱼爱的神秘小屋</a></span> · 
 
     
     

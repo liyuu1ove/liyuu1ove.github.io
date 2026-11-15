@@ -1,8 +1,12 @@
-.PHONY: publish preview new setup-hugo install-hugo-apt install-mobile-export-deps export export
+.PHONY: publish preview new setup-hugo install-hugo install-mobile-export-deps export build
 
 all:
 
 HUGO_MIN_VERSION := 0.146.0
+HUGO_VERSION ?= 0.146.0
+LOCAL_DIR := $(CURDIR)/.local
+export PATH := $(LOCAL_DIR)/bin:$(LOCAL_DIR)/mobile-export-venv/bin:$(PATH)
+MOBILE_PYTHON := $(LOCAL_DIR)/mobile-export-venv/bin/python
 
 MOBILE_SHOT_PORT := 13131
 MOBILE_CARD_WIDTH := 430
@@ -13,8 +17,6 @@ MOBILE_CARD_RENDER_DPI := 288
 MOBILE_CARD_TOP_SAFE_AREA := 144
 # Applied to every PDF page before pagination.
 MOBILE_CARD_TOP_MARGIN_MM := 12.7
-SUDO ?= sudo
-
 publish:
 	@if [ -z "$(MSG)" ]; then echo "usage: make publish MSG="Example MSG" "; exit 1; fi
 	git add .
@@ -24,11 +26,14 @@ publish:
 preview:
 	hugo server -D --bind 0.0.0.0
 
+build:
+	hugo --gc --minify
+
 setup-hugo:
 	@echo "==> Checking Hugo environment"
 	@if ! command -v hugo >/dev/null 2>&1; then \
 		echo "error: hugo is not installed."; \
-		echo "run 'make install-hugo-apt' on Debian/Ubuntu, then retry."; \
+		echo "run 'make install-hugo', then retry."; \
 		exit 1; \
 	fi
 	@hugo version
@@ -36,8 +41,10 @@ setup-hugo:
 		echo "error: this site requires Hugo extended."; \
 		exit 1; \
 	fi
-	@hugo version | grep -q 'v$(HUGO_MIN_VERSION)' || \
-		echo "warning: expected Hugo >= $(HUGO_MIN_VERSION); please double-check your local version."
+	@version=$$(hugo version | sed -n 's/.*hugo v\([0-9][0-9.]*\).*/\1/p'); \
+	if [ -z "$$version" ] || [ "$$(printf '%s\n%s\n' '$(HUGO_MIN_VERSION)' "$$version" | sort -V | head -n 1)" != '$(HUGO_MIN_VERSION)' ]; then \
+		echo "error: Hugo >= $(HUGO_MIN_VERSION) is required"; exit 1; \
+	fi
 	@if [ ! -f ".gitmodules" ]; then \
 		echo "warning: no .gitmodules found, skipping theme submodule setup."; \
 	elif [ ! -d "themes/PaperMod/.git" ] && [ ! -f "themes/PaperMod/theme.toml" ]; then \
@@ -52,23 +59,28 @@ setup-hugo:
 	fi
 	@echo "==> Hugo environment is ready"
 
-install-hugo-apt:
-	$(SUDO) apt update
-	$(SUDO) apt install -y hugo
-	@echo "==> Installed Hugo from apt"
-	@hugo version
+install-hugo:
+	@set -eu; \
+	case "$$(uname -s)-$$(uname -m)" in \
+		Linux-x86_64) arch=amd64 ;; Linux-aarch64) arch=arm64 ;; \
+		*) echo 'error: automatic Hugo installation supports Linux x86_64 and aarch64'; exit 1 ;; \
+	esac; \
+	tmp=$$(mktemp -d); trap 'rm -rf "$$tmp"' EXIT; \
+	curl -fL --retry 3 "https://github.com/gohugoio/hugo/releases/download/v$(HUGO_VERSION)/hugo_extended_$(HUGO_VERSION)_linux-$${arch}.tar.gz" -o "$$tmp/hugo.tar.gz"; \
+	tar -xzf "$$tmp/hugo.tar.gz" -C "$$tmp" hugo; \
+	mkdir -p "$(LOCAL_DIR)/bin"; \
+	install -m 755 "$$tmp/hugo" "$(LOCAL_DIR)/bin/hugo"; \
+	"$(LOCAL_DIR)/bin/hugo" version
 
 install-mobile-export-deps:
-	$(SUDO) apt update
-	$(SUDO) apt install -y chromium-browser fonts-noto-cjk poppler-utils wkhtmltopdf imagemagick
-	@echo "==> Installed chromium-browser, fonts-noto-cjk, poppler-utils, wkhtmltopdf, and imagemagick"
-	@command -v chromium-browser >/dev/null 2>&1 && chromium-browser --version || true
-	@wkhtmltopdf --version
+	python3 -m venv "$(LOCAL_DIR)/mobile-export-venv"
+	"$(MOBILE_PYTHON)" -m pip install -r scripts/mobile-export-requirements.txt
+	@command -v wkhtmltopdf >/dev/null 2>&1 || { echo 'error: wkhtmltopdf is required separately; put its executable on PATH'; exit 1; }
 
 
 export:
 	@if ! command -v wkhtmltopdf >/dev/null 2>&1; then echo 'error: wkhtmltopdf is not installed'; echo 'run: make install-mobile-export-deps'; exit 1; fi
-	@if ! command -v pdftoppm >/dev/null 2>&1; then echo 'error: pdftoppm is not installed'; echo 'run: make install-mobile-export-deps'; exit 1; fi
+	@if ! "$(MOBILE_PYTHON)" -c 'import fitz, PIL' >/dev/null 2>&1; then echo 'error: run make install-mobile-export-deps first'; exit 1; fi
 	@if [ -n "$(PAGE)" ]; then \
 		pages="$(PAGE)"; \
 		batch=0; \
@@ -128,14 +140,9 @@ export:
 		rm -f "$$tmp_pdf"; \
 		wkhtmltopdf --enable-local-file-access --background --javascript-delay 2000 --user-style-sheet "$$(pwd)/static/export-mobile.css" --page-width "$${WIDTH:-$(MOBILE_CARD_WIDTH)}px" --page-height "$${HEIGHT:-$(MOBILE_CARD_HEIGHT)}px" --margin-top $(MOBILE_CARD_TOP_MARGIN_MM)mm --margin-right 0 --margin-bottom 0 --margin-left 0 "$$url" "$$tmp_pdf" >/dev/null 2>&1; \
 		if [ ! -s "$$tmp_pdf" ]; then echo "error: failed to render $$page"; exit 1; fi; \
-		pdfinfo "$$tmp_pdf" >/dev/null 2>&1 || { echo "error: rendered PDF is invalid for $$page"; exit 1; }; \
-		pdftoppm -png -rx $(MOBILE_CARD_RENDER_DPI) -ry $(MOBILE_CARD_RENDER_DPI) "$$tmp_pdf" "$$out_dir/page" >/dev/null; \
+		"$(MOBILE_PYTHON)" scripts/render-mobile-pdf.py "$$tmp_pdf" "$$out_dir" $(MOBILE_CARD_RENDER_DPI) $(MOBILE_CARD_TOP_SAFE_AREA) || exit 1; \
 		set -- "$$out_dir"/page-*.png; \
 		if [ ! -e "$$1" ]; then echo "error: no PNG pages were generated for $$page"; exit 1; fi; \
-		if command -v mogrify >/dev/null 2>&1; then \
-			card_geometry=$$(identify -format '%wx%h' "$$1"); \
-			mogrify -trim +repage -background 'rgb(29, 30, 32)' -gravity north -splice 0x$(MOBILE_CARD_TOP_SAFE_AREA) -extent "$$card_geometry" "$$out_dir"/page-*.png; \
-		fi; \
 		if [ "$$batch" -eq 1 ]; then printf '%s\n' "$$signature" >"$$out_dir/.export-signature"; fi; \
 		echo "==> Exported $$page to $$out_dir"; \
 		exported=$$((exported + 1)); \

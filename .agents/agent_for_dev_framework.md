@@ -56,8 +56,7 @@ This document is intended for other agents that need to modify or extend the sit
 The repo includes a content-to-image export path for mobile reading cards:
 
 - `wkhtmltopdf`
-- `pdftoppm` from `poppler-utils`
-- `mogrify` from `imagemagick`
+- PyMuPDF and Pillow in a project-local Python virtual environment
 - `chromium-browser` remains used for raw screenshot export
 
 ---
@@ -89,7 +88,7 @@ Supported tasks currently include:
 - `make preview`
 - `make new SECTION="..." TITLE="..."`
 - `make setup-hugo`
-- `make install-hugo-apt`
+- `make install-hugo` (installs Hugo Extended under `.local/bin` without root)
 - `make install-mobile-export-deps`
 - `make export-mobile-image PAGE="..."`
 - `make export-mobile-cards PAGE="..."`
@@ -355,8 +354,7 @@ Uses:
 
 1. local `hugo server`
 2. `wkhtmltopdf` to render a fixed-size mobile PDF
-3. `pdftoppm` to split PDF pages into PNGs
-4. `mogrify -trim +repage` to remove white borders if available
+3. PyMuPDF and Pillow to render and trim PNG pages
 
 Default output directory:
 
@@ -380,13 +378,7 @@ Install via:
 make install-mobile-export-deps
 ```
 
-This installs:
-
-- `chromium-browser`
-- `fonts-noto-cjk`
-- `poppler-utils`
-- `wkhtmltopdf`
-- `imagemagick`
+This creates `.local/mobile-export-venv` and installs the pinned Python dependencies. `wkhtmltopdf` is a separate native executable and must already be on PATH. The target does not install Chromium or fonts.
 
 Notes:
 
@@ -441,6 +433,7 @@ make preview
 ### Verify Hugo environment
 
 ```bash
+make install-hugo
 make setup-hugo
 ```
 
@@ -455,7 +448,7 @@ make new SECTION="technical-blog" TITLE="My Topic"
 Use Hugo directly if needed:
 
 ```bash
-hugo --gc --minify
+make build
 ```
 
 ### Publish

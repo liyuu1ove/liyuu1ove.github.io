@@ -33,7 +33,7 @@ defaultContentLanguageInSubdir = false
 
     [languages.zh.params.homepage]
       name = '赵昉曜'
-      affiliation = 'Science Tokyo'
+      affiliation = '东京工业大学'
       shortBio = 'HPC and ML system'
       photo = '/images/profile-placeholder.svg'
       photoAlt = '鲤鱼的照片'
@@ -68,6 +68,10 @@ defaultContentLanguageInSubdir = false
       [[languages.zh.params.homepage.news]]
         date = '2026.03'
         text = '实习 北京行云集成电路 算子开发'
+
+      [[languages.zh.params.homepage.news]]
+        date = '2026.09'
+        text = '正式入学'
       
 
 #      [[languages.zh.params.homepage.honors]]

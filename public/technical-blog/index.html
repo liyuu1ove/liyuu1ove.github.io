@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" dir="auto" data-theme="light">
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=13131&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
@@ -9,18 +9,18 @@
 <meta name="keywords" content="">
 <meta name="description" content="乱写一通">
 <meta name="author" content="liyuu1ove_">
-<link rel="canonical" href="http://localhost:13131/technical-blog/">
+<link rel="canonical" href="http://localhost:1313/technical-blog/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.7f4a0b4bd8adefea2d8acdf9bcbadf0c42953f91b6cc04e5f46ac9858979100f.css" integrity="sha256-f0oLS9it7&#43;otis35vLrfDEKVP5G2zATl9GrJhYl5EA8=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:13131/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:13131/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:13131/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:13131/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:13131/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="http://localhost:13131/technical-blog/index.xml" title="rss">
-<link rel="alternate" hreflang="zh" href="http://localhost:13131/technical-blog/">
-<link rel="alternate" hreflang="en" href="http://localhost:13131/en/technical-blog/">
+<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/technical-blog/index.xml" title="rss">
+<link rel="alternate" hreflang="zh" href="http://localhost:1313/technical-blog/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/en/technical-blog/">
 <noscript>
     <style>
         #theme-toggle,
@@ -78,7 +78,7 @@
       "Noto Sans Mono CJK SC", monospace;
   }
 </style>
-<meta property="og:url" content="http://localhost:13131/technical-blog/">
+<meta property="og:url" content="http://localhost:1313/technical-blog/">
   <meta property="og:site_name" content="鲤鱼爱的神秘小屋">
   <meta property="og:title" content="技术博客">
   <meta property="og:description" content="乱写一通">
@@ -99,7 +99,7 @@
       "@type": "ListItem",
       "position":  1 ,
       "name": "技术博客",
-      "item": "http://localhost:13131/technical-blog/"
+      "item": "http://localhost:1313/technical-blog/"
     }
   ]
 }
@@ -202,7 +202,11 @@
       <a href="/technical-blog/cute-starter-7-aside/">
         <span class="catalog-date">2026.09.01</span>
         <span class="catalog-title">CuTe学习7-CuTe swizzle and TMA swizzle</span>
-        <span class="catalog-desc">Shared Memory and Bank Conflict CuTe swizzle Atom TMA swizzle</span>
+        <span class="catalog-desc">Why Swizzle swizzle在算子开发中主要有两层意思，一个是从Global Memory读到Shared Memory时，用于提高L2缓存命中率的优化。另一种是写入/读取Shared Memory时防止出现Bank Conflict的优化，本篇主要介绍后者。
+我们需要Swizzle有两方面原因，首先是要防止出现Bank Conflict，其次是ldmatrix/wgmma/tcgen05从shared Memory取操作数要求特定的排列。这种特定的排列会出现，也是为了防止bank conflict，所以这两个原因本质上是一样的。
+本篇会先介绍bank conflict，然后介绍CuTe
+Shared Memory and Bank Conflict Bank Conflict这节我有点懒得写了，用AI代劳了，后面两节是手搓的。 TODO：介绍Shared Memory Bank物理结构，然后介绍Bank Conflict。
+CuTe swizzle TMA swizzle</span>
       </a>
     </article>
     <article class="catalog-item">
@@ -308,7 +312,7 @@
     </main>
     
 <footer class="footer">
-        <span>&copy; 2026 <a href="http://localhost:13131/">鲤鱼爱的神秘小屋</a></span> · 
+        <span>&copy; 2026 <a href="http://localhost:1313/">鲤鱼爱的神秘小屋</a></span> · 
 
     
     

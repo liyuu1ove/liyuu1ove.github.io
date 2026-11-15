@@ -2,25 +2,41 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Essays on 鲤鱼爱的神秘小屋</title>
-    <link>http://localhost:13131/categories/essays/</link>
+    <link>http://localhost:1313/categories/essays/</link>
     <description>Recent content in Essays on 鲤鱼爱的神秘小屋</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 29 Jun 2026 15:06:22 +0800</lastBuildDate>
-    <atom:link href="http://localhost:13131/categories/essays/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 03 Sep 2026 15:52:49 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/essays/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>在出发之前</title>
+      <link>http://localhost:1313/essays/before-departure/</link>
+      <pubDate>Thu, 03 Sep 2026 15:52:49 +0800</pubDate>
+      <guid>http://localhost:1313/essays/before-departure/</guid>
+      <description>写一点对如今留学的看法</description>
+    </item>
+    <item>
+      <title>实习小结</title>
+      <link>http://localhost:1313/essays/internship-summary/</link>
+      <pubDate>Thu, 03 Sep 2026 15:49:20 +0800</pubDate>
+      <guid>http://localhost:1313/essays/internship-summary/</guid>
+      <description>从工作和生活总结一下实习</description>
+    </item>
     <item>
       <title>At the End of June</title>
-      <link>http://localhost:13131/essays/at-the-end-of-june/</link>
+      <link>http://localhost:1313/essays/at-the-end-of-june/</link>
       <pubDate>Mon, 29 Jun 2026 15:06:22 +0800</pubDate>
-      <guid>http://localhost:13131/essays/at-the-end-of-june/</guid>
+      <guid>http://localhost:1313/essays/at-the-end-of-june/</guid>
       <description>写在六月末</description>
     </item>
     <item>
       <title>Life in Berkeley</title>
-      <link>http://localhost:13131/essays/life-in-berkeley/</link>
+      <link>http://localhost:1313/essays/life-in-berkeley/</link>
       <pubDate>Fri, 29 May 2026 11:21:43 +0800</pubDate>
-      <guid>http://localhost:13131/essays/life-in-berkeley/</guid>
-      <description></description>
+      <guid>http://localhost:1313/essays/life-in-berkeley/</guid>
+      <description>&lt;h1 id=&#34;国外的本科生教育&#34;&gt;国外的本科生教育&lt;/h1&gt;
+&lt;p&gt;cs162的三次期中考试拿了一次全班最高分，另外两次看分布应该也是前十，虽然我本身就是做题蛆吧，不过能在某方面超过伯克利的本科生也是很骄傲的。我在一门硕博生的课上讲了45分钟deepseek-v3的创新，我觉得我当时讲的还是挺不错的，台下坐着的基本都是SLICE和SKY两个lab的学长学姐。&lt;/p&gt;
+&lt;h1 id=&#34;美国的生活&#34;&gt;美国的生活&lt;/h1&gt;</description>
     </item>
   </channel>
 </rss>

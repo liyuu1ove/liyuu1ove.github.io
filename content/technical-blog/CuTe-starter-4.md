@@ -75,7 +75,7 @@ MMAOperation内部包含了两个信息：需要的的寄存器数量，和执�
 
 `MMAOperation`只暴露PTX指令需要的寄存器数量和PTX指令。其他更复杂的元信息由Traits提取。
 
-# MMA_Traits<MMAOperation>
+# `MMA_Traits<MMAOperation>` {#mma_traits}
 
 C++里的Traits是一种类型萃取系统。它的作用是：给定一个类型，萃取出这个类型关联的一组信息。
 
